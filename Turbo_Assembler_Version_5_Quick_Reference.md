@@ -3451,13 +3451,11 @@ mode. pm= is not given when the clock counts are the same for protected and real
 
 *ASCII adjust after addition*
 
-```
-0 D T S A P C Z
-Opcode Instruction Clocks Description
-486 386 286 86
-AAA
-37 3 4 3 8 ASCII adjust after addition
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 D | T | S | A Z | P C |  |
+|  | AAA |  |  |  |  |  |
+| 37 |  | 3 | 4 | 3 | 8 | ASCII adjust after addition |
 
 Execute AAA only following an ADD instruction that leaves a byte result in the AL register. The lower nibbles of the operands of the ADD instruction should be in the range a through 9 (BCD digits). In this case, AAA adjusts AL to contain the correct decimal digit result. If the addition produced a decimal carry, the AH register is incremented, and the carry and auxiliary carry flags are set to 1. If there was no decimal carry, the carry and auxiliary flags are set to a and AH is unchanged. In either case, AL is left with its top nibble set to O. To convert AL to an ASCII result, follow the AAA instruction with OR AL, 30B.
 
@@ -3467,10 +3465,9 @@ Execute AAA only following an ADD instruction that leaves a byte result in the A
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-14 14 D50A AAD 19 60 ASCII adjust before division
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| D50A | AAD | 14 | 19 | 14 | 60 | ASCII adjust before division |
 
 * * AAD is used to prepare two unpacked BCD digits (the least-significant digit in AL, the most-significant digit in AH) for a division operation that will yield an unpacked result. This is accomplished by setting AL to AL + (10 * AH), and then setting AH to O. AX is then equal to the binary equivalent of the original unpacked two-digit number.
 
@@ -3480,10 +3477,9 @@ Execute AAA only following an ADD instruction that leaves a byte result in the A
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-15 17 16 83 D40A AAM ASCII adjust AX after multiply
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| D40A | AAM | 15 | 17 | 16 | 83 | ASCII adjust AX after multiply |
 
 Execute AAM only after executing a MUL instruction between two unpacked BCD digits that leaves the result in the AX register. Because the result is less than lOa, it is contained entirely in the AL register. AAM unpacks the AL result by dividing AL by 10, leaving the quotient (most-significant digit) in AH and the remainder (least-significant digit) in AL.
 
@@ -3493,10 +3489,6 @@ Execute AAM only after executing a MUL instruction between two unpacked BCD digi
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-```
-
 3F AAS 343 8 ASCII adjust AL after subtraction Execute AAS only after a SUB instruction that leaves the byte result in the AL register. The lower nibbles of the operands of the SUB instruction must have been in the range a through 9 (BCD digits). In this case, AAS adjusts AL so it contains the correct decimal digit result. If the subtraction produced a decimal carry, the AH register is decremented, and the carry and auxiliary carry flags are set to 1. If no decimal carry occurred, the carry and auxiliary carry flags are . set to 0, and AH is unchanged. In either case, AL is left with its top nibble set to O. To convert AL to an ASCII result, follow the AAS with OR AL, 30H.
 
 #### `ADC`
@@ -3505,35 +3497,20 @@ Execute AAM only after executing a MUL instruction between two unpacked BCD digi
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-10/r ADCr/m8,r8 1/3 2/7 2/7 3/16+EA Add with carry byte register to
-rim byte '
-rim word
-rim word
-ADCr8,r/m8 12/r 1/2 2/6 2/7 3/9+EA Add with carry rim byte to byte
-register
-ADC r16,r/m16 2/7 3/9+EA Add with carry rim word to 13/r 1/2 2/6
-word register
-13/r ADC r32,r / m32 1/2 2/6 Add with CF rim dword to
-dword register
-14ib ADCAL,imm8 2 3 4 Add with carry immediate byte to
-AL
-15iw ADC AX,imm16 1 2 3 4 Add with carry immediate word
-to AX
-15id ADC EAX,imm32 2 Add with carry immediate dword
-toEAX
-80/2 ib ADC r/m8,imm8 1/3 4/17+EA Add with carry immediate byte to 2/7 3/7
-r/mbyte
-81 /2 iw ADC r/m16,imm16 1/3 2/7 3/7 4/17+EA Add with carry immediate word
-tor/mword
-81/2 id ADC r/m32,imm32 1/3 2/7 Add with CF immediate dword
-to rim dword
-8312 ib ADC r/m16,imm8 1/3 2/7 3/7 4/17+EA Add with CF sign-extended
-immediate byte to rim word
-83/2 ib ADC r/rn32,imm8 Add with CF sign-extended 1/3 2/7
-immediate byte into rim dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 10/r | ADCr/m8,r8 | 1/3 | 2/7 | 2/7 | 3/16+EA | Add with carry byte register to rim byte ' rim word rim word |
+| 12/r | ADCr8,r/m8 | 1/2 | 2/6 | 2/7 | 3/9+EA | Add with carry rim byte to byte register |
+| 13/r | ADC r16,r/m16 | 1/2 | 2/6 | 2/7 | 3/9+EA | Add with carry rim word to word register |
+| 13/r | ADC r32,r / m32 | 1/2 | 2/6 |  |  | Add with CF rim dword to dword register |
+| 14ib | ADCAL,imm8 |  | 2 | 3 | 4 | Add with carry immediate byte to AL |
+| 15iw | ADC AX,imm16 | 1 | 2 | 3 | 4 | Add with carry immediate word to AX |
+| 15id | ADC EAX,imm32 |  | 2 |  |  | Add with carry immediate dword toEAX |
+| 80/2 ib | ADC r/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add with carry immediate byte to r/mbyte |
+| 81 /2 iw | ADC r/m16,imm16 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add with carry immediate word tor/mword |
+| 81/2 id | ADC r/m32,imm32 | 1/3 | 2/7 |  |  | Add with CF immediate dword to rim dword |
+| 8312 ib | ADC r/m16,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add with CF sign-extended immediate byte to rim word |
+| 83/2 ib | ADC r/rn32,imm8 | 1/3 | 2/7 |  |  | Add with CF sign-extended immediate byte into rim dword |
 
 * * 11 Ir ADC r/m16,r16 2/7 3/16+EA Add with carry word register to 1/3 2/7 11 Ir ADC r/m32,r32 Add with CF dword register to 1/3 2/7 ADC performs an integer addition of the two operands DEST and SRC and the carry flag, CF. The result of the addition is assigned to the first operand (DEST), and the flags are set accordingly. ADC is usually executed as part of a multi-byte or multi-word addition operation. When an immediate byte value is added to a word or doubleword operand, the immediate value is first sign- extended to the size of the word or doubleword operand.
 
@@ -3543,32 +3520,22 @@ immediate byte into rim dword
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-04ib ADDAL,imm8 1 2 3 4 Add immediate byte to AL
-05 iw ADD AX,imm16 1 2 3 4 Add immediate word to AX
-05 id ADD EAX,imm32 1 2 Add immediate dword to EAX
-8010ib ADDr/m8,imm8 1/3 2/7 3/7 4/17+EA Add immediate byte to rim
-byte
-8110 iw ADD r/m16,imm16 1/3 Add immediate word to rim 2/7 3/7 4/17+EA
-word
-81/0id ADDr/m32,imm32 1/3 2/7 Add immediate dword to rim
-dword
-2/7 3/7 Add sign-extended immediate 83/0ib ADQr/m16,imm8 1/3 4/17+EA
-byte to rim word
-8310 ib ADD r/m32,imm8 1/3 2/7 . Add sign-extended immediate
-byte to rim dword
-00 Ir ADD r/m8,r8 1/3 2/7 2/7 3/16+EA Add byte register to rim byte
-01 Ir ADD r/m16,r16 2/7 2/7 Add word register to rim 1/3 3/16+EA
-word
-01/r ADD r/m32,r32 Add dword register to rim 1/3 2/7
-dword
-2/7 Add rim byte to byte register 02/r ADDr8,r/m8 1/2 2/6 3/9+EA
-ADD r16,r/m16 Add rim word to word 03/r 1/2 2/6 2/7 3/9+EA
-register
-03/r ADD r32,r 1m32 1/2 2/6 Add rim dword to dword
-register
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 04ib | ADDAL,imm8 | 1 | 2 | 3 | 4 | Add immediate byte to AL |
+| 05 iw | ADD AX,imm16 | 1 | 2 | 3 | 4 | Add immediate word to AX |
+| 05 id | ADD EAX,imm32 | 1 | 2 |  |  | Add immediate dword to EAX |
+| 8010ib | ADDr/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add immediate byte to rim byte |
+| 8110 iw ADD | r/m16,imm16 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add immediate word to rim word |
+| 81/0id | ADDr/m32,imm32 | 1/3 | 2/7 |  |  | Add immediate dword to rim dword |
+| 83/0ib | ADQr/m16,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Add sign-extended immediate byte to rim word |
+| 8310 ib | ADD r/m32,imm8 | 1/3 | 2/7 | . |  | Add sign-extended immediate byte to rim dword |
+| 00 Ir | ADD r/m8,r8 | 1/3 | 2/7 | 2/7 | 3/16+EA | Add byte register to rim byte |
+| 01 Ir | ADD r/m16,r16 | 1/3 | 2/7 | 2/7 | 3/16+EA | Add word register to rim word |
+| 01/r | ADD r/m32,r32 | 1/3 | 2/7 |  |  | Add dword register to rim dword |
+| 02/r | ADDr8,r/m8 | 1/2 | 2/6 | 2/7 | 3/9+EA | Add rim byte to byte register |
+| 03/r | ADD r16,r/m16 | 1/2 | 2/6 | 2/7 | 3/9+EA | Add rim word to word register |
+| 03/r | ADD r32,r 1m32 | 1/2 | 2/6 |  |  | Add rim dword to dword register |
 
 * ADD performs an integer addition of the two operands (DEST and SRC). The result of the addition is assigned to the first operand (DEST), and the flags are set accordingly. When an immediate byte is added to a word or doubleword operand, the immediate value is sign-extended to the size of the word or doubleword operand.
 
@@ -3576,38 +3543,22 @@ register
 
 **Flags:** `o D ITS ZAP C`
 
-```
-0
-486 386 286 86
-ANDr/m8,r8 AND byte register into rim 20/r 1/3 2/7 2/7 3/16+EA
-byte
-21/r AND r/m16,r16 2/7 2/7 3/16+EA AND word register into rim 1/3
-word
-AND r/m32,r32 AND dword register to rim 21/r 1/3 2/7
-dword
-486 386 286 86
-22 Ir ANDr8,r/m8 1/2 2/6 2/7 3/9+EA AND rim byte to byte
-register
-AND r16,r/m16 3/9+EA AND rim word to word 23/r 1/2 2/6 2/7
-register
-AND r32,r Im32 AND rim dword to dword 23/r 1/2 2/6
-register
-25 iw AND AX~imm16 2 4 AND immediate word to AX 3
-AND immediate dword to 25 id AND EAX,imm32 2
-EAX
-80/4ib ANDr/m8,imm8 ANDimmediatebytetor/m 113 2/7 3/7 4/17+EA
-byte
-81 14iw ANDr/ml6,imml6- 113 2/7 3/7 4/17+EA AND immediate word to
-r/m word
-81/4id ANDr/m32,imm32 2/7 ANDimmediatedword to 113
-rim word
-83/4ib ANDr/m16,imm8 1/3 2/7 3/7 4/17+EA AND sign-extended
-immediate byte with rim
-word
-83 14 ib AND r Im32,imm8 1/3 2/7 AND sign-extended
-immediate byte with rim
-dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  | 0 |  |
+| 20/r | ANDr/m8,r8 | 1/3 | 2/7 | 2/7 | 3/16+EA | AND byte register into rim byte |
+| 21/r | AND r/m16,r16 | 1/3 | 2/7 | 2/7 | 3/16+EA | AND word register into rim word |
+| 21/r | AND r/m32,r32 | 1/3 | 2/7 |  |  | AND dword register to rim dword |
+| 22 Ir | ANDr8,r/m8 | 1/2 | 2/6 | 2/7 | 3/9+EA | AND rim byte to byte register |
+| 23/r | AND r16,r/m16 | 1/2 | 2/6 | 2/7 | 3/9+EA | AND rim word to word register |
+| 23/r | AND r32,r Im32 | 1/2 | 2/6 |  |  | AND rim dword to dword register |
+| 25 iw | AND AX~imm16 |  | 2 | 3 | 4 | AND immediate word to AX |
+| 25 id | AND EAX,imm32 |  | 2 |  |  | AND immediate dword to EAX |
+| 80/4ib | ANDr/m8,imm8 | 113 | 2/7 | 3/7 | 4/17+EA | ANDimmediatebytetor/m byte |
+| 81 14iw | ANDr/ml6,imml6- | 113 | 2/7 | 3/7 | 4/17+EA | AND immediate word to r/m word |
+| 81/4id | ANDr/m32,imm32 | 113 | 2/7 |  |  | ANDimmediatedword to rim word |
+| 83/4ib | ANDr/m16,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | AND sign-extended immediate byte with rim word |
+| 83 14 ib | AND r Im32,imm8 | 1/3 | 2/7 |  |  | AND sign-extended immediate byte with rim dword |
 
 o * 24ib ANDAL,imm8 234 AND immediate byte to AL Each bit of the result of the AND instruction is a 1 if both corresponding bits of the operands are 1; otherwise, it becomes a O. The optimized form of AND is MASKFLAG (see Chapter 3).
 
@@ -3617,11 +3568,10 @@ o * 24ib ANDAL,imm8 234 AND immediate byte to AL Each bit of the result of the A
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-Adjust RPL of rlm16 to not less than 63/r ARPLrl 9/9 pm=20/21 pm=lO/l1
-RPLofr16 m16,r16
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 63/r | ARPLrl | 9/9 | pm=20/21 | pm=lO/l1 | Adjust RPL of rlm16 to not less than |
+|  | m16,r16 |  |  |  | RPLofr16 |
 
 The ARPL instruction has two operands. The first operand is a 16-bit memory variable or word register that contains the value of a selector. The second operand is a word register. If the RPL field ("requested privilege level"- bottom two bits) of the first operand is less than the RPL field of the second operand, the zero flag is set to 1 and the RPL field of the first operand is increased to match the second operand. Otherwise, the zero flag is set to 0 and no change is made to the first operand. ARPL appears in operating system software, not in application program~. It is used to guarantee that a selector parameter to a subroutine does not request more privilege than the caller is allowed. The second operand of ARPL is normally a register that contains the CS selector value of the caller.
 
@@ -3631,14 +3581,10 @@ The ARPL instruction has two operands. The first operand is a 16-bit memory vari
 
 **Flags:** `o D ITS ZAP C`
 
-```
-Opcode Instruction Clocks Description
-486 386 286
-62/r BOUND r16, 7 7 10 13 Check if r16 is within m16&16 bounds
-(passes test)
-BOUND r32, 7 7 10 Check if r32 is within m32&32 bounds 62/r
-(passes test)
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 62/r | BOUND r16, 7 | 7 | 10 | 13 | Check if r16 is within m16&16 bounds (passes test) |
+| 62/r | BOUND r32, 7 | 7 | 10 |  | Check if r32 is within m32&32 bounds (passes test) |
 
 BOUND ensures that a signed array index is within the limits specified by a block of memory consisting of an upper and a lower bound. Each bound uses one word for an operand-size attribute of 16 bits and a doubleword for an operand-size attribute of 32 bits. The first operand (a register) must be greater than or equal to the first bound in memory (lower bound), and less than or equal to the second bound in memory (upper bound). If the register is not within bounds, an Interrupt 5 occurs; the return ElP points to the BOUND instruction. The bounds limit data structure is usually placed just before the array itself, making the limits addressable via a constant offset from the beginning of the array.
 
@@ -3646,37 +3592,39 @@ BOUND ensures that a signed array index is within the limits specified by a bloc
 
 *Bit scan forward*
 
-```
-486 386
-OFBC BSF r16,r/m16 6--42/7-43 10+3n Bit scan forward on rim word
-OFBC BSF r32,r/m32 10+3n Bit scan forward on r / m dword
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C BSF scans the bits in the second word or doubleword operand starting with bit o. The ZF flag is cleared if the bits are all 0; otherwise, the ZF flag is set and the destination register is loaded with the bit index of the first set bit.
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFBC | BSF r16,r/m16 | 6--42/7-43 | 10+3n | Bit scan forward on rim word |
+| OFBC | BSF r32,r/m32 |  | 10+3n | Bit scan forward on r / m dword |
+
+BSF scans the bits in the second word or doubleword operand starting with bit o. The ZF flag is cleared if the bits are all 0; otherwise, the ZF flag is set and the destination register is loaded with the bit index of the first set bit.
 
 #### `BSR`
 
 *Bit scan reverse*
 
-```
-486 386
-OFBD BSRr16,r/m16 6-103/7-104 10+3n Bit scan reverse on r / m word
-OFBD BSRr32,r/m32 6-103/7-104 10+3n Bit scan reverse on r / m dword
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C BSR scans the bits in the second word or doubleword operand from the most significant bit to the least significant bit. The ZF flag is cleared if the bits are all 0; otherwise, ZF is set and the destination register is loaded with the bit index of the first set bit found when scanning in the reverse direction.
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFBD | BSRr16,r/m16 | 6-103/7-104 | 10+3n | Bit scan reverse on r / m word |
+| OFBD | BSRr32,r/m32 | 6-103/7-104 | 10+3n | Bit scan reverse on r / m dword |
+
+BSR scans the bits in the second word or doubleword operand from the most significant bit to the least significant bit. The ZF flag is cleared if the bits are all 0; otherwise, ZF is set and the destination register is loaded with the bit index of the first set bit found when scanning in the reverse direction.
 
 #### `BSWAP`
 
 *i486 processors and greater*
 
-```
-486
-OFC8/r BSWAPr32 1 Swap bytes to convert little/big endian data in a 32-
-bit register to big/little endian form.
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C BSW AP reverses the byte order of a 32-bit register, converting a value in little/ big endian form to big/little endian form. When BSWAP is used with a 16-bit operand size, the result left in the destination register is undefined.
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+| OFC8/r | BSWAPr32 | 1 | Swap bytes to convert little/big endian data in a 32- bit register to big/little endian form. |
+
+BSW AP reverses the byte order of a 32-bit register, converting a value in little/ big endian form to big/little endian form. When BSWAP is used with a 16-bit operand size, the result left in the destination register is undefined.
 
 #### `BT`
 
@@ -3684,13 +3632,12 @@ o D T S ZAP C BSW AP reverses the byte order of a 32-bit register, converting a 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386
-OFA3 BTr/m16,r16 Save bit in carry flag 3/8 3/12
-OFA3 BTr/m32,r32 3/8 3/12 Save bit in carry flag
-OFBA /4ib BTr/m16,imm8 3/3 3/6 Save bit in carry flag
-OFBA /4 ib BT r/m32,imm8 3/3 3/6 Save bit in carry flag
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFA3 | BTr/m16,r16 | 3/8 | 3/12 | Save bit in carry flag |
+| OFA3 | BTr/m32,r32 | 3/8 | 3/12 | Save bit in carry flag |
+| OFBA /4ib | BTr/m16,imm8 | 3/3 | 3/6 | Save bit in carry flag |
+| OFBA /4 | ib BT r/m32,imm8 | 3/3 | 3/6 | Save bit in carry flag |
 
 BT saves the value of the bit indicated by the base (first operand) and the bit offset (second operand) into the carry flag.
 
@@ -3700,13 +3647,12 @@ BT saves the value of the bit indicated by the base (first operand) and the bit 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386
-OFBB BTC r/m16,r16 6/13 6/13 Save bit in carry flag and complement
-OFBB BTC r / m32,r32 6/13 6/13 Save bit in carry flag and complement
-OFBA/7ib BTC r/m16,imm8 6/8 6/8 Save bit in carry flag and complement
-OF BA /7ib BTC r/m32,imm8 6/8 6/8 Save bit in carry flag and complement
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFBB | BTC r/m16,r16 | 6/13 | 6/13 | Save bit in carry flag and complement |
+| OFBB | BTC r / m32,r32 | 6/13 | 6/13 | Save bit in carry flag and complement |
+| OFBA/7ib | BTC r/m16,imm8 | 6/8 | 6/8 | Save bit in carry flag and complement |
+| OF BA /7ib | BTC r/m32,imm8 | 6/8 | 6/8 | Save bit in carry flag and complement |
 
 BTC saves the value of the bit indicated by the base (first operand) and the bit offset (second operand) into the carry flag and then complements the bit.
 
@@ -3714,16 +3660,16 @@ BTC saves the value of the bit indicated by the base (first operand) and the bit
 
 *Bit test and reset*
 
-```
-Opcode InstniCtion Clocks Description
-486 386
-OFB3 BTR r/m16,r16 Save bit in carry flag and reset 6/13 6/13
-OFB3 BTR r / m32,r32 6/13 6/13 Save bit in carry flag and reset
-OFBA /6 ib BTRr/m16,imm8 6/8 Save bit in carry flag and reset 6/8
-OFBA /6 ib BTRr/m32,imm8 6/8 6/8 Save bit in carry flag and reset
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C BTR saves the value of the bit indicated by the base (first operand) and the bit offset (second operand) into the carry flag and then stores 0 in the bit.
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFB3 | BTR r/m16,r16 | 6/13 | 6/13 | Save bit in carry flag and reset |
+| OFB3 | BTR r / m32,r32 | 6/13 | 6/13 | Save bit in carry flag and reset |
+| OFBA /6 | ib BTRr/m16,imm8 | 6/8 | 6/8 | Save bit in carry flag and reset |
+| OFBA /6 | ib BTRr/m32,imm8 | 6/8 | 6/8 | Save bit in carry flag and reset |
+
+BTR saves the value of the bit indicated by the base (first operand) and the bit offset (second operand) into the carry flag and then stores 0 in the bit.
 
 #### `BTS`
 
@@ -3731,14 +3677,13 @@ o D T S ZAP C BTR saves the value of the bit indicated by the base (first operan
 
 **Flags:** `o D ITS ZAP C`
 
-```
-IJ~scripti()n • CIQ~ks
-486 386
-OFAB BTS r / m16,r16 6/13 6/13 Save bit in carry flag and set
-OFAB BTS r / m32,r32 6/13 6/13 Save bit in carry flag and set
-OFBA /5ib BTSr/m16,imm8 6/8 6/8 Save bit in carry flag and set
-OFBA /5ib BTS r/m32,imm8 6/8 Save bit in carry flag and set 6/8
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+|  |  | CIQ~ks |  | IJ~scripti()n • |
+| OFAB | BTS r / m16,r16 | 6/13 | 6/13 | Save bit in carry flag and set |
+| OFAB | BTS r / m32,r32 | 6/13 | 6/13 | Save bit in carry flag and set |
+| OFBA /5ib | BTSr/m16,imm8 | 6/8 | 6/8 | Save bit in carry flag and set |
+| OFBA /5ib | BTS r/m32,imm8 | 6/8 | 6/8 | Save bit in carry flag and set |
 
 BTS saves the value of the bit indicated by the base (first operand) and the bit offset (second operand) into the carry flag and then stores 1 in the bit.
 
@@ -3748,93 +3693,36 @@ BTS saves the value of the bit indicated by the base (first operand) and the bit
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286* 86
-E8cw CALLre116 3 7+m 7 19 Call near,
-displacement
-relative
-to next
-instruction
-CALLr/m16 16/21+EA Call near, FF /2 5/5 7+m/10+m 7/11
-re~ster
-in irect/
-memory
-indirect
-9Acd CALL ptr16:16 18,pm=20 17+m, 13, 28 Call
-intersegment, pm=34=m pm=26
-tc? full pointer
-gIVen
-9Acd CALL ptr16:16 pm=35 pm=52+m 41 Call gate,
-same privilege
-486 386 286* 86
-9Acd CALL ptr16:16 pm=69 pm=86+m 82 Call gate,
-more
-privilege, no
-parameters
-9Acd CALL ptr16:16 pm=77+4x pm=94+4x+m 86+4x Call gate,
-more
-privilege, x
-parameters
-9Acd CALL ptr16:16 pm=37+ts ts 177/182 Call to task
-(via task state
-segment/task
-gate for 286
-FF /3 CALL.m16:16 17,pm=20 22+m,pm38+m 16/29 37+EA Call
-intersegment,
-address at
-r/mdword
-FF /3 CALLm16:16 pm=35 pm=56+m 44 Call gate,
-same privilege
-CALLm16:16 Call gate, FF /3 pm=69 pm=90+m 83
-more
-privilege, no
-parameters
-FF /3 CALLm16:16 pm=77+4x pm=98+4x+m 90+4x+m Call gate,
-more
-privilege, x
-parameters
-FF /3 CALLm16:16 pm=37+ts 5 + ts 180/185 Call to task
-(via task state
-segment! task
-gate for 286)
-E8cd CALLre132 3 7+m Call near,
-displacement
-relative to next
-instruction
-FF /2 CALLr/m32 7+m/10+m Call near, 5/5
-indirect
-9Acp CALL ptr16:32 18,pm=20 17+m,pm= Call
-34+m intersegment,
-t~ full pointer
-gIven
-9Acp CALL ptr16:32 pm=35 pm=52+m Call gate,
-same privilege
-9Acp CALL ptr16:32 pm=69 pm=86+m Call gate,
-more
-privilege, no
-parameters
-9Acp CALL ptr32:32 pm=77+4x pm=94+4x+m Call gate,
-more
-privilege,x
-parameters
-9Acp CALL ptr16:32 pm=37+ts ts Call to task
-FF /3 CALLm16:32 17,pm=20 22+m,pm=38+ Call
-m intersegment,
-address at
-r/mdword
-FF /3 CALLm16:32 pm=35 pm=56+m Call gate,
-same privilege
-FF /3 CALLm16:32 pm=69 pm=90+m Call gate,
-more
-privilege, no
-parameters
-486 386 286* 86
-FF /3 CALLm16:32 pm=77+4x pm=98+4x+m Call gate,
-more
-privilege, x
-parameters
-FF /3 CALLm16:32 pm=37+ts 5+ts Call to task
-```
+| Opcode | Instruction | 486 | 386 | 86 | Description |
+|---|---|---|---|---|---|
+| E8cw | CALLre116 | 3 | 7+m | 7 19 | Call near, displacement relative to next instruction |
+| FF /2 | CALLr/m16 | 5/5 | 7+m/10+m | 16/21+EA Call near, 7/11 | re~ster in irect/ memory indirect |
+| 9Acd | CALL ptr16:16 | 18,pm=20 | 17+m, | 13, 28 | Call |
+|  |  |  | pm=34=m | pm=26 | intersegment, tc? full pointer gIVen |
+| 9Acd | CALL ptr16:16 | pm=35 | pm=52+m | 41 | Call gate, same privilege |
+|  |  | 486 | 386 | 286* 86 |  |
+| 9Acd | CALL ptr16:16 | pm=69 | pm=86+m | 82 | Call gate, more privilege, no parameters |
+| 9Acd | CALL ptr16:16 | pm=77+4x | pm=94+4x+m | 86+4x | Call gate, more privilege, x parameters |
+| 9Acd | CALL ptr16:16 | pm=37+ts | ts | 177/182 | Call to task (via task state segment/task |
+| FF /3 | CALL.m16:16 | 17,pm=20 | 22+m,pm38+m 16/29 | 37+EA | Call intersegment, address at r/mdword |
+| FF /3 | CALLm16:16 | pm=35 | pm=56+m | 44 | Call gate, same privilege |
+| FF /3 | CALLm16:16 | pm=69 | pm=90+m | 83 | Call gate, more privilege, no parameters |
+| FF /3 | CALLm16:16 | pm=77+4x | pm=98+4x+m | 90+4x+m | Call gate, more privilege, x parameters |
+| FF /3 | CALLm16:16 | pm=37+ts | 5 + ts | 180/185 | Call to task (via task state segment! task gate for 286) |
+| E8cd | CALLre132 | 3 | 7+m |  | Call near, displacement relative to next instruction |
+| FF /2 | CALLr/m32 | 5/5 | 7+m/10+m |  | Call near, indirect |
+| 9Acp | CALL ptr16:32 | 18,pm=20 | 17+m,pm= |  | Call |
+|  |  |  | 34+m |  | intersegment, t~ full pointer gIven |
+| 9Acp | CALL ptr16:32 | pm=35 | pm=52+m |  | Call gate, same privilege |
+| 9Acp | CALL ptr16:32 | pm=69 | pm=86+m |  | Call gate, more privilege, no parameters |
+| 9Acp | CALL ptr32:32 | pm=77+4x | pm=94+4x+m |  | Call gate, more privilege,x parameters |
+| 9Acp | CALL ptr16:32 | pm=37+ts | ts |  | Call to task |
+| FF /3 | CALLm16:32 | 17,pm=20 | 22+m,pm=38+ |  | Call |
+|  |  |  | m |  | intersegment, address at r/mdword |
+| FF /3 | CALLm16:32 | pm=35 | pm=56+m |  | Call gate, same privilege |
+| FF /3 | CALLm16:32 | pm=69 | pm=90+m |  | Call gate, more privilege, no parameters |
+| FF /3 | CALLm16:32 | pm=77+4x | pm=98+4x+m |  | Call gate, more privilege, x parameters |
+| FF /3 | CALLm16:32 | pm=37+ts | 5+ts |  | Call to task |
 
 All flags are affected if a task switch occurs; no flags are affected if a task switch does not occur. Optode Iilstruction Clocks "Qescriptiort The CALL instruction causes the procedure named in the operand to be executed. When the procedure is complete (a return instruction is executed within the procedure), execution continues at the instruction that follows the CALL instruction. The action of the different forms of the instruction are described next. Near calls are those with destinations of type r I m16, r I m32, re116, rel32; changing or saving the segment register value is not necessary. The CALL re116 and CALL rel32 forms add a signed offset to the address of the instruction following CALL to determine the destination. The re116 form is used when the instruction's operand-size attribute is 16 bits; rel32 is used when the operand- size attribute is 32 bits. The result is stored in the 32-bit EIP register. With rel16, the upper 16 bits of EIP are cleared, resulting in an offset whose value does not exceed 16 bits. CALL r I m16 and CALL r I m32 specify a register or memory location from which the absolute segment offset is fetched. The offset fetched from rim is 32 bits for an operand-size attribute of 32 (r/m32), or 16 bits for an operand-size of 16 (r/m16). The offset of the instruction following CALL is pushed onto the stack. It will be popped by a near RET instruction within the procedure. The CS register is not changed by this form of CALL. The far calls, CALL ptr16:16 and CALL ptr16:32, use a 4-byte or 6-byte operand as a long pointer to the procedure called. The CALL m16:16 and m16:32 forms fetch the long pointer from the memory location specified (indirection). In real address mode or virtual 8086 mode, the long pointer provides 16 bits for the CS register and 16 or 32 bits for the EIP register (depending on the operand-size attribute). These forms of the instruction push both CS and IP or EIP as a return address. In protected mode, both long pointer forms consult the AR byte in the descriptor indexed by the selector part of the long pointer. Depending on the value of the AR byte, the call will perform one of the following types of control transfers: • a far call to the same protection level • an inter-protectioi1level far call • a task switch parameter passing to high-level language routines. See Chapter 7 of the Turbo Assember User's Guide for more details.
 
@@ -3847,10 +3735,9 @@ All flags are affected if a task switch occurs; no flags are affected if a task 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-98 CBW 3 3 2 2 AX sign-extend of AL
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 98 | CBW | 3 | 3 | 2 | 2 | AX sign-extend of AL |
 
 CBW converts the signed byte in AL to a signed word in AX by extending the most significant bit of AL (the sign bit) into all of the bits of AB.
 
@@ -3858,23 +3745,22 @@ CBW converts the signed byte in AL to a signed word in AX by extending the most 
 
 *Convert doubleword to quadword*
 
-```
-486 386
-99 CDQ 3 2 EDX:EAX [(sign-extend ofEAX)
-```
+**Flags:** `o 0 ITS ZAP C`
 
-o 0 ITS ZAP C CDQ converts the signed doubleword in EAX to a signed 64-bit integer in the register pair EDX:EAX by extending the most significant bit of EAX (the sign bit) into all the bits of EDX.
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| 99 | CDQ | 3 | 2 | EDX:EAX [(sign-extend ofEAX) |
+
+CDQ converts the signed doubleword in EAX to a signed 64-bit integer in the register pair EDX:EAX by extending the most significant bit of EAX (the sign bit) into all the bits of EDX.
 
 #### `CLC`
 
 *Clear carry flag*
 
-```
-0 T S P C 0 Z A
-0
-486 386 286 86
-F8 CLC 2 2 2 2
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 0 |  | T | S Z | P A | C 0 |
+| F8 | CLC | 2 | 2 | 2 | 2 |  |
 
 CLC sets the carry flag to zero. It does not affect other flags or registers.
 
@@ -3882,11 +3768,10 @@ CLC sets the carry flag to zero. It does not affect other flags or registers.
 
 *Clear direction flag*
 
-```
-T S P C 0 0 Z A
-0
-486 386 286 86
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | 0 | T | S | Z A | P C |
+|  |  | 0 |  |  |  |  |
 
 c CLD 2 2 2 2 Clear direction flag CLD clears the direction flag. No other flags or registers are affected. After CLD is executed, string operations will increment the index registers (51 or Dl) that they use.
 
@@ -3894,22 +3779,21 @@ c CLD 2 2 2 2 Clear direction flag CLD clears the direction flag. No other flags
 
 *Clear interrupt flag*
 
-```
-486 386 286 86
-```
+**Flags:** `o 0 ITS ZAP C`
 
-o 0 ITS ZAP C o FA CLI 5 332 CLI clears the interrupt flag if the current privilege level is at least as privileged as lOPL. No other flags are affected. External interrupts are not recognized at the end of the CLI instruction or from that point on until the interrupt flag is set.
+o FA CLI 5 332 CLI clears the interrupt flag if the current privilege level is at least as privileged as lOPL. No other flags are affected. External interrupts are not recognized at the end of the CLI instruction or from that point on until the interrupt flag is set.
 
 #### `CllS`
 
 *Clear task switched flag*
 
-```
-486 386 286
-OF 06 CLTS 7 5 2
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C TS = 0 (TS is in CRO, not the flag register) CLTS clears the task-switched (TS) flag in register CRO. This flag is set by the 386 every time a task switch occurs. The TS flag is used to manage processor extensions as follows: • Every execution of an ESC instruction is trapped if the TS flag if set. • Execution of aWAIT instruction is trapped if the MP flag and the TS flag are both set. Thus, if a task switch was made after an ESC instruction was begun, the processor extension's context may need to be saved before a new ESC instruction can be issued. The fault handler saves the context and resets the TS flag. CL TS appears in operating system software, not in application programs. It is a privileged instruction that can only be executed at privilege level O.
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 06 | CLTS | 7 | 5 | 2 |  |
+
+TS = 0 (TS is in CRO, not the flag register) CLTS clears the task-switched (TS) flag in register CRO. This flag is set by the 386 every time a task switch occurs. The TS flag is used to manage processor extensions as follows: • Every execution of an ESC instruction is trapped if the TS flag if set. • Execution of aWAIT instruction is trapped if the MP flag and the TS flag are both set. Thus, if a task switch was made after an ESC instruction was begun, the processor extension's context may need to be saved before a new ESC instruction can be issued. The fault handler saves the context and resets the TS flag. CL TS appears in operating system software, not in application programs. It is a privileged instruction that can only be executed at privilege level O.
 
 #### `CMC`
 
@@ -3917,10 +3801,9 @@ o D T S ZAP C TS = 0 (TS is in CRO, not the flag register) CLTS clears the task-
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-F5 CMC 2 2 2 2 Complement carry flag
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F5 | CMC | 2 | 2 | 2 | 2 | Complement carry flag |
 
 CMC reverses the setting of the carry flag. No other flags are affected.
 
@@ -3928,34 +3811,22 @@ CMC reverses the setting of the carry flag. No other flags are affected.
 
 *Compare two operands*
 
-```
-0 D I T S A P C
-486 386 286 86
-3Cib CMPAL,imm8 1 4 2 3 Compare immediate byte to AL
-3Diw CMP AX,imm16 1 2 3 4 Compare immediate word from
-AX
-3Did CMP EAX,imm32 2 Compare immediate dword to
-EAX
-80/7ib CMP r/m8,imm8 1/2 3/6 4/10+EA Compare immediate byte to r / m 2/5
-byte
-81 /7 iw CMP r/m16,imm16 1/2 2/5 3/6 4/10+EA ComJ'are immediate word to r / m
-wor
-81 /7 id CMP r/m32,imm32 1/2 2/5 Compare immediate dword to
-r/maword
-486 86 386 286
-4/10+EA Compare sign extended immediate 83/7ib CMP r/ml6,imm8 1/2 2/5 3/6
-byte to r / m word
-83/7ib CMP r /m32,imm8 1/2 2/5 Compare sigtl extended immediate
-byte to r/mdword
-38/r CMPr/m8,r8 1/2 2/5 2/7 3/9+EA Compare byte register to r / m byte
-CMP r/mI6,r16 39/r 1/2 2/5 2/7 3/9+EA Conrare word register to r / m
-wor
-39/r CMP r /m32,r32 1/2 2/5 Compare dword register to r/m
-dword
-CMPr8,r/m8 3A/r 1/2 2/6 2/6 3/9+EA Compare r / m byte to byte register
-register
-register
-```
+**Flags:** `0 D I T S A P C`
+
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 3Cib | CMPAL,imm8 | 1 | 2 | 3 | 4 | Compare immediate byte to AL |
+| 3Diw | CMP AX,imm16 | 1 | 2 | 3 | 4 | Compare immediate word from AX |
+| 3Did | CMP EAX,imm32 |  | 2 |  |  | Compare immediate dword to EAX |
+| 80/7ib | CMP r/m8,imm8 | 1/2 | 2/5 | 3/6 | 4/10+EA | Compare immediate byte to r / m byte |
+| 81 /7 iw | CMP r/m16,imm16 | 1/2 | 2/5 | 3/6 | 4/10+EA | ComJ'are immediate word to r / m wor |
+| 81 /7 id | CMP r/m32,imm32 | 1/2 | 2/5 |  |  | Compare immediate dword to r/maword |
+| 83/7ib | CMP r/ml6,imm8 | 1/2 | 2/5 | 3/6 | 4/10+EA Compare sign extended immediate |  byte to r / m word |
+| 83/7ib | CMP r /m32,imm8 | 1/2 | 2/5 |  |  | Compare sigtl extended immediate byte to r/mdword |
+| 38/r | CMPr/m8,r8 | 1/2 | 2/5 | 2/7 | 3/9+EA | Compare byte register to r / m byte |
+| 39/r | CMP r/mI6,r16 | 1/2 | 2/5 | 2/7 | 3/9+EA | Conrare word register to r / m wor |
+| 39/r | CMP r /m32,r32 | 1/2 | 2/5 |  |  | Compare dword register to r/m dword |
+| 3A/r | CMPr8,r/m8 | 1/2 | 2/6 | 2/6 | 3/9+EA | Compare r / m byte to byte register register register |
 
 * 3B /r CMP r16,r/m8 1/2 2/6 2/6 3/9+EA Compare r / m word to word 3B /r CMP r32,r/m32 1/2 2/6 Compare r/m dword to dword CMP subtracts the second operand from the first but, unlike the SUB instruction, does not store the result; only the flags are changed. CMP is typically used in conjunction with conditional jumps and the SETcc instruction. If an operand greater than one byte is compared to an immediate byte, the byte value is first sign-extended.
 
@@ -3971,18 +3842,14 @@ register
 
 #### `CMPSD`
 
-```
-486 386 286 86
-A6 CMP5m8,m8 10 8 8 22 Com~are b~tes E5:[(E)OI] (second operand)
-with (E)51 (first operand)
-A7 CMP5 m16,m16 8 10 8 22 Compare words E5:[(E)DI] (second
-operand) with [(E)SI] (first operand)
-A7 CMP5m32,m32 10 8 Compare dwords E5:[(E)OI] (second
-operand) with [(E)SI] (first operand)
-A6 CMP5B 8 10 8 22 Compare bytes E5:[(E)DI] with OS:[51]
-A7 CMP5W 8 10 8 22 Compare words E5:[(E)DI] with 05:[SI]
-A7 CMP50 10 Compare dwords E5:[(E)DI] with 05:[SI] 8
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| A6 | CMP5m8,m8 | 8 | 10 | 8 | 22 | Com~are b~tes E5:[(E)OI] (second operand) with (E)51 (first operand) |
+| A7 | CMP5 m16,m16 | 8 | 10 | 8 | 22 | Compare words E5:[(E)DI] (second operand) with [(E)SI] (first operand) |
+| A7 | CMP5m32,m32 | 8 | 10 |  |  | Compare dwords E5:[(E)OI] (second operand) with [(E)SI] (first operand) |
+| A6 | CMP5B | 8 | 10 | 8 | 22 | Compare bytes E5:[(E)DI] with OS:[51] |
+| A7 | CMP5W | 8 | 10 | 8 | 22 | Compare words E5:[(E)DI] with 05:[SI] |
+| A7 | CMP50 | 8 | 10 |  |  | Compare dwords E5:[(E)DI] with 05:[SI] |
 
 CMPS compares the byte, word, or doubleword pointed to by the source-index register with the byte, word, or doubleword pointed to by the destination-index register. If the address-size attribute of this instruction is 16 bits, SI and DI will be used for source- and destination-index registers; otherwise ESI and EDI will be used. Load the correct index values into SI and DI (or ESI and EDI) before executing CMPS. The comparison is done by subtracting the operand indexed by the destination- index register from the operand indexed by the source-index register. Note that the direction of subtraction for CMPS is [SI] - [DI] or [ESI] - [EDI]. The left operand (SI or ESI) is the source and the right operand (DI or EDI) is the destination. This is the reverse of the usual Intel convention in which the left operand is the destination and the right operand is the source. The result of the subtraction is not stored; only the flags reflect the change. The types of the operands determine whether bytes, words, or doublewords are compared. For the first operand (SI or ESI), the DS register is used, unless a segment override byte is present. The second operand (DI or EDI) must be addressable from the ES register; no segment override is possible. After the comparison is made, both the source-index register and destination- index register are automatically advanced. If the direction flag is 0 (CLD was executed), the registers increment; if the direction flag is 1 (STD was executed), the registers decrement. The registers increment or decrement by 1 if a byte is compared, by 2 if a word is compared, or by 4 if a doubleword is compared. CMPSB, CMPSW and CMPSD are synonyms for the byte, word, and doubleword CMPS instructions, respectively. CMPS can be preceded by the REPE or REPNE prefix for block comparison of CX or ECX bytes, words, or doublewords. Refer to the description of the REP instruction for more information on this operation.
 
@@ -3992,18 +3859,16 @@ CMPS compares the byte, word, or doubleword pointed to by the source-index regis
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486
-issuccessfUli6/10 if ZF and load byte reg into rim byte. Else,
-comparison fails clear ZF and load r / m byte into AL.
-OF B1/r CMPXCHG r/m16,r16 6/7ifcomparison Compare AX with rim word. If equal, set
-issuccessfUli6/10if ZF and load word reg into rim word.
-comparison fails Else, dear ZF and load rim word into AX.
-is successfUli 6/10 if set ZF and load dword reg into rim
-comparison fails dword. Else, clear ZF and load rim dword
-intoEAX.
-Note: The A-stepping of the i486 used the apcades OF A6 and OF A7.
-```
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+|  |  | issuccessfUli6/10 if | ZF and load byte reg into rim byte. Else, |
+|  |  | comparison fails | clear ZF and load r / m byte into AL. |
+| OF B1/r | CMPXCHG r/m16,r16 | 6/7ifcomparison | Compare AX with rim word. If equal, set |
+|  |  | issuccessfUli6/10if ZF | and load word reg into rim word. |
+|  |  | comparison fails | Else, dear ZF and load rim word into AX. |
+|  |  | is successfUli | 6/10 if set ZF and load dword reg into rim |
+|  |  | comparison fails | dword. Else, clear ZF and load rim dword intoEAX. |
+| Note: The | A-stepping of the i486 | used | the apcades OF A6 and OF A7. |
 
 OF BO I r CMPXCHG r I m8,r8 617 if comparison Compare AL with rim byte. If equal, set OF B1 I r CMPXCHG r I m32,r32 617 if comparison Compare EAX with rim dword. If equal, The CMPXCHG instruction compares the accumulator (AL, AX, or EAX register) with DEST. If they are equal, SRC is loaded into DEST. Otherwise, DEST is loaded into the accumulator. DEST is the destination operand; SRC is the source operand. Protected mode exceptions: #GP(O) if the result is in a nonwritable segment; #GP(O) for an illegal memory operand effective address in the CS, DS, ES, FS, or GS segments; #5S(O) for an illegal address in the SS segment; #PF (fault code) for a page fault; #AC for an unaligned memory reference if the current privilege level is 3: Real mode exception: interrupt 13 if any part of the operand would lie outside the effective address space from 0 to OFFFFh. Virtual 8086 mode exceptions: interrupt 13, as in real mode; #PF and #AC, as in protected mode. interface to the processor's bus, the destination operand receives a write cycle without regard to the result of the comparison. DEST is written back if the comparison fails, and SRC is written into the destination otherwise. (The processor never produces a locked read without producing a locked write.)
 
@@ -4013,14 +3878,9 @@ OF BO I r CMPXCHG r I m8,r8 617 if comparison Compare AL with rim byte. If equal
 
 *Compare and Exchange bytes*
 
-```
-Pentium
-OFC7 CMPXCHG64 r/m64 10 compare EDX:EAX with rim qword. If equal,
-set ZF and load ECX:EBX into rim qword.
-Else, clear ZF and load rim into EDX:EAX.
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C The CMPXCHG8B instruction compares the 64-bit value in EDX:EAX with DEST. EDX contains the high-order 32 bits and EAX contains the low-order 32 bits of the 64-bit value. If they are equal, the 64-bit value in ECX:EBX is stored into DEST. ECX contains the high-order 32 bits and EBX contains the low-order 32 bits. Otherwise, DEST is loaded into EDX:EAX. The ZF flag is set if the destination operand and EDX:EAX are equal; otherwise it is cleared. The CF, PF, AF, SF, and OF flags are unaffected. Protected mode exceptions: #GP(O) if the result is ina nonwritable segment; #GP(O) for an illegal memory operand effective address in the CS, DS, ES, FS, or GS segments; #55(0) for an illegal address in the SS segment; #PF(fault code) for a page fault; #AC for unaligned memory reference if the current privilege level is 3. The destination operand must be a memory operand, not a register. If the CMPXCHG8B instruction is executed with a modr / m byte representing a register as the destination operand, #UD occurs. Real mode exception: interrupt 13 if any part of the operand would lie outside the effective address space from 0 to OFFFFh. Virtual 8086 mode exceptions: same exceptions as in real mode, plus #PF(fault code) for a page fault; #AC for unaligned memory reference if the current privilege level is 3. #UD if the modr / m byte represents a register as the destination. Notes: This instruction can be used with a LOCK prefix. In order to simplify interface to the processor's bus, the destination operand receives a write cycle without regard to the result of the comparison. DEST is written back if the comparison fails, and SRC is written into the destination otherwise. (The processor never produces a locked read without also producing a locked write.) The "r/m64" syntax had previously been used only in the context of floating point operations. It indicates a 64-bit value, in memory at an address determined by the modr / mbyte.
+The CMPXCHG8B instruction compares the 64-bit value in EDX:EAX with DEST. EDX contains the high-order 32 bits and EAX contains the low-order 32 bits of the 64-bit value. If they are equal, the 64-bit value in ECX:EBX is stored into DEST. ECX contains the high-order 32 bits and EBX contains the low-order 32 bits. Otherwise, DEST is loaded into EDX:EAX. The ZF flag is set if the destination operand and EDX:EAX are equal; otherwise it is cleared. The CF, PF, AF, SF, and OF flags are unaffected. Protected mode exceptions: #GP(O) if the result is ina nonwritable segment; #GP(O) for an illegal memory operand effective address in the CS, DS, ES, FS, or GS segments; #55(0) for an illegal address in the SS segment; #PF(fault code) for a page fault; #AC for unaligned memory reference if the current privilege level is 3. The destination operand must be a memory operand, not a register. If the CMPXCHG8B instruction is executed with a modr / m byte representing a register as the destination operand, #UD occurs. Real mode exception: interrupt 13 if any part of the operand would lie outside the effective address space from 0 to OFFFFh. Virtual 8086 mode exceptions: same exceptions as in real mode, plus #PF(fault code) for a page fault; #AC for unaligned memory reference if the current privilege level is 3. #UD if the modr / m byte represents a register as the destination. Notes: This instruction can be used with a LOCK prefix. In order to simplify interface to the processor's bus, the destination operand receives a write cycle without regard to the result of the comparison. DEST is written back if the comparison fails, and SRC is written into the destination otherwise. (The processor never produces a locked read without also producing a locked write.) The "r/m64" syntax had previously been used only in the context of floating point operations. It indicates a 64-bit value, in memory at an address determined by the modr / mbyte.
 
 #### `CPUIO`
 
@@ -4028,32 +3888,25 @@ o D T S ZAP C The CMPXCHG8B instruction compares the 64-bit value in EDX:EAX wit
 
 **Flags:** `o D ITS ZAP C`
 
-```
-Pentium
-EAX <- CPOU identification info. OFA2 CPUID 14
-```
-
 The CPUID instruction provides information to software about the vendor, family, model, and stepping of microprocessor on which it is executing. An input value loaded into the EAX register for this instruction indicates what information should be returned by the CPUID instruction. Following execution of the CPUID instruction with a zero in EAX, the EAX register contains the highest input value understood by the CPUID instruction. For the Pentium processor, the value in EAX will be one. Also returned is a vender identification string contained in the EBX, EDX, and ECX registers. EBX contains the first four characters. For Intel processors, the vender identification string is "GenuineIntel" as follows: EBX-756e6547h (* "Genu", with 'G' in the low nibble of BL *) EDX-49656e69h (* "ine!", with 'i' in the low nibble of DL *) ECX-6c65746eh (* "ntel", with In' in the low nibble of CL *) Following execution of the CPUID instruction with an, input value of one loaded into the EAX register, bits 0-3 in EAX contain the stepping id of the microprocessor, bits 4-7 of EAX contain the model (the first model will be indicated by a 0001b in these bits) and bits 8-11 of EAX contain the family (5 for the Pentium processor family). Bits 12-31 of EAX are reserved, as well as EBX, and ECX. The Pentium processor sets the feature register, EDX, to 1bfh, indicating which features the Pentium processor supports. A feature flag set to one indicates that the corresponding feature is supported. The feature set is defined as follows: EDX (bit 0) FPU on chip EDX (bits 1-6) Nonessential, proprietary information (contactIntel for more information) EDX (bit 7) Machine Check Exception EDX (bit 8) CMPXCHG8B Instruction EDX (bits 9-31) Reserved Software should determine the vender identification in order to properly interpret the feature register flag bits. This function does not affect the CPU flags.
 
 #### `cwo*`
 
 *Convert word to doubleword*
 
-```
-486 386 286 86
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C cwo 99 3 2 2 5 DX:AX ~ sign-extend of AX CWD converts the signed word in AX to a signed doubleword in DX:AX by extending the most significant bit of AX into all the bits of DX. Note that CWD is different from CWDE. CWDE uses EAX as a destination, instead of DX:AX.
+cwo 99 3 2 2 5 DX:AX ~ sign-extend of AX CWD converts the signed word in AX to a signed doubleword in DX:AX by extending the most significant bit of AX into all the bits of DX. Note that CWD is different from CWDE. CWDE uses EAX as a destination, instead of DX:AX.
 
 #### `CWDE`
 
 *Convert word to doubleword*
 
-```
-0 D T S Z A P C
-486 386 286 86
-CWDE EAX f- sign-extend of AX 98 3 3
-```
+**Flags:** `0 D T S Z A P C`
+
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 98 | CWDE | 3 | 3 |  |  | EAX f- sign-extend of AX |
 
 CWDE converts the signed word in AX to a doubleword in EAX by extending the most significant bit of AX into the two most significant bytes of EAX. Note that CWDE is different from CWD. CWD uses DX:AX rather than EAX as a destination.
 
@@ -4061,37 +3914,38 @@ CWDE converts the signed word in AX to a doubleword in EAX by extending the most
 
 *Decimal adjust AL after addition*
 
-```
-486 386 286 86
-27 DAA 2 4 3 4 Decimal adjust AL after addition
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C * Execute DAA only after executing an ADD instruction that leaves a two-BCD- digit byte result in the AL register. The ADD operands should consist of two packed BCD digits. The DAA instruction adjusts AL to contain the correct two- digit packed decimal result.
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 27 | DAA | 2 | 4 | 3 | 4 | Decimal adjust AL after addition |
+
+* Execute DAA only after executing an ADD instruction that leaves a two-BCD- digit byte result in the AL register. The ADD operands should consist of two packed BCD digits. The DAA instruction adjusts AL to contain the correct two- digit packed decimal result.
 
 #### `DAS`
 
 *Decimal adjust AL after subtraction*
 
-```
-486 386 286 86
-DAS 2 4 3 4 Decimal adjust AL after subtraction 2F
-```
+**Flags:** `D T S ZAP C`
 
-o D T S ZAP C * Execute DAS only after a subtraction instruction that leaves a two-BCD-digit . byte result in the AL register. The operands should consist of two packed BCD digits. DAS adjusts AL to contain the correct packed two-digit decimal result.
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 2F | DAS | 2 | 4 | 3 | 4 | Decimal adjust AL after subtraction |
+
+o * Execute DAS only after a subtraction instruction that leaves a two-BCD-digit . byte result in the AL register. The operands should consist of two packed BCD digits. DAS adjusts AL to contain the correct packed two-digit decimal result.
 
 #### `DEC`
 
 *Decrement by*
 
-```
-0 D T S Z P I A C
-486 386 286 86
-FE /1 DECr/m8 1/3 2/6 2/7 3/15+EA Decrement r / m byte by 1
-FF /1 DECr/mI6 1/3 2/6 2/7 3/15+BA Decrement r / m word by 1
-DEC r/rh32 1/3 2/6 Decrement r / m dword by 1
-48+rw DECr16 2 2 3 Decrement word register by 1
-48+rW DECr32 1 2 Decrement dword register by 1
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | T I | S | Z A | P C |
+| FE /1 | DECr/m8 | 1/3 | 2/6 | 2/7 | 3/15+EA | Decrement r / m byte by 1 |
+| FF /1 | DECr/mI6 | 1/3 | 2/6 | 2/7 | 3/15+BA | Decrement r / m word by 1 |
+|  | DEC r/rh32 | 1/3 | 2/6 |  |  | Decrement r / m dword by 1 |
+| 48+rw | DECr16 |  | 2 | 2 | 3 | Decrement word register by 1 |
+| 48+rW | DECr32 | 1 | 2 |  |  | Decrement dword register by 1 |
 
 * DEC subtracts 1 from the operand. DEC does not change the carry flag. To affect the carry flag, use the SUB instruction with an immediate operand of 1.
 
@@ -4099,20 +3953,17 @@ DEC r/rh32 1/3 2/6 Decrement r / m dword by 1
 
 *Unsigned divide*
 
-```
-0 D T S Z A P C
-OpCO(l.e InstrUction Clocks D~sCrlption
-486 386 286 86
-F6/6 DIVr/m8 16/16 14/17 14/17 80/86+EA UnsilS!led divide AX by r / m byte
-(AL=QUO, AH=REM)
-F7/6 DIVr/m16 24/24 22/25 22/25 144/154+EA Uns~ed divide DX:AX bY' r /m
-wor (AX=QUO, DX=REM)
-F7/6 DIVr/m32 40/40 38/41 Unsigned divide EDX:EAX ~ r /m
-dword (EAX=QUO, EDX= M)
-AX r/m8 AL AH byt~
-word DX:AX r/ml6 AX DX
-dword EDX:EAX EAX EDX (386 only) r/m32
-```
+**Flags:** `0 D T S Z A P C`
+
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| OpCO(l.e | InstrUction |  |  | Clocks |  | D~sCrlption |
+| F6/6 | DIVr/m8 | 16/16 14/17 14/17 80/86+EA |  |  |  | UnsilS!led divide AX by r / m byte (AL=QUO, AH=REM) |
+| F7/6 | DIVr/m16 | 24/24 22/25 22/25 144/154+EA |  |  |  | Uns~ed divide DX:AX bY' r /m wor (AX=QUO, DX=REM) |
+| F7/6 | DIVr/m32 | 40/40 | 38/41 |  |  | Unsigned divide EDX:EAX ~ r /m dword (EAX=QUO, EDX= M) |
+| byt~ | AX |  | r/m8 |  | AL | AH |
+| word | DX:AX |  | r/ml6 |  | AX | DX |
+| dword | EDX:EAX |  | r/m32 |  | EAX | EDX (386 only) |
 
 DN performs an unsigned division. The dividend is implicit; only the divisor is given as an operand. The remainder is always less than the divisor. The type of the divisor determines which registers to use as follows: "Quotient Dl\i{derid ;t)~viso~ s~~: R4am~irid~ti '.
 
@@ -4120,25 +3971,23 @@ DN performs an unsigned division. The dividend is implicit; only the divisor is 
 
 *Make stack frame for procedure parameters*
 
-```
-486 386 286
-C8 iw 00 Enter imm16,O 14 11 Make procedure stack frame 10
-C8 iw 01 Enter imm16,1 17 12 15 Make stack frame for procedure
-parameters
-C8 iw ib Enter imm16,imm8 17+3n 15+4(n-l) 12+4(n-l) Make stack frame for procedure
-parameters
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C ENTER creates the stack frame required by most block-structured high-level languages. The first operand specifies the number of bytes of dynamic storage allocated on the stack for the routine being entered. The second operand gives the lexical nesting level (0 to 31) of the routine within the high-level language source code. It determines the number of stack frame pointers copied into the new stack frame from the preceding frame. BP (or EBP, if the operand-size attribute is 32 bits) is the current stack frame pointer. If the operand-size attribute is 16 bits, the processor uses BP as the frame pointer and SP as the stack pointer. If the operand-size attribute is 32 bits, the processor uses EBP for the frame pointer and ESP for the stack pointer. If the second operand is 0, ENTER pushes the frame pointer (BP or EBP) onto the stack; ENTER then subtracts the first operand from the stack pointer and sets the frame pointer to the current stack-pointer value. For example, a procedure with 12 bytes of local variables would have an ENTER 12,0 instruction at its entry point and a LEAVE instruction before every RET. The 12 local bytes would be addressed as negative offsets from the frame pointer.
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| C8 iw 00 Enter | imm16,O | 14 | 10 | 11 | Make procedure stack frame |
+| C8 iw 01 Enter imm16,1 |  | 17 | 12 | 15 | Make stack frame for procedure parameters |
+| C8 iw ib Enter imm16,imm8 |  | 17+3n 15+4(n-l) 12+4(n-l) Make stack frame for procedure |  |  |  parameters |
+
+ENTER creates the stack frame required by most block-structured high-level languages. The first operand specifies the number of bytes of dynamic storage allocated on the stack for the routine being entered. The second operand gives the lexical nesting level (0 to 31) of the routine within the high-level language source code. It determines the number of stack frame pointers copied into the new stack frame from the preceding frame. BP (or EBP, if the operand-size attribute is 32 bits) is the current stack frame pointer. If the operand-size attribute is 16 bits, the processor uses BP as the frame pointer and SP as the stack pointer. If the operand-size attribute is 32 bits, the processor uses EBP for the frame pointer and ESP for the stack pointer. If the second operand is 0, ENTER pushes the frame pointer (BP or EBP) onto the stack; ENTER then subtracts the first operand from the stack pointer and sets the frame pointer to the current stack-pointer value. For example, a procedure with 12 bytes of local variables would have an ENTER 12,0 instruction at its entry point and a LEAVE instruction before every RET. The 12 local bytes would be addressed as negative offsets from the frame pointer.
 
 #### `HLT`
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-F4 HLT 4 5 2 2 Halt
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F4 | HLT | 4 | 5 | 2 | 2 | Halt |
 
 HLT stops instruction execution and places the x86 in a HALT state. An enabled interrupt, NMI, or a reset will resume execution. If an interrupt (including NMI) is used to resume execution after HLT, the saved CS:IP (or CS:EIP on an 386) value points to the instruction following HLT.
 
@@ -4148,22 +3997,14 @@ HLT stops instruction execution and places the x86 in a HALT state. An enabled i
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-F6/7 IDIVr/m8 19/20 19 17/20 101-112/107-118+EA , Srmed divide AX ~
-r m ~e (AL=QU ,
-AH= M)
-F7/7 IDIVr/m16 27/28 27 25/28 165-184/171-190+EA Si~ed divide DX:AX
-EA word (AX=QUO, ~
-X=REM)
-F7/7 IDIVr/m32 43/44 43 S~eddivide
-E X:EMC by DWORD
-~e (EAX=QUO,
-X=REM)
-byte r/m8 AL AH AX
-word DX DX:AX r/m16 AX
-dword r/m32 EAX EDX EDX:EAX (386 only)
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F6/7 | IDIVr/m8 | 19/20 | 19 | 17/20 | 101-112/107-118+EA , | Srmed divide AX ~ r m ~e (AL=QU , AH= M) |
+| F7/7 | IDIVr/m16 | 27/28 | 27 | 25/28 165-184/171-190+EA |  | Si~ed divide DX:AX EA word (AX=QUO, ~ X=REM) |
+| F7/7 | IDIVr/m32 | 43/44 | 43 |  |  | S~eddivide E X:EMC by DWORD ~e (EAX=QUO, X=REM) |
+| byte | r/m8 | AL |  | AH |  | AX |
+| word | r/m16 | AX |  | DX |  | DX:AX |
+| dword | r/m32 | EAX |  | EDX |  | EDX:EAX (386 only) |
 
 IDIV performs a signed division. The dividend, quotient, and remainder are implicitly allocated to fixed registers. Only the divisor is given as an explicitr/ m operand. The type of the divisor determines which registers to use as follows: If the resulting quotient is too large to fit in the destination, or if the division is 0, an Interrupt 0 is generated. Non-integral quotients are truncated toward o. The remainder has the same sign as the dividend and the absolute value of the remainder is always less than the absolute value of the divisor.
 
@@ -4173,39 +4014,30 @@ IDIV performs a signed division. The dividend, quotient, and remainder are impli
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-F6/5 IMUL r/m8 13-18/13-18 9-14/12-17 13/16 80-98/86- AX ~AL * rim byte
-104+EA
-F7/5 IMUL r/m16 13-26/13-26 9-22/12-25 21/24 128-154/1~ DX:AX ~AX * rim
-160+EA word
-F7/5 IMUL r/m32 12-42/13-42 9-38/12-41 EDX:EAX ~EAX* rim
-dword
-r/m16 register r / m word
-~dword register * r / m r/m32
-dword
-6B /rib IMULr16, 13-26/13-26 9-14/12-17 21/24 word register ~r/m16
-* sign-extended r/m16,imm8
-immediate byte
-6B / r ib IMUL r32, 13-42 9-14/12-17 dword register ~r /
-m32 * sign-extended r/m32,imm8
-immediate byte
-6B / r ib IMUL 13-26 9-14/12~17 21/24 word re~ter ~word
-r16,imm8 register sign-extended
-immediate byte
-6B /rib IMUL 13-42 9-14/12-17 dword register
-~dword register * sign- r32,imm8
-extended immediate
-byte
-69/riw IMULr16, 13-26/13-26 9-22/12-25 21/24 word register ~r/m16
-r/m16,imm16 immediate word
-r/m32,imm32 immediate dword
-69/riw IMUL 13-26/13-26 9-22/12-25 word register ~r/m16
-* immediate word r16,imm16
-69/rid IMUL 13-42/ 9-38/12-41 dword ref:ter
-r32,imm32 13-42 ~r/m32 immediate
-dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F6/5 IMUL | r/m8 | 13-18/13-18 9-14/12-17 13/16 80-98/86- |  |  |  | AX ~AL * rim byte |
+|  |  |  |  |  | 104+EA |  |
+| F7/5 IMUL | r/m16 | 13-26/13-26 9-22/12-25 21/24 |  |  | 128-154/1~ | DX:AX ~AX * rim |
+|  |  |  |  |  | 160+EA | word |
+| F7/5 IMUL | r/m32 | 12-42/13-42 9-38/12-41 |  |  |  | EDX:EAX ~EAX* rim dword |
+| r/m16 |  |  |  |  |  | register r / m word |
+| r/m32 |  |  |  |  |  | ~dword register * r / m dword |
+| 6B /rib IMULr16, |  | 13-26/13-26 9-14/12-17 21/24 |  |  |  | word register ~r/m16 |
+| r/m16,imm8 |  |  |  |  |  | * sign-extended immediate byte |
+| 6B / r ib IMUL r32, |  | 13-42 | 9-14/12-17 |  |  | dword register ~r / |
+| r/m32,imm8 |  |  |  |  |  | m32 * sign-extended immediate byte |
+| 6B / r ib IMUL |  | 13-26 | 9-14/12~17 | 21/24 |  | word re~ter ~word |
+| r16,imm8 |  |  |  |  |  | register sign-extended immediate byte |
+| 6B /rib IMUL |  | 13-42 | 9-14/12-17 |  |  | dword register |
+| r32,imm8 |  |  |  |  |  | ~dword register * sign- extended immediate byte |
+| 69/riw IMULr16, |  | 13-26/13-26 9-22/12-25 21/24 |  |  |  | word register ~r/m16 |
+| r/m16,imm16 |  |  |  |  |  | immediate word |
+| r/m32,imm32 |  |  |  |  |  | immediate dword |
+| 69/riw IMUL |  | 13-26/13-26 9-22/12-25 |  |  |  | word register ~r/m16 |
+| r16,imm16 |  |  |  |  |  | * immediate word |
+| 69/rid IMUL |  | 13-42/ | 9-38/12-41 |  |  | dword ref:ter |
+| r32,imm32 |  | 13-42 |  |  |  | ~r/m32 immediate dword |
 
 OF AF /r IMUL r16, 13-26/13-26 9-22/12-25 word re~ster ~word OF AF /r IMUL r32, 13-42/13-42 9-38/12-41 dword register dword register r / m32 * 69 / r id IMUL r32, 13-42/13-42 9-38/12-41 IMUL performs signed multiplication. Some forms of the instruction use implicit register operands. The operand combinations for all forms of the instruction are shown in the "Description" column above. IMUL clears ilie overflow and carry flags under the following conditions: Instruction form Condition for clearing CF and OF AL = sign-extend of AL to 16 bits r/m8 AX = sign-extend of AX to 32 bits r/m16 EDX:EAX = sign-extend of EAX to 32 bits r/m32 r16,r/m16 Result exactly fits within r16 r32,r I m32 Result exactly fits within r32 r16,r I m16,imm16 Result exactly fits within r16 r32,r I m32,imm32 Result exactly fits within r32
 
@@ -4213,26 +4045,17 @@ OF AF /r IMUL r16, 13-26/13-26 9-22/12-25 word re~ster ~word OF AF /r IMUL r32, 
 
 *Input from port*
 
-```
-0 D T S Z A P C
-486 386 286 86
-E4ib INAL,immS 14,pm=S* /2S**,vm=27 12,pm=6* /26** S 10 Input byte from
-immedIate port
-intoAL
-ESib INAX,immS 1,4,pm=S* /2S**,vm=27 12,pm=6* /26** S 10 Input word from
-immediate port
-into AX
-ESib IN EAX,immS 14,pm=S* /2S**,vm=27 12,pm=6* /26** Input dword from
-immediate port
-intoEAX
-EC INAL,OX 14,pm=S* /2S**,vm=27 13,pm=7* /27** S Input byte from S
-port OX into AL
-EO INAX,OX 14,pm=S* /2S**,vm=27 13,pm=7* /27** S S Input word from
-port OX into AX
-EO INEAX,OX 14,pm=S* /2S**,vm=27 13,pm=7* /27** Input dword from
-port OX into EAX
-*I£ CPL ::; IOPL
-```
+**Flags:** `0 D T S Z A P C`
+
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| E4ib | INAL,immS | 14,pm=S* /2S**,vm=27 | 12,pm=6* /26** S | 10 Input byte from immedIate port intoAL |
+| ESib | INAX,immS | 1,4,pm=S* /2S**,vm=27 | 12,pm=6* /26** S | 10 Input word from immediate port into AX |
+| ESib | IN EAX,immS 14,pm=S* /2S**,vm=27 |  | 12,pm=6* /26** | Input dword from immediate port intoEAX |
+| EC | INAL,OX | 14,pm=S* /2S**,vm=27 | 13,pm=7* /27** S | Input byte from S port OX into AL |
+| EO | INAX,OX | 14,pm=S* /2S**,vm=27 | 13,pm=7* /27** S | S Input word from port OX into AX |
+| EO | INEAX,OX | 14,pm=S* /2S**,vm=27 | 13,pm=7* /27** | Input dword from port OX into EAX |
+| *I£ CPL | ::; IOPL |  |  |  |
 
 **I£ CPL > IOPL or if in virtual 8086 mode IN transfers a data byte or data word from the port numbered by the second operand into the register (AL, AX, or EAX) specified by the first operand. Access any port from 0 to 65535 by placing the port number in the DX register and using an IN instruction with DX as the second parameter. These I/O instructions can be shortened by using an 8-bit port I/O in the instruction. The upper eight bits of the port address will be 0 when 8-bit port I/O is used.
 
@@ -4240,15 +4063,14 @@ port OX into EAX
 
 *Increment by*
 
-```
-P C 0 D I T S Z A
-486 386 286 86
-FE /0 INCr/mS 1/3 3/1S+EA Increment r / m byte by 1 2/6 2/7
-FF /0 INCr/m16 1/3 2/6 2/7 3/1S+EA Increment r / m word by 1
-FF /6 . INCr/m32 1/3 Increment rim dword by 1
-40+rw INCr16 2 2 3 Increment word register by 1
-40+rd INCr32 1 Increment dword register by 1
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  | 0 D | I T | S Z | P A | C |
+| FE /0 | INCr/mS | 1/3 | 2/6 | 2/7 | 3/1S+EA | Increment r / m byte by 1 |
+| FF /0 | INCr/m16 | 1/3 | 2/6 | 2/7 | 3/1S+EA | Increment r / m word by 1 |
+| FF /6 | . INCr/m32 | 1/3 |  |  |  | Increment rim dword by 1 |
+| 40+rw | INCr16 |  | 2 | 2 | 3 | Increment word register by 1 |
+| 40+rd | INCr32 | 1 |  |  |  | Increment dword register by 1 |
 
 * INC adds 1 to the operand. It does not change the carry flag. To affect the carry flag, use the ADD instruction with a second operand of 1.
 
@@ -4264,24 +4086,16 @@ FF /6 . INCr/m32 1/3 Increment rim dword by 1
 
 #### `INSD`
 
-```
-Opcocie Instruction Clocks Description
-486 386 286
-17,pm=1O* /32**,vm=30 15,pm=9* /29** 5 6C INSr/m8,DX In~ut byte from rort
-D into ES:(E)D
-6D INS r/m16,DX 17,pm=10* /32**,vm=30 15,pm=9* /29** 5 In~ut word from port
-D into ES:(E)DI
-6D INS r/m32,DX 17,pm=1O* /32**,vm=30 15,pm=9* /29** In~ut dword from port
-D into ES:(E)DI
-6C INSB 17,pm=1O* /32**,vm=30 15,pm=9* /29** 5 In~ut byte from rort
-D into ES:(E)D
-6D INSW 17,pm=10* /32**,vm=30 15,pm=9* /29** 5 In~ut word from port
-D into ES:(E)DI
-17,pm=10* /32**,vm=30 15,pm=9* /29** 6D INSD In~ut dword from port
-D into ES:(E)DI
-*If CPL ::; IOPL
-**If CPL > IOPL or if in virtual 8086 mode
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 6C INSr/m8,DX |  | 17,pm=1O* /32**,vm=30 15,pm=9* |  | /29** 5 | In~ut byte from rort D into ES:(E)D |
+| 6D INS r/m16,DX 17,pm=10* /32**,vm=30 15,pm=9* |  |  |  | /29** 5 | In~ut word from port D into ES:(E)DI |
+| 6D INS r/m32,DX |  | 17,pm=1O* /32**,vm=30 15,pm=9* |  | /29** | In~ut dword from port D into ES:(E)DI |
+| 6C INSB |  | 17,pm=1O* /32**,vm=30 15,pm=9* |  | /29** 5 | In~ut byte from rort D into ES:(E)D |
+| 6D INSW |  | 17,pm=10* /32**,vm=30 15,pm=9* |  | /29** 5 | In~ut word from port D into ES:(E)DI |
+| 6D INSD |  | 17,pm=10* /32**,vm=30 15,pm=9* |  | /29** | In~ut dword from port D into ES:(E)DI |
+| *If CPL ::; | IOPL |  |  |  |  |
+| **If CPL > | IOPL or if in | virtual 8086 mode |  |  |  |
 
 INS transfers data from the input port numbered by the DX register to the memory byte or word at ES:dest-index. The memory operand must be addressable from ES; no segment override is possible. The destination register is DI if the address-size attribute of the instruction is 16 bits, or EDI if the address-size attribute is 32 bits. INS does not allow the specification of the port number as an immediate value. The port must be addressed through the DX register value. Load the correct value into DX before executing the INS instruction. The destination address is determined by the contents of the destination index register. Load the correct index into the destination index register before executing INS. After the transfer is made, DI or EDI advances automatically. If the direction flag is 0 (CLD was executed), DI or EDI increments; if the direction flag is 1 (STD was executed), DI or EDI decrements. DI increments or decrements by 1 if a byte is input, by 2 if a word is input, or by 4 if a doubleword is input. INSB, INSW and INSD are synonyms of the byte, word, and doubleword INS instructions. INS can be preceded by the REP prefix for block input of CX bytes or words. Refer to the REP instruction for details of this operation.
 
@@ -4291,33 +4105,25 @@ INS transfers data from the input port numbered by the DX register to the memory
 
 #### `INTO`
 
-```
-T 0 D I S Z A P C
-0 0
-486 386 286 86
-CC INT3 26 33 23 52 Interrupt 3-trap to debugger
-Interrupt 3-protected mode CC INT3 44 pm=59 40
-CC INT3 pm=99 78 Interrupt 3-protected mode 71
-486 386 286 86
-CC INT3 82 pm=119 Interrupt 3-from V86 mode to
-PLO
-CC 37+ts ts 167 INT3 Interrupt 3-protected mode
-CDib INTimm8 30 37 23 51 Interrupt numbered by
-immedIate byte
-CDib INTimm8 44 pm=59 40 Interrupt-protected mode
-CDib INTimm8 77 pm=99 78 Interrupt-protected mode
-CDib INTimm8 86 pm=119 Interrupt-from V86 mode to PLO
-CDib INTimm8 37+ts ts 167 Interrupt-protected mode
-CE INTO Pass:28, Fail:3, Fail:3, Fail:4, Interrupt 4-if overflow flag is 1
-Fail:3 Pass:24 Pass:53 ~m=3;
-ass:35
-CE INTO 46 pm=59 41 Interrupt 4-Protected mode
-CE INTO 73 pm=99 79 Interrupt 4-Protected mode
-CE INTO 84 pm=119 Interrupt 4-from V86 mode to
-PLO
-CE INTO 39+ts ts 168 Interrupt 4-Protected mode
-*Add one clock for each byte of the next instruction executed (80286 only).
-```
+| Opcode | Instruction | 86 | Description |
+|---|---|---|---|
+|  |  | 0 D | T I S Z A P C 0 0 |
+| CC | INT3 | 26 | 33 23 52 Interrupt 3-trap to debugger |
+| CC | INT3 | 44 | Interrupt 3-protected mode pm=59 40 |
+| CC | INT3 | 71 | pm=99 78 Interrupt 3-protected mode |
+| CC | INT3 | 82 | pm=119 Interrupt 3-from V86 mode to PLO |
+| CC | INT3 | 37+ts | ts 167 Interrupt 3-protected mode |
+| CDib | INTimm8 | 30 | 37 23 51 Interrupt numbered by immedIate byte |
+| CDib | INTimm8 | 44 | pm=59 40 Interrupt-protected mode |
+| CDib | INTimm8 | 77 | pm=99 78 Interrupt-protected mode |
+| CDib | INTimm8 | 37+ts | ts 167 Interrupt-protected mode |
+| CE | INTO | Pass:28, Fail:3, | Fail:3, Fail:4, Interrupt 4-if overflow flag is 1 |
+|  |  | Fail:3 | Pass:24 Pass:53 ~m=3; ass:35 |
+| CE | INTO | 46 | pm=59 41 Interrupt 4-Protected mode |
+| CE | INTO | 73 | pm=99 79 Interrupt 4-Protected mode |
+| CE | INTO | 84 | pm=119 Interrupt 4-from V86 mode to PLO |
+| CE | INTO | 39+ts | ts 168 Interrupt 4-Protected mode |
+| *Add one | clock for each | byte | of the next instruction executed (80286 only). |
 
 The INT n instruction generates via software a call to an interrupt handler. The immediate operand, from a to 255, gives the index number into the interrupt descriptor table (IDT) of the interrupt routine to be called. In protected mode, the IDT consists of an array of eight-byte descriptors; the descriptor for the interrupt invoked must indicate an interrupt, trap, or task gate. In real address mode, the IDT is an array of four byte-long pointers. In protected and real address modes, the base linear address of the IDT is defined by the contents of theIDTR. The INTO conditional software instruction is identical to the !NT n interrupt instruction except that the interrupt number is implicitly 4, and the interrupt is made if the 86, 286, or 386 overflow flag is set. The first 32 interrupts are reserved by Intel for system use. Some of these interrupts are uSe for internally generated exceptions. !NT n generally behaves like a far call except that the flags register is pushed onto the stack before the return address. Interrupt procedures return via the lRET instruction, which pops the flags and return address from the stack. In real address mode, !NT n pushes the flags, CS and the return IP onto the stack, in that order, then jumps to the long pointer indexed by the interrupt number.
 
@@ -4325,12 +4131,13 @@ The INT n instruction generates via software a call to an interrupt handler. The
 
 *Invalidate cache*
 
-```
-486
-OF 08 INVD 4 Invalidate entire cache
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C The internal cache is flushed, and a special-function bus cycle is issued which indicates that external caches should also be flushed. Data held in write-back external caches is discarded. implemented differently on future Intel processors. It is the responsibility of hardware to respond to the external cache flush indication.
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+| OF 08 | INVD | 4 | Invalidate entire cache |
+
+The internal cache is flushed, and a special-function bus cycle is issued which indicates that external caches should also be flushed. Data held in write-back external caches is discarded. implemented differently on future Intel processors. It is the responsibility of hardware to respond to the external cache flush indication.
 
 > Note: This instruction is implementation-dependent; its function might be
 
@@ -4338,11 +4145,10 @@ o D T S ZAP C The internal cache is flushed, and a special-function bus cycle is
 
 *Invalidate TLB entry*
 
-```
-0 T S Z P C D A
-486
-OF 01/7 INVLPGm 12 for hit Invalidate TLB entry
-```
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+|  |  | 0 D | T S Z P C A |
+| OF 01/7 | INVLPGm | 12 for hit | Invalidate TLB entry |
 
 Qpcode hlstructb.lll Clock DeScrl.i'ti~~ The INVLPG instruction is used to invalidate a single entry in the TLB, the cache used for table entries. If the TLB contains a valid entry that maps the address of the memory operand, that TLB entry is marked invalid. In both protected mode and virtual 8086 mode, an invalid opcode is g~nerated when used with a register operand. implemented differently on future Intel processors.
 
@@ -4358,22 +4164,17 @@ Qpcode hlstructb.lll Clock DeScrl.i'ti~~ The INVLPG instruction is used to inval
 
 #### `IRETW`
 
-```
-486 386 286 86
-CF IRETW 15 22,pm=38 17,pm=31 32 Interrupt return (far return and pop
-flags)
-CF IRETW 36 pm=82 55 Interrupt return
-CF IRETW ts+32 ts 169 Interrupt return
-CF IREID 15 22,pm=38 Interrupt return (far return and pop
-flags)
-CF IRETD 36 pm=82 Interrupt return to lesser privilege
-CF IREID 15 pm=60 Interrupt return to V86 mode
-CF IRETD ts+32 ts Interrupt return
-CF IRET Selects IRETW or IREID depen~
-y on segment size of 16 or 32 bits.
-workS for VERSION T320 or higher.
-*Add one clock, for each byte in the next instruction executed (80286 only).
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| CF | IRETW | 15 | 22,pm=38 17,pm=31 32 |  |  | Interrupt return (far return and pop flags) |
+| CF | IRETW | 36 | pm=82 | 55 |  | Interrupt return |
+| CF | IRETW | ts+32 | ts | 169 | Interrupt | return |
+| CF | IREID | 15 | 22,pm=38 |  |  | Interrupt return (far return and pop flags) |
+| CF | IRETD | 36 | pm=82 |  |  | Interrupt return to lesser privilege |
+| CF | IREID | 15 | pm=60 |  | Interrupt | return to V86 mode |
+| CF | IRETD | ts+32 | ts |  |  | Interrupt return |
+| CF | IRET |  |  |  |  | Selects IRETW or IREID depen~ y on segment size of 16 or 32 bits. workS for VERSION T320 or higher. |
+| *Add one | clock, for each | byte | in the | next instruction executed (80286 only). |  |  |
 
 * * The flags register is popped from stack. In real address mode, lRET pops the instruction pointer, CS, and the flags register from the stack and resumes the interrupted routine. In protected mode, the action of IRET depends on the setting of the nested task flag (NT) bit in the flag register. When popping the new flag image from the stack, the IOPL bits in the flag register are changed only when CPL equals O. If NT equals 0, IRET returns from an interrupt procedure without a task switch. The code returned to must be equally or less privileged than the interrupt routine (as indicated by the RPL bits of the CS selector popped from the stack). If the destination code is less privileged, IRET also pops the stack pointer and SS from the stack. If NT equals 1, IRET reverses the operation of a CALL or INT that caused a task switch. The updated state of the task executing IRET is saved in its task state segment. If the task is re-entered later, the code that follows IRET is executed. IRETW pops WORD-style (if you use VERSION T320 or higher). If you're using VERSION T310 or less, use IRET; IRETW replaces old functionality of IRET.
 
@@ -4383,103 +4184,75 @@ workS for VERSION T320 or higher.
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-77cb JArel8 3/1 7+m,3 7,3 16,4 Jump short if above (CF=O and
-ZF=D)
-73cb JAErel8 3/1 7+m+,3 7,3 16,4 Jump short if above or equal
-(CF=O)
-72cb JBrel8 3/1 7+m,3 7,3 16,4 Jump short if below (CF=l)
-76cb JBErel8 3/1 7+m,3 7,3 16,4 Jump short if below or equal (CF=1
-orZF=l)
-72cb JC rel8 3/1 7+m,3 7,3 16,4 Jump short if carry (CF=1)
-E3cb JCXZrelS 3/1 9+m,5 S,4 1S,6 Jump short if CX register is 0
-E3cb JECXZrel8 3/1 9+m,5 Jump short if ECX register is 0
-74cb JE relS 3/1 7+m,3 7,3 16,4 Jump short if equal (ZF=1)
-74cb JZrelS 3/1 7+m,3 7,3 16,4 Jump short if 0 (ZF=l)
-7Fcb JGrelS 3/1 7+m,3 7,3 16,4 Jump short if greater (ZF=O and
-SF=OF)
-7Dcb JGErelS 3/1 7+m,3 7,3 16,4 Jump short if greater or equal
-(SF=OF)
-7Ccb JL relS 3/1 7+m,3 7,3 16,4 Jump short ifless (SF<>OF)
-7Ecb JLErelS 3/1 7+m,3 7,3 16,4 Jump short if less or equal (ZF=l
-andSF<>OF)
-76cb JNArelS 3/1 7+m,3 7,3 16,4 Jump short if not above (CF=1 or
-ZF=l)
-72cb JNAErelS 3/1 7+m,3 7,3 16,4 Jump short if not above or equal
-(CF=1)
-73cb JNBreIS- 3/1 7+m,3 7,3 16,4 Jump short if not below (CF=O)
-77cb JNBErelS 3/1 7+m,3 7,3 16,4 Jump short if not below or equal
-(CF=O and ZF=O)
-73cb JNCrelS 3/1 7+m,3 7,3 16,4 Jump short if not carry (CF=O)
-75cb JNErelS 3/1 7+m,3 7,3 16,4 Jump short if not equal (ZF=O)
-7Ecb JNGrelS 3/1 7+m,3 7,3 16,4 Jump short if not greater (ZF=1 or
-SF<>OF)
-7Ccb JNGErelS 3/1 7+m,3 7,3 16,4 Jump short if not greater or equal
-(SF<>OF)
-7Dcb JNLrelS 3/1 7+m,3 7,3 16,4 Jump short if not less (SF=OF)
-486 386 286 86
-7Fcb 7+m,3 7,3 16,4 Jump short if not less or equal JNLErel8 3/1
-(ZF=O and SF=OF)
-71cb JNOrel8 3/1 7+m,3 7,3 16,4 Jump short if not overflow (OF=O)
-7Bcb JNPrel8 3/1 7+m,3 7,3 16,4 Jump short if not parity (PF=O)
-79cb JNSrel8 3/1 7+m,3 7,3 16,4 Jump short if not sign (SF=O)
-75cb JNZrel8 3/1 7+m,3 7,3 16,4 Jump short if not zero (ZF=O)
-70cb JO rel8 3/1 7+m,3 7,3 16,4 Jump short if overflow (OF=l)
-7Acb JPrel8 3/1 7+m,3 7,3 16,4 Jump short if parity (PF=l)
-7Acb JPE rel8 3/1 7+m,3 7,3 16,4 Jump short if parity even (PF=l)
-7Bcb JPOrel8 3/1 7+m,3 7,3 16,4 Jump short if parity odd (PF=O)
-78cb 7+m,3 JSrel8 3/1 7,3 16,4 Jump short if sign (SF=l)
-74cb JZ rel8 3/1 7+m,3 7,3 16,4 Jump short of zero (ZF=l)
-7+m,3 OF 87 cw/cd JA re116/32 3/1 Jumg near if above (CF=O and
-ZF= )
-OF 83 cw/cd JAE re116/32 3/1 7+m,3 Jump near if above or equal (CF=O)
-OF 82cw/cd JB re116/32 3/1 7+m,3 Jump near if below (CF=l)
-OF 86cw/cd JBE re116/32 7+m,3 Jump near if below or equal 3/1
-(CF=lor ZF=l)
-OF 82cw/cd JC re116/32 3/1 7+m,3 Jump near if carry (CF=l)
-OF 84cw/cd 7+m,3 JE re116/32 3/1 Jump near if equal (ZF=l)
-OF 84cw/cd JZ re116/32 3/1 7+m,3 Jump near if 0 (ZF=l)
-7+m,3 OF 8F cw/cd JG re116/32 3/1 Jumg near if greater (ZF=O and
-SF= F)
-OF 8Dcw/cd JGE re116/32 3/1 7+m,3 JumJ> near if greater or equal
-(SF=OF)
-OF 8C cw/cd JL re116/32 3/1 7+m,3 Jump near if less (SF<>OF)
-OF 8E cw/cd 7+m,3 JLE re116/32 3/1 Jum~ near if less or equal(ZF=l
-and F<>OF)
-OF 86cw/cd JNA re116/32 3/1 7+m,3 Jumr near if not above (CF=l or
-ZF= )
-7+m,3 OF 82cw/cd JNAE re116/32 3/1 Jump near if not above or equal
-(CF=l)
-JNB re116/32 OF 83cw/cd 3/1 7+m,3 Jump near if not below (CF=O)
-OF 87 cw/cd JNBE re116/32 3/1 7+m,3 Jump near if not below or equal
-(CF=O and ZF=O
-OF83cw/cd JNC re116/32 3/1 7+m,3 Jump near if not carry and ZF=O)
-OF 85 cw/cd JNE re116/32 3/1 7+m,3 Jump near if not equal (ZF=O)
-OF 8E cw/cd 7+m,3 Jump near if not greater (ZF=l or JNG re116/32 3/1
-SF<>OF)
-OF8Ccw/cd JNGE re116/32 3/1 7+m,3 Jump near if not greater or equal
-(SF<>OF)
-JNL re116/32 OF8Dcw/cd 7+m,3 Jump near if not less (SF=OF) 3/1
-OF 8F cw/cd JNLE re116/32 3/1 7+m,3 Jump near if not less or equal
-(ZF=O and SF=OF)
-OF 81 cw/cd JNO re116/32 3/1 7+m,3 Jump near if not overflow (OF=O)
-JNP re116/32 OF 8B cw/cd 7+m,3 Jump near if not parity (PF=O) 3/1
-OF 89 cw/cd JNS re116/32 3/1 7+m,3 Jump near if not sign (SF=O)
-OF 85 cw/cd JNZ re116/32 3/1 7+m,3 Jump near if not zero (ZF=O)
-OF 80 cw/cd JOre116/32 3/1 7+m,3 Jump near if overflow (OF=l)
-OF 8Acw/cd . 7+m,3 JP re116/32 3/1 Jump near if parity (PF=l)
-OF8Acw/cd JPE re116/32 3/1 7+m,3 Jump near if parity even (PF=l)
-486 386 286 86
-OF 88 cw/cd JSre116/32 3/1 7+m,3 Jump near if sign (SF=l)
-OF 84 cw/cd 7+m,3 JZre116/32 3/1 Jump near if zero (ZF=l)
-*When a jump is taken, add one clock for every byte of the next instruction executed (80286
-only).
-JZ FARLABELi
-JNZ BEYONDi
-JMP FARLABELi
-BEYOND:
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 77cb | JArel8 | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short if above | (CF=O and ZF=D) |
+| 73cb | JAErel8 | 3/1 | 7+m+,3 | 7,3 | 16,4 | Jump short if above or equal (CF=O) |
+| 72cb | JBrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if below (CF=l) |
+| 76cb | JBErel8 | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if below or equal (CF=1 orZF=l) |
+| 72cb | JC rel8 | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if carry (CF=1) |
+| E3cb | JCXZrelS | 3/1 | 9+m,5 | S,4 | 1S,6 | Jump short if CX register is 0 |
+| E3cb | JECXZrel8 | 3/1 | 9+m,5 |  |  | Jump short if ECX register is 0 |
+| 74cb | JE relS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short if equal | (ZF=1) |
+| 74cb | JZrelS | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if 0 (ZF=l) |
+| 7Fcb | JGrelS | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if greater (ZF=O and SF=OF) |
+| 7Dcb | JGErelS | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if greater or equal (SF=OF) |
+| 7Ccb | JL relS | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short ifless (SF<>OF) |
+| 7Ecb | JLErelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if less or equal (ZF=l andSF<>OF) |
+| 76cb | JNArelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not above (CF=1 or ZF=l) |
+| 72cb | JNAErelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not above or equal (CF=1) |
+| 73cb | JNBreIS- | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not below (CF=O) |
+| 77cb | JNBErelS | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not below or equal (CF=O and ZF=O) |
+| 73cb | JNCrelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not carry (CF=O) |
+| 75cb | JNErelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not equal (ZF=O) |
+| 7Ecb | JNGrelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not greater (ZF=1 or SF<>OF) |
+| 7Ccb | JNGErelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not greater or equal (SF<>OF) |
+| 7Dcb | JNLrelS | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if not less (SF=OF) |
+| 7Fcb | JNLErel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not less or equal (ZF=O and SF=OF) |
+| 71cb | JNOrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not overflow (OF=O) |
+| 7Bcb | JNPrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not parity (PF=O) |
+| 79cb | JNSrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not sign (SF=O) |
+| 75cb | JNZrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if not zero (ZF=O) |
+| 70cb | JO rel8 | 3/1 | 7+m,3 | 7,3 | 16,4 Jump short | if overflow (OF=l) |
+| 7Acb | JPrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if parity (PF=l) |
+| 7Acb | JPE rel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if parity even (PF=l) |
+| 7Bcb | JPOrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if parity odd (PF=O) |
+| 78cb | JSrel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short if sign (SF=l) |
+| 74cb | JZ rel8 | 3/1 | 7+m,3 | 7,3 | 16,4 | Jump short of zero (ZF=l) ZF= ) |
+| OF 83 cw/cd | JAE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if above or equal (CF=O) |
+| OF 82cw/cd | JB re116/32 | 3/1 | 7+m,3 |  |  | Jump near if below (CF=l) |
+| OF 86cw/cd | JBE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if below or equal (CF=lor ZF=l) |
+| OF 82cw/cd | JC re116/32 | 3/1 | 7+m,3 |  |  | Jump near if carry (CF=l) |
+| OF 84cw/cd | JE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if equal (ZF=l) |
+| OF 84cw/cd | JZ re116/32 | 3/1 | 7+m,3 |  |  | Jump near if 0 (ZF=l) |
+| OF 8F cw/cd | JG re116/32 | 3/1 | 7+m,3 |  |  | Jumg near if greater (ZF=O and SF= F) |
+| OF 8Dcw/cd | JGE re116/32 | 3/1 | 7+m,3 |  |  | JumJ> near if greater or equal (SF=OF) |
+| OF 8C cw/cd | JL re116/32 | 3/1 | 7+m,3 |  |  | Jump near if less (SF<>OF) |
+| OF 8E cw/cd | JLE re116/32 | 3/1 | 7+m,3 |  |  | Jum~ near if less or equal(ZF=l and F<>OF) |
+| OF 86cw/cd | JNA re116/32 | 3/1 | 7+m,3 |  |  | Jumr near if not above (CF=l or ZF= ) |
+| OF 82cw/cd | JNAE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not above or equal (CF=l) |
+| OF 83cw/cd | JNB re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not below (CF=O) (CF=O and ZF=O |
+| OF83cw/cd | JNC re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not carry and ZF=O) |
+| OF 85 cw/cd | JNE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not equal (ZF=O) |
+| OF 8E cw/cd | JNG re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not greater (ZF=l or SF<>OF) |
+| OF8Ccw/cd | JNGE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not greater or equal (SF<>OF) |
+| OF8Dcw/cd | JNL re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not less (SF=OF) |
+| OF 8F cw/cd | JNLE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not less or equal (ZF=O and SF=OF) |
+| OF 81 cw/cd | JNO re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not overflow (OF=O) |
+| OF 8B cw/cd | JNP re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not parity (PF=O) |
+| OF 89 cw/cd | JNS re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not sign (SF=O) |
+| OF 85 cw/cd | JNZ re116/32 | 3/1 | 7+m,3 |  |  | Jump near if not zero (ZF=O) |
+| OF 80 cw/cd | JOre116/32 | 3/1 | 7+m,3 |  |  | Jump near if overflow (OF=l) |
+| OF 8Acw/cd | . JP re116/32 | 3/1 | 7+m,3 |  |  | Jump near if parity (PF=l) |
+| OF8Acw/cd | JPE re116/32 | 3/1 | 7+m,3 |  |  | Jump near if parity even (PF=l) |
+| OF 88 cw/cd | JSre116/32 | 3/1 | 7+m,3 |  |  | Jump near if sign (SF=l) |
+| OF 84 cw/cd | JZre116/32 | 3/1 | 7+m,3 |  |  | Jump near if zero (ZF=l) |
+| *When a | jump is taken, add one | clock for every byte |  |  | of the | next instruction executed (80286 |
+| only). |  |  |  |  |  |  |
+| JZ FARLABELi |  |  |  |  |  |  |
+|  | JNZ BEYONDi |  |  |  |  |  |
+|  | JMP FARLABELi |  |  |  |  |  |
+| BEYOND: |  |  |  |  |  |  |
 
 /;Oncks ;;Il\Sf:Nctlott JPO re116/32 7+m,3 Jump near if parity odd (PF=O) OF 8B cw/cd 3/1 clock count is for the false condition (branch not taken). re116/32 indicates that these instructions map to two; one with a 16-bit relative displacement, the other with a 32-bit relative displacement, depending on the operand-size attribute of the instruction. Conditional jumps (except JCXZ/JECXZ) test the flags which have been set by a previous instruction. The conditions for each mnemonic are given in parentheses after each description above. The terms "less" and "greater" are used for comparisons of signed integers; "above" and "below" are used for unsigned integers. If the given condition is true, a jump is made to the location provided as the operand. Instruction coding is most efficient when the target for the conditional jump is in the current code segment and within -128 to + 127 bytes of the next instruction's first byte. The jump can also target -32768 through +32767 (segment size attribute 16) or -2 to the 31st power +2 to the 31st power -1 (segment size attribute 32) relative to the next instruction's first byte. When the target for the conditional jump is in a different segment, use the opposite case of the jump instruction (that is, JE and JNE), and then access the target with an unconditional far jump to the other segment. For example, you cannot code You must instead code Because there can be several ways to interpret a particular state of the flags, TASM provides more than one mnemonic for mostof the conditional jump opcodes. For example, if you compared two characters in AX and want to jump if they are equal, use JE; or, if you ANDed AX with a bit field mask and only want to jump if the result is 0, use JZ, a synonym for JE. JCXZ/JECXZ differs from other conditional jumps because it tests the contents of the CX or ECX register for 0, not the flags. JCXZ/JECXZ is useful at the beginning of a conditional loop that terminates with a conditional loop instruction (such as LOOPNE TARGET LABEL). The JCXZ/JECXZ prevents entering the loop with ex or ECX equal to zero, which would cause the loop to execute 64K or 32G times instead of zero times.
 
@@ -4489,52 +4262,31 @@ BEYOND:
 
 *Jump*
 
-```
-T S A C 0 D I Z P
-486 386 286 86
-EBcb JMPre18 3 7+m 7 15 Jump short
-E9cw JMPre116 3 7+m 7 15 Jump near
-7+m/l0+m 1l/18+EA Jump near JMPr/ml6 5/5 7/11 FF /4
-indiiect
-EAcd JMP ptr16:16 17pm=19 12+m, pm=27+m ll,pm=23 15 Jump
-intersegment,
-4-bte munediate
-ad ress
-EAcd JMP ptr16:16 32 pm=45+m 38 Jump to call gate,
-same privilege
-EAcd JMP ptr16:16 42+ts ts 175 Jump via task
-state segment
-EAcd JMP ptr16:16 43+ts ts 180 24+EA Jump via task gate
-FF /5 JMPm16:16 13,pm=18 43+m,pm=31 +m 15,pm=26 Jump r/mI6:16
-indiiect and
-intersegment
-FF /5 JMPm16:16 31 pm=49+m 41 Jump to call gate,
-same privilege
-FF /5 JMPm16:16 41+ts 5+ts 178 Jump via task
-state segment
-JMPm16:16 42+ts 5+ts 183 Jump via task gate FF /5
-E9cd JMPre132 3 7+m Jump near
-7+m,10+m FF /4 JMPr/m32 5/5 Jump near
-EAcp JMP ptr16:32 13,pm=18 12+m, pm=27+m Jump
-intersegment,
-6-b£e munediate
-ad ess '
-EAcp JMP ptr16:32 31 pm=45+m Jump to call gate,
-same privilege
-EAcp JMP ptr16:32 42+ts ts Jump via task
-state segment
-EAcp JMP ptr16:32 43+ts ts Jump via task gate
-FF /5 JMPm16:32 13,pm=18 43+m, pm=31 +m Jump
-intersegment
-address at r / m
-dword
-FF /5 JMPm16:32 31 pm=49+m Jump to call gate,
-same privilege
-FF /5 JMPm16:32 41+tsl0 5+ts Jump via task
-state segment
-FF /5 JMPm16:32 42+ts 5+ts Jump via task gate
-*Add one clock for every byte of the next instruction executed (80286 only).
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | T S I Z | A C P |  |  |
+| EBcb | JMPre18 | 3 | 7+m | 7 | 15 | Jump short |
+| E9cw | JMPre116 | 3 | 7+m | 7 | 15 | Jump near |
+| FF /4 | JMPr/ml6 | 5/5 | 7+m/l0+m | 7/11 | 1l/18+EA Jump near |  indiiect |
+| EAcd | JMP ptr16:16 17pm=19 |  | 12+m, pm=27+m | ll,pm=23 | 15 | Jump intersegment, 4-bte munediate ad ress |
+| EAcd | JMP ptr16:16 | 32 | pm=45+m | 38 |  | Jump to call gate, same privilege |
+| EAcd | JMP ptr16:16 42+ts |  | ts | 175 |  | Jump via task state segment |
+| EAcd | JMP ptr16:16 43+ts |  | ts | 180 | 24+EA | Jump via task gate |
+| FF /5 | JMPm16:16 | 13,pm=18 | 43+m,pm=31 +m 15,pm=26 |  |  | Jump r/mI6:16 indiiect and intersegment |
+| FF /5 | JMPm16:16 | 31 | pm=49+m | 41 |  | Jump to call gate, same privilege |
+| FF /5 | JMPm16:16 | 41+ts | 5+ts | 178 |  | Jump via task state segment |
+| FF /5 | JMPm16:16 | 42+ts | 5+ts | 183 |  | Jump via task gate |
+| E9cd | JMPre132 | 3 | 7+m |  |  | Jump near |
+| FF /4 | JMPr/m32 | 5/5 | 7+m,10+m |  |  | Jump near |
+| EAcp | JMP ptr16:32 | 13,pm=18 | 12+m, pm=27+m |  |  | Jump intersegment, 6-b£e munediate ad ess ' |
+| EAcp | JMP ptr16:32 | 31 | pm=45+m |  |  | Jump to call gate, same privilege |
+| EAcp | JMP ptr16:32 | 42+ts | ts |  |  | Jump via task state segment |
+| EAcp | JMP ptr16:32 | 43+ts | ts |  |  | Jump via task gate |
+| FF /5 | JMPm16:32 | 13,pm=18 | 43+m, pm=31 +m |  |  | Jump intersegment address at r / m dword |
+| FF /5 | JMPm16:32 | 31 | pm=49+m |  |  | Jump to call gate, same privilege |
+| FF /5 | JMPm16:32 | 41+tsl0 | 5+ts |  |  | Jump via task state segment |
+| FF /5 | JMPm16:32 | 42+ts | 5+ts |  |  | Jump via task gate |
+| *Add one | clock for every | byte | of the next instruction executed (80286 only). |  |  |  |
 
 All if a task switch takes place; none if no task switch occurs. The JMP instruction transfers control to a different point in the instruction stream without recording return information. The action of the various forms ofthe instruction are shown below. Jumps with destinations of type r/m16, r/m32, re116, and rel32 are near jumps and do not involve changing the segment register value. The JMP re116 and JMP rel32 forms oithe instruction add an offset to the address of the instruction following the JMP to determine the destination. The re116 form is used when the instruction's operand-size attribute is 16 bits (segment size attribute 16 only); rel32 is used when the operand-size attribute is 32 bits (segment size attribute 32 only). The result is stored in the 32-bit EIP register. With re116, the upper 16 bits of EIP are cleared, which results in an offset whose value does not exceed 16 bits. JMP r I m16 and JMP r I m32 specifies a register or memory location from which the absolute offset from the procedure is fetched. Theoffset fetched from rim is 32 bits for an operand-size attribute of 32 bits (r Im32), or 16 bits for an operand- size attribute of 16 bits (r/m16). The JMP ptr16:16 and ptr16:32 forms of the instruction use a four-byte or six- byte operand as a long pointer to the destination. The JMP m16:16 and m16:32 forms fetch the long pointer from the memory location specified (indirection). In real address mode or virtual 8086 mode, the long pointer provides 16 bits for the CS register and 16 or 32 bits for the EIP register (depending on the operand- size attribute). In protected mode, both long pointer forms consultthe access rights (AR) byte in the descriptor indexed by the selector part of the long pointer. Depending on the value of the AR byte, the jump will perform one of the following types of control transfers: • a jump to a code segment at the same privilege level • a task switch
 
@@ -4544,10 +4296,9 @@ All if a task switch takes place; none if no task switch occurs. The JMP instruc
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-3 2 2 4 Load: AH = flags SF ZF xx AF xx PF xx CF 9F LAHF
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 9F | LAHF | 3 | 2 | 2 | 4 | Load: AH = flags SF ZF xx AF xx PF xx CF |
 
 LAHF transfers the low byte of the flags word to AH. The bits, from MSB to LSB, are sign, zero, indeterminate, auxiliary carry, indeterminate, parity, indeterminate, and carry.
 
@@ -4557,10 +4308,9 @@ LAHF transfers the low byte of the flags word to AH. The bits, from MSB to LSB, 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OF 02/r LAR r16,r/m16 11/11 pm=15/16 14/16 r16f-r/m16 masked by FFOO
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 02/r | LAR r16,r/m16 11/11 pm=15/16 14/16 |  |  |  | r16f-r/m16 masked by FFOO |
 
 OF 02 /r LAR r32,r/m32 11/11 pm=15/16 r32f-r/m32 masked by OOFxFFOO The LAR instruction stores a marked form of the second doubleword of the descriptor for the source selector if the selector is visible at the CPL (modified by the selector's RPL) and is a valid descriptor type. The destination Tegister is loaded with the high-order doubleword of the descriptor masked by OOFxFFOO, and ZF is set to 1. The x indicates that the four bits corresponding to the upper four bits of the limit are undefined in the value loaded by LAR. If the selector is invisible or of the wrong type, ZF is cleared. If the 32-bit operand size is specified, the entire 32-bit value is loaded into the 32-bit destination register. If the 16-bit operand size is specified, the lower 16- bits of this value are stored in the 16-bit destination register. All code and data segment descriptors are valid for LAR. (See your Intel manual for valid segment and gate descriptor types for LAR.)
 
@@ -4570,13 +4320,12 @@ OF 02 /r LAR r32,r/m32 11/11 pm=15/16 r32f-r/m32 masked by OOFxFFOO The LAR inst
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-8D/r LEAr16,m 1 2 3 2+EA Store effective address for m in register r16
-8D / r LEA r32,m 1 2 Store effective address for m in register r32
-8D/r LEAr16,m 1 Store effective address for m in register r16 2
-8D / r LEA r32,m 1 2 Store effective address for m in register r32
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 8D/r | LEAr16,m 1 |  | 2 | 3 | 2+EA | Store effective address for m in register r16 |
+| 8D / r | LEA r32,m 1 |  | 2 |  |  | Store effective address for m in register r32 |
+| 8D/r | LEAr16,m 1 |  | 2 |  |  | Store effective address for m in register r16 |
+| 8D / r | LEA r32,m 1 |  | 2 |  |  | Store effective address for m in register r32 |
 
 ()pc~~~;:ltisij!u.ctiQn ' LEA calculates the effective address (offset part) and stores it in the specified register. The operand-size attribute of the instruction is determined by the chosen register. The address-size attribute is determined by the USE attribute of the segment containing the second operand. The address-size and operand-size attributes affect the action performed by LEA, as follows: Operand size Address size Action performed 16 16 16-bit effective address is calculated and stored in requested 16-bit register destination. 16 32 32-bit effective address is calculated. The lower 16 bits of the address are stored in the requested 16-bit register destination. 32 16 16-bit effective address is calculated. The 16-bit address is zero-extended and stored in the requested 32-bit register destination. 32 32 32-bit effective address is calculated and stored in the requested 32-bit register destination.
 
@@ -4584,12 +4333,11 @@ OF 02 /r LAR r32,r/m32 11/11 pm=15/16 r32f-r/m32 masked by OOFxFFOO The LAR inst
 
 *High-level procedure exit*
 
-```
-0 T S P C D I Z A
-486 386 286
-C9 LEAVE 5 4 5 SetSPto BP
-C9 LEAVE 5 4 Set ESP to EBP
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+|  | 0 | D | T I | S | P C Z A |
+| C9 | LEAVE | 5 | 4 | 5 | SetSPto BP |
+| C9 | LEAVE | 5 | 4 |  | Set ESP to EBP |
 
 LEAVE reverses the actions of the ENTER instruction. By copying the frame pointer to the stack pointer, LEAVE releases the stack space used by a procedure for its local variables. The old frame pointer is popped into BP or EBP, restoring the caller's frame. A subsequent RET nn instruction removes any arguments pushed onto the stack of the exiting procedure.
 
@@ -4599,11 +4347,10 @@ LEAVE reverses the actions of the ENTER instruction. By copying the frame pointe
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OF 01 /2 LGDT m16&32 11 11 11 Load m into global descriptor table register
-OF 01 /3 LIDT m16&32 11 11 12 Load m into interrupt descriptor table register
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 01 /2 | LGDT m16&32 | 11 | 11 | 11 | Load m into global descriptor table register |
+| OF 01 /3 | LIDT m16&32 | 11 | 11 | 12 | Load m into interrupt descriptor table register |
 
 The LCDT and LIDT instructions load a linear base address and limit value from a six-byte data operand in memory into the CDTR or IDTR, respectively. If a 16-bit operand is used with LCDT or LIDT, the register is loaded with a 16- bit limit and a 24-bit base, and the high-order 8 bits of the 6-byte data operand are not used. If a 32-bit operand is used, a 16-bit limit and a 32-bit base is loaded; the high-order 8 bits of the 6-byte operand are used as high-order base address bits. The SCDT and SIDT instructions always store into all 48 bits of the 6-byte data operand. With the 80286, the upper 8 bits are undefined after SCDT or SIDT is executed. With the 386, the upper 8 bits are written with the high-order 8 address bits, for both a 16-bit operand and a 32-bit operand. If LCDT or LIDT is used with a 16-bit operand to load the register stored by SCDT or SIDT, the upper 8 bits are stored as zeros. LCDT and LIDT appear in operating system software; they are not used in application programs. They are the only instructions that directly load a linear address (i.e., not a segment relative address) in 386 protected mode.
 
@@ -4623,28 +4370,16 @@ The LCDT and LIDT instructions load a linear base address and limit value from a
 
 #### `LES`
 
-```
-486 386 286 86
-LDS r16,m16:16 16+EA Load DS:r16 with pointer C5/r 6/12 7,pm=22 7,pm=21
-from memory
-C5/r LOS r32,m16:32 6/12 7,pm=22 Load DS:r32 with pointer
-from memory
-OFB2/r LSS r16,m16:16 6/12 7,pm=22 Load SS:r16 with pointer from
-memory
-OF B2 /r LSS r32,m16:32 7,pm=22 Load SS:r32 with pointer from 6/12
-memory
-C4/r LES r16,m16:16 6/12 7,pm=22 7,pm=21 16+EA Load ES:r16 with pointer
-from memory
-C4/r LES r32,m16:32 6/12 7,pm=22 Load ES:r32 with pointer
-from memory
-OFB4 /r LFS r16,m16:16 6/12 7,pm=25 Load FS:r16 with pointer
-from memory
-. frommemory
-486 386 286 86
-OFB5/r LGS r16,m16:16 6/12 7,pm=25 Load GS:r16 with pointer
-from memory
-from memory
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| C5/r | LDS r16,m16:16 | 6/12 | 7,pm=22 | 7,pm=21 | 16+EA Load DS:r16 | with pointer from memory |
+| C5/r | LOS r32,m16:32 | 6/12 | 7,pm=22 |  |  | Load DS:r32 with pointer from memory |
+| OFB2/r | LSS r16,m16:16 | 6/12 | 7,pm=22 |  |  | Load SS:r16 with pointer from memory |
+| OF B2 /r | LSS r32,m16:32 | 6/12 | 7,pm=22 |  |  | Load SS:r32 with pointer from memory |
+| C4/r | LES r16,m16:16 | 6/12 | 7,pm=22 | 7,pm=21 | 16+EA Load | ES:r16 with pointer from memory |
+| C4/r | LES r32,m16:32 | 6/12 | 7,pm=22 |  |  | Load ES:r32 with pointer from memory |
+| OFB4 /r | LFS r16,m16:16 | 6/12 | 7,pm=25 |  |  | Load FS:r16 with pointer from memory . frommemory |
+| OFB5/r | LGS r16,m16:16 | 6/12 | 7,pm=25 |  |  | Load GS:r16 with pointer from memory from memory |
 
 OFB4 /r LFS r32,m16:32 6/12 7,pm=25 Load FS:r32 with pointer OF B5 /r LGS r32,m16:32 6/12 7,pm=25 Load GS:r32 with pointer These instructions read a full pointer from memory and store it in the selected segment register: register pair. The full pointer loads 16 bits into the segment register 55, D5, E5, F5, or G5. The other register loads 32 bits if the operand-size attribute is 32 bits, or loads 16 bits if the operand-size attribute is 16 bits. The other 16- or 32-bit register to be loaded is determined by the r16 or r32 register operand specified. When an assignment is made to one of the segment registers, the descriptor is also loaded into the segment register. The data for the register is obtained from the descriptor table entry for the selector given. A null selector (values 0000-0003) can be loaded into D5, E5, F5, or G5 registers without causing a protection exception. (Any subsequent reference to a segment whose corresponding segment register is loaded with a null selector to address memory causes a #GP(O) exception. No memory reference to the segment occurs.)
 
@@ -4654,10 +4389,9 @@ OFB4 /r LFS r32,m16:32 6/12 7,pm=25 Load FS:r32 with pointer OF B5 /r LGS r32,m1
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OF 00/2 LLDT r/m 16 11/11 20 17/19 Load selector r/m16 into LDTR
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 00/2 | LLDT r/m 16 | 11/11 | 20 | 17/19 Load selector | r/m16 into LDTR |
 
 LLDT loads the local descriptor table register (LDTR). The word operand (memory or register) to LLDT should contain a selector to the global descriptor table (GDT). The GDT entry should be a local descriptor table. If so, then the LDTR is loaded from the entry. The descriptor registers D5, E5, 55, F5, G5, and C5 are not affected. The LDT field in the task state segment does not change. The selector operand can be 0; if so, the LDTR is marked invalid. All descriptor references (except by the LAR, VERR, VERW or L5L instructions) cause a #GP fault. LLDT is used in operating system software; it is not used in application programs.
 
@@ -4667,10 +4401,9 @@ LLDT loads the local descriptor table register (LDTR). The word operand (memory 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OF 01/6 LMSW r/m 16 13/13 10/13 3/6 Load r/m 16 into machine status word
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 01/6 | LMSW r/m 16 | 13/13 10/13 |  | 3/6 | Load r/m 16 into machine status word |
 
 LMSW loads the machine status word (part of CRO) from the source operand. This instruction can be used to switch to protected mode; if so, it must be followed by an intrasegment jump to flush the instruction queue. LMSW will not switch back to real address mode. LMSW is used only in operating system software. It is not used in application programs.
 
@@ -4680,10 +4413,9 @@ LMSW loads the machine status word (part of CRO) from the source operand. This i
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-LOCK 2 Assert LOCK# signal for the next instruction
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | LOCK |  |  |  | 2 | Assert LOCK# signal for the next instruction |
 
 o FO 1 0 The LOCK prefix causes the LOCK# signal of the CPU to be asserted during execution of the instruction that follows it. In a multiprocessor environment, this signal can be used to ensure that the CPU has exclusive use of any shared memory while LOCK# is asserted. The read-modify-write sequence typically used to implement test-and-set on the 386 is the BTS instruction. On the 386 and i486, the LOCK prefix functions only with the following instructions: BT, BTS, BTR, BTC mem, reg/imm XCHG reg,mem XCHG mem,reg ADD, OR, ADC, SBB, mem, reg/imm AND, SUB, XOR NOT, NEG, INC, DEC mem An undefined opcode trap will be generated if a LOCK prefix is used with any instruction not listed above. XCHG always asserts LOCK # regardless of the presence or absence of the LOCK prefix. The integrity of the LOCK is not affected by the alignment of the memory field. Memory locking is observed for arbitrarily misaligned fields. Locked access is not assured if another CPU processor is executing an instruction concurrently that has one of the following characteristics: • Is not preceded by a LOCK prefix. • Is not one of the instructions in the preceding list. • Specifies a memory operand that does not exactly overlap the destination operand. Locking is not guaranteed for partial overlap, even if one memory operand is wholly contained within another.
 
@@ -4697,22 +4429,16 @@ o FO 1 0 The LOCK prefix causes the LOCK# signal of the CPU to be asserted durin
 
 #### `LOOSW`
 
-```
-D Z
-```
-
 #### `LOOSO`
 
-```
-Ql'c~~le Instruction Clocks Description
-386; 286 86
-AC LODSm18 5 5 5 12 Load byte [(E)SI] into AL
-Load word [(E)SI] into AX AD LODSm16 5 5 5 12
-AD LODSm32 5 5 Load dword [(E)SI] into EAX
-AC LODSB 5 5 5 12 Load byte DS:[(E)SI] into AL
-AD LODSW 5 5 5 12 Load word DS:[(E)SI] into AX
-AD LODSD5 5 Load dword DS:[(E)SI] into EAX
-```
+| Opcode | Instruction | 286 | 86 | Description |
+|---|---|---|---|---|
+| AC | LODSm18 5 5 | 5 | 12 | Load byte [(E)SI] into AL |
+| AD | LODSm16 5 5 | 5 | 12 | Load word [(E)SI] into AX |
+| AD | LODSm32 5 5 |  |  | Load dword [(E)SI] into EAX |
+| AC | LODSB 5 5 | 5 | 12 | Load byte DS:[(E)SI] into AL |
+| AD | LODSW 5 5 | 5 | 12 | Load word DS:[(E)SI] into AX |
+| AD | LODSD5 5 |  |  | Load dword DS:[(E)SI] into EAX |
 
 LaDS loads the AL, AX, or EAX register with the memory byte, word, or doubleword at the location pointed to by the source-index register. After the transfer is made, the source-index register is automatically advanced. If the direction flag is 0 (CLD was executed), the source index increments; if the direction flag is 1 (STD was executed), it decrements. The increment or decrement is 1 if a byte is loaded, 2 if a word is loaded, or 4 if a doubleword is loaded. If the address-size attribute for this instruction is 16 bits, 51 is used for the source-index register; otherwise the address-size attribute is 32 bits, and the ESl register is used. The address of the source data is determined solely by the contents of ES1/S1. Load the correct index value into 51 before executing the LaDS instruction. LODSB, LODSW, LODSD are synonyms for the byte, word, and doubleword LaDS instructions. LaDS can be preceded by the REP prefix; however, LaDS is used more typically within a LOOP construct, because further processing of the data moved into EAX, AX, or AL is usually necessary.
 
@@ -4724,20 +4450,14 @@ LaDS loads the AL, AX, or EAX register with the memory byte, word, or doubleword
 
 *Loop control with CXlECX counter*
 
-```
-D T Z A P C 0 S
-486 386 286 86
-E2cb LOOPre18 2,6 ll+m 8,noj=4 17,noj=5 DEC Count; jump short if
-Count a
-LOOPEre18 9,6 El cb ll+m 8,noj=4 18,noj=6 DEC Count jump short if
-Count a an ZF=l
-E1 cb LOOPZre18 9,6 ll+m 8,noj=4 18,noj=6 DEC Count jump short if
-Count a an ZF=l
-Eacb LOOPNEre18 9,6 ll+m 8,noj=4 19,noj=5 DEC Count jump short if
-Count a an ZF=a
-Ea'cb LOOPNZre18 9,6 ll+m 8,noj=4 19,noj=5 DEC Count jump short if
-Count a an ZF=a
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | T | Z S | A P C |  |
+| E2cb | LOOPre18 | 2,6 | ll+m | 8,noj=4 | 17,noj=5 | DEC Count; jump short if Count a |
+| El cb | LOOPEre18 | 9,6 | ll+m | 8,noj=4 | 18,noj=6 | DEC Count jump short if Count a an ZF=l |
+| E1 cb | LOOPZre18 | 9,6 | ll+m | 8,noj=4 | 18,noj=6 | DEC Count jump short if Count a an ZF=l |
+| Eacb | LOOPNEre18 | 9,6 | ll+m | 8,noj=4 | 19,noj=5 | DEC Count jump short if Count a an ZF=a |
+| Ea'cb | LOOPNZre18 | 9,6 | ll+m | 8,noj=4 | 19,noj=5 | DEC Count jump short if Count a an ZF=a |
 
 LOOP decrements the count register without changing any of the flags. Conditions are then checked for the form of LOOP being used. If the conditions are met, a short iumpis made to the label given by the operand to LOOP. If the address-size attribute is 16 bits, the CX register is used as the count register; otherwise the ECX register is used (386 only). The operand of LOOP must be in the range from 128 (decimal) bytes before the instruction to 127 bytes phead of the instruction. The LOOP instructions provide iteration control and combine loop index management with conditional branching. Use the LOOP instruction by10ading an unsigned iteration count into the count register, then code the LOOP at the end of a series of instructions to be iterated. The destination of LOOP is a label that points to the beginning of the iteration.
 
@@ -4747,14 +4467,6 @@ LOOP decrements the count register without changing any of the flags. Conditions
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-r/m16 (byte granular)
-limit, selector r/m32 (byte granular)
-limit, selector r/m16 (page granular)
-r/m32 (page granular)
-```
-
 OF 03 /r LSL r16,r/m16 10/tO pm=20/21 14/16 Load: r16~segment limit, selector OF 03 /r LSL r32,r / m32 10/tO pm=20/21 Load: r32~segment limit, segment OF 03 /r LSL r16,r/m16 10/tO 14/16 Load: r16~segment limit, segment pm=25/26 OF 03 /r LSL r32,r/m32 10/tO pm=26/26 Load: r32~segment limit selector The LSL instruction loads a register with an unscrambled segment limit, and sets ZF to l, provided that the source selector is visible at the CPL weakened by RPL, and that the descriptor is a type accepted by LSL. Otherwise, ZF is cleared to 0, and the destination register is unchanged. The segment limit is loaded as a byte granular value. If the descriptor has a page granular segment limit, LSL will translate it to a byte limit before loading it in the destination register (shift left 12 the 20-bit "raw" limit from descriptor, then OR with OOOOOFFFH). The 32-bit forms of this instruction store the 32-bit byte granular limit in the 16-bit destination register. Code and data segment descriptors are valid for LSL.
 
 #### `LTR`
@@ -4763,74 +4475,37 @@ OF 03 /r LSL r16,r/m16 10/tO pm=20/21 14/16 Load: r16~segment limit, selector OF
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OF 00 /3 LTRr/m16 20/20 pm=23/27 17/19 Load EA word into task register
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 00 /3 | LTRr/m16 | 20/20 | pm=23/27 | 17/19 | Load EA word into task register |
 
 LTR loads the task register from the source register or memory location specified by the operand. The loaded task state segment is marked busy. A task switch does not occur. LTR is used only in operating system software; it is not used in application programs.
 
 #### `MOV`
 
-```
-0 I T S A P C D Z
-486 386 286 86
-n/~ster into
-r mbyte
-B9/r MOV r/m16,r16 Move word 2/2 2/3 2/9+EA
-rrrrster into
-r mword
-B9/r MOV r/m32,r32 2/2 Movedword
-register to rim
-dword
-byte into byte
-register
-word into
-word register
-dwordinto
-dword register
-register to r / m
-register
-word to
-segment
-register
-AO MOV AL,moffsB 1 4 5 10 Move byte at
-~:offset) to
-Al MOV AX,moffs16 4 5 10 Move word at
-~:offset) to
-Al MOV Movedword 4
-EAX,moffs32 at (seg:offset) to
-EAX
-A2 MOV moffsB,AL 4 3 10 Move ALto
-(seg:offset)
-MOV moffs16,AX A3 2 3 10 Move AX to
-(seg:offset)
-A3 MOV 2 MoveEAXto
-moffs32,EAX (seg:offset)
-BO+rb MOV regB,immB 2 2 4 Move
-immediate byte
-to register
-B8+rw MOV 1 2 4 Move 2
-regI6,imm16 immediate
-word to
-register
-B8+rd MOV 2 Move
-reg32,imm32 immediate
-dwordto
-register
-C6 MOV r/m8,imm8 1 2/2 2/3 4/10+EA Move
-immediate byte
-tor/mbyte
-486 386 286 86
-C7 MOVrl 1 4/l0+EA Move 2/2 2/3
-m16,imm16 immediate
-word to rim
-word
-Move C7 MOVrl 2/2
-m32,imm32 immediate
-dword to rim
-dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | I T S | A P C Z |  | n/~ster into r mbyte |
+| B9/r | MOV r/m16,r16 |  | 2/2 | 2/3 | 2/9+EA | Move word rrrrster into r mword |
+| B9/r | MOV r/m32,r32 |  | 2/2 |  |  | Movedword register to rim dword byte into byte register word into word register dwordinto dword register register to r / m register word to segment register |
+| AO | MOV AL,moffsB | 1 | 4 | 5 | 10 | Move byte at ~:offset) to |
+| Al | MOV AX,moffs16 |  | 4 | 5 | 10 | Move word at ~:offset) to |
+| Al | MOV |  | 4 |  |  | Movedword |
+|  | EAX,moffs32 |  |  |  |  | at (seg:offset) to EAX |
+| A2 | MOV moffsB,AL |  | 4 | 3 | 10 | Move ALto (seg:offset) |
+| A3 | MOV moffs16,AX |  | 2 | 3 | 10 | Move AX to (seg:offset) |
+| A3 | MOV |  | 2 |  |  | MoveEAXto |
+|  | moffs32,EAX |  |  |  |  | (seg:offset) |
+| BO+rb | MOV regB,immB |  | 2 | 2 | 4 | Move immediate byte to register |
+| B8+rw MOV |  | 1 | 2 | 2 | 4 | Move |
+|  | regI6,imm16 |  |  |  |  | immediate word to register |
+| B8+rd | MOV |  | 2 |  |  | Move |
+|  | reg32,imm32 |  |  |  |  | immediate dwordto register |
+| C6 | MOV r/m8,imm8 1 |  | 2/2 | 2/3 | 4/10+EA Move | immediate byte tor/mbyte |
+| C7 | MOVrl | 1 | 2/2 | 2/3 | 4/l0+EA | Move |
+|  | m16,imm16 |  |  |  |  | immediate word to rim word |
+| C7 | MOVrl |  | 2/2 |  |  | Move |
+|  | m32,imm32 |  |  |  |  | immediate dword to rim dword |
 
 BB /r MOVr/mB,rB 2/2 2/3 2/9+EA Move byte BA /r MOVrB,r/mB 1 2/4 2/5 2/B+EA Mover/m BB /r MOV r16,r/m16 1 2/4 Mover/m 2/5 2/B+EA BB /r MOV r32,r /m32 1 2/4 Mover/m MOV r/m16,Sreg 3/3 Move segment BC /r 2/2 2/3 2/9+EA BD /r MOV Sreg,r /m16 3/9 Mover/m 2/5,pm=18/19 2/5,pm=17/19 2/B+EA MOV copies the second operand to the first operand. If the destination operand is a segment register (DS, ES, SS, etc.), then data from a descriptor is also loaded into the register. The data for the register is obtained from the descriptor table entry for the selector given. A null selector (values 0000-0003) can be loaded into DS and ES registers without causing an exception; however, use of DS or ES causes a #GP(O), and no memory reference occurs. A MOV into SS inhibits all interrupts until after the execution of the next instruction (which is presumably a MOV into eSP).
 
@@ -4838,18 +4513,17 @@ BB /r MOVr/mB,rB 2/2 2/3 2/9+EA Move byte BA /r MOVrB,r/mB 1 2/4 2/5 2/B+EA Move
 
 *Move to/from special registers*
 
-```
-486 386
-OF 22 Ir MOV,CRO,r32 16 Move (register) to (control register)
-OF 22 Ir MOV CRO/CR2/CR3/CR4,r32 4 1014/5
-OF 21 Ir MOV r32,DRO - 3 10 22 Move (debug register) to (register)
-' 10 14 Move (debug register) to (register) OF 21 Ir MOV r32,DR6/DR7
-OF 23 Ir MOV DRO -3,r32 11 22 Move (register) to (debug register)
-11 Move (register) to (debug register) OF 23 Ir MOV DR6/DR7,r32 16
-OF 24 Ir MOV r32,TR6/TR7 4 12 Move (test register) to (register)
-OF 26 Ir MOV TR6/TR7,r32 4 12 Move (register) to (test register)
-OF 24 Ir MOVr32,TR3 3 Move (registers) to (test register3)
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OF 22 Ir | MOV,CRO,r32 | 16 |  | Move (register) to (control register) |
+| OF 22 Ir | MOV CRO/CR2/CR3/CR4,r32 | 4 | 1014/5 |  |
+| OF 21 Ir | MOV r32,DRO - 3 | 10 | 22 | Move (debug register) to (register) |
+| OF 21 Ir | MOV r32,DR6/DR7 | ' 10 | 14 | Move (debug register) to (register) |
+| OF 23 Ir | MOV DRO -3,r32 | 11 | 22 | Move (register) to (debug register) |
+| OF 23 Ir | MOV DR6/DR7,r32 | 11 | 16 | Move (register) to (debug register) |
+| OF 24 Ir | MOV r32,TR6/TR7 | 4 | 12 | Move (test register) to (register) |
+| OF 26 Ir | MOV TR6/TR7,r32 | 4 | 12 | Move (register) to (test register) |
+| OF 24 Ir | MOVr32,TR3 |  | 3 | Move (registers) to (test register3) |
 
 a D T S Z A P C OF 20 /r MOV r32,CROICR2/CR3/CR4 4 6 Move (control register) to (register) These forms of MOV store or load the following special registers in or from a general-purpose register: • Control Registers CRO, CR2, CR3, and CR4 (CR4 only on Pentium) • Debug Registers DRO, DR1, DR2, DR3, DR6, and DR7 • Test Registers TR3, TR4, TR5, TR6, and TR7 (not valid on Pentium) 32-bit operands are always used with these instructions, regardless of the operand-size attribute.
 
@@ -4863,22 +4537,16 @@ a D T S Z A P C OF 20 /r MOV r32,CROICR2/CR3/CR4 4 6 Move (control register) to 
 
 #### `MOVSW`
 
-```
-0 D Z A
-```
-
 #### `MOVSD`
 
-```
-Opcode Instruction Clocks Description
-486 386 286 86
-A4 MOVSm8,m8 7 7 5 18 Move byte [(E)SI] to ES:[(E)DI]
-A5 5 MOVS m16,m16 7 7 18 Move word [(E)SI] to ES:[(E)DI]
-A5 MOVm32,m32 7 Move dword [(E)SI] to ES:[(E)DI] 7
-A4 5 MOVSB 7 7 18 Move byte DS:[(E)SI] to ES:[(E)DI]
-A5 7 5 MOVSW 7 18 Move word DS:[(E)SI] to ES:[(E)DI]
-A5 MOVSD 7 7 Move dword DS:[(E)SI] to ES:[(E)DI]
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| A4 | MOVSm8,m8 | 7 | 7 | 5 | 18 | Move byte [(E)SI] to ES:[(E)DI] |
+| A5 | MOVS m16,m16 | 7 | 7 | 5 | 18 | Move word [(E)SI] to ES:[(E)DI] |
+| A5 | MOVm32,m32 | 7 | 7 |  |  | Move dword [(E)SI] to ES:[(E)DI] |
+| A4 | MOVSB | 7 | 7 | 5 | 18 | Move byte DS:[(E)SI] to ES:[(E)DI] |
+| A5 | MOVSW | 7 | 7 | 5 | 18 | Move word DS:[(E)SI] to ES:[(E)DI] |
+| A5 | MOVSD | 7 | 7 |  |  | Move dword DS:[(E)SI] to ES:[(E)DI] |
 
 MOVS copies the byte or word at [(E)SI] to the byte or word at ES; [(E)DI]. The destination operand must be addressable from the ES register; no segment override is possible for the destination. A segment override can be used for the source operand; the default is DS. The addresses of the source and destination are determined solely by the contents of (E)SI and (E)DI. Load the correct index values into (E)SI and (E)DI before executing the MOVS instruction. MOVSB, MOVSW, and MOVSD are synonyms for the byte, word, and doubleword MOVS instructions. After the data is moved, both (E)SI and (E)DI are advanced automatically. If the direction flag is a (CLD was executed), the registers are incremented; if the direction flag is 1 (STD was executed), the registers are decremented. The registers are incremented or decremented by 1 if a byte was moved, 2 if a word was moved, or 4 if a doubleword was moved. MOVS can be preceded by the REP prefix for block movement of CX bytes or words. Refer to the REP instruction for details of this operation.
 
@@ -4888,10 +4556,6 @@ MOVS copies the byte or word at [(E)SI] to the byte or word at ES; [(E)DI]. The 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386
-```
-
 OF BE Ir MOVSXrI6,r/m8 3/3 3/6 Move byte to word with sign extend OF BE Ir MOVSX r32,r/m8 3/3 3/6 Move byte to dword OF BE Ir MOVSX r32,r/mI6 3/3 3/6 Move word to dword MOVSX reads the contents of the effective address or register as a byte or a word, sign-extends the value to the operand-size attribute of the instruction (16 or 32 bits), and stores the result in the destination register.
 
 #### `MOVZX`
@@ -4900,11 +4564,10 @@ OF BE Ir MOVSXrI6,r/m8 3/3 3/6 Move byte to word with sign extend OF BE Ir MOVSX
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386
-Move byte to dword OFB6/r MOVZX r32,r/m8 3/3 3/6
-OFB7/r MOVZX r32,r/m16 3/3 3/6 Move word to dword
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFB6/r | MOVZX r32,r/m8 | 3/3 | 3/6 | Move byte to dword |
+| OFB7/r | MOVZX r32,r/m16 | 3/3 | 3/6 | Move word to dword |
 
 OF B6 /r MOVZX r16,r/m8 3/3 3/6 Move byte to word with zero extend MOVZX reads the contents of the effective address or register as a byte or a word, zero extends the value to the operand-size attribute of the instruction (16 or 32 bits), and stores the result in the destination register.
 
@@ -4912,18 +4575,15 @@ OF B6 /r MOVZX r16,r/m8 3/3 3/6 Move byte to word with zero extend MOVZX reads t
 
 *Unsigned multiplication of AL or AX*
 
-```
-P 0 D I T S Z A C
-486 386 286 86
-F6/4 MULr/m8 13/18, 9-14/12-17 13/16 70-77/76-83+EA unsiffPed multiply
-(AX (AL8r/m 13/18
-byte)
-F7/4 MUL,r/m16 13/26, 9-22/12-25 21/24 118-113/124-139+EA (DX:AX[AX
-13/26 *r/m word)
-F7/4 MULr/m32 13/42, 9-38/12-41 Uns~edm~ly
-(ED :EAX[E 13/42
-*r/mdword)
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  | 0 D | I T | S Z A | P C |  |
+| F6/4 | MULr/m8 | 13/18, | 9-14/12-17 | 13/16 70-77/76-83+EA |  | unsiffPed multiply |
+|  |  | 13/18 |  |  |  | (AX (AL8r/m byte) |
+| F7/4 | MUL,r/m16 13/26, |  | 9-22/12-25 | 21/24 118-113/124-139+EA |  | (DX:AX[AX |
+|  |  | 13/26 |  |  |  | *r/m word) |
+| F7/4 | MULr/m32 | 13/42, 9-38/12-41 |  |  |  | Uns~edm~ly |
+|  |  | 13/42 |  |  |  | (ED :EAX[E *r/mdword) |
 
 * MDL performs unsigned multiplication. Its actions depend on the size of its operand, as follows: • A byte operand is multiplied by AL; the result is left in AX. The carry and overflow flags are set to a if AH is 0; otherwise, they are set to 1. • A word operand is multiplied by AX; the result is left in DX: AX. DX contains the high-order 16 bits of the product. The carry and overflow flags are set to a if DX is 0; otherwise, they are set to 1. • A doubleword operand is multiplied by EAX and the result is left in EDX:EAX. EDX contains the high-order 32 bits of the product. The carry and overflow flags are set to a if EDX is 0; otherwise, they are set to 1 (386 only).
 
@@ -4933,12 +4593,11 @@ F7/4 MULr/m32 13/42, 9-38/12-41 Uns~edm~ly
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-F6/3 NEGr/m8 1/3 2/6 2/7 3/16+EA Two'scomplementnegater/mbyte
-F7/3 NEG r/m16 1/3 2/6 2/7 3/16+EA Two'scomplementnegater/mword
-F7/3 NEG r/m32 1/3 2/6 Two's complement negate rim dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F6/3 | NEGr/m8 | 1/3 | 2/6 | 2/7 | 3/16+EA | Two'scomplementnegater/mbyte |
+| F7/3 | NEG r/m16 | 1/3 | 2/6 | 2/7 | 3/16+EA | Two'scomplementnegater/mword |
+| F7/3 | NEG r/m32 | 1/3 | 2/6 |  |  | Two's complement negate rim dword |
 
 NEG replaces the value of a register or memory operand with its two's complement. The operand is subtracted from zero, and the result is placed in the operand. The carry flag is set to I, unless the operand is zero, in which case the carry flag is cleared to O.
 
@@ -4946,11 +4605,10 @@ NEG replaces the value of a register or memory operand with its two's complement
 
 *No operation*
 
-```
-A
-486 386 286 86
-90 NOP 1 3 3 3 No operation
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  | A |  |
+| 90 | NOP | 1 | 3 | 3 | 3 | No operation |
 
 c 0 D I T S Z P Ol'cod.~ . IrtSttuctiotr . Clocks Description Nap performs no operation. Nap is a one-byte instruction that takes up space but affects none of the machine context except (E)IP. Nap is an alias mnemonic for the XCHG (E)AX, (E)AX instruction.
 
@@ -4958,13 +4616,12 @@ c 0 D I T S Z P Ol'cod.~ . IrtSttuctiotr . Clocks Description Nap performs no op
 
 *One's complement negation*
 
-```
-0 I T S Z A P C D
-486 386 286 86
-NOTr/m8 F6/2 1/3 2/6 2/7 3/16+EA Reverse each bit of r / m byte
-F7/2 NOTr/m16 1/3 2/6 2/7 3/16+EA Reverse each bit of r / m word
-F7/2 NOTr/m32 1/3 2/6 2/7 Reverse each bit of r / m dword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  | 0 D | I | T S | Z A | P C |
+| F6/2 | NOTr/m8 | 1/3 | 2/6 | 2/7 | 3/16+EA Reverse each bit of r / m byte |  |
+| F7/2 | NOTr/m16 | 1/3 | 2/6 | 2/7 | 3/16+EA Reverse each bit of r / m | word |
+| F7/2 | NOTr/m32 | 1/3 | 2/6 | 2/7 |  | Reverse each bit of r / m dword |
 
 NOT inverts the operand; every 1 becomes a 0, and vice versa.
 
@@ -4972,27 +4629,24 @@ NOT inverts the operand; every 1 becomes a 0, and vice versa.
 
 *Logical inclusive OR*
 
-```
-486 386 286 86
-ORAL,imm8 OCib 1 2 3 4 OR immediate byte to AL
-ODiw ORAX,immI6 1 2 3 4 OR immediate word to AX I
-ODid OR EAX,imm32 1 2 OR immediate dword to EAX
-80/1 ib OR r/m8,imm8 2/7 4/17+EA OR immediate byte to r / m byte 1/3 3/7
-81/1 iw OR r/m16,immI6 1/3 2/7 3/7 4/17+EA OR immediate word to r / m word
-. 81/lid OR r/m32,imm32 1/3 2/7 OR immediate dword to rim
-dword
-83/1 ib OR r/m16,imm8 1/3 2/7 OR sign-extended immediate byte
-with rim word
-83/1 ib OR r/rn32,imm8 1/3 2/7 OR sign-extended immediate byte
-with rim dword
-08/r ORr/m8,r8 1/3 2/6 2/7 3/16+EA OR byte register to r / m byte
-OR r/m16,rI6 09/r 1/3 2/6 2/7 3/16+EA OR word register to r / m word
-09/r ORr/m32,r32 1/3 2/6 OR dword register to r / m dword
-OA/r ORr8,r/m8 1/2 2/7 2/7 3/9+EA OR byte register to r / m byte
-486 386 286 86
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C o 0 OB /r OR r16,r/m16 1/2 2/7 2/7 3/9+EA OR word register to r/m word OB /r OR r32,r/m32 1/2 2/7 ORdword register to r/mword OR computes the inclusive OR of its two operands and places the result in the first operand. Each bit of the result is 0 if both corresponding bits of the operands are 0; otherwise, each bit is l. The optimized form of OR is SETFLAG (see Chapter 3).
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| OCib | ORAL,imm8 | 1 | 2 | 3 | 4 | OR immediate byte to AL |
+| ODiw | ORAX,immI6 | 1 | 2 I | 3 | 4 | OR immediate word to AX |
+| ODid | OR EAX,imm32 | 1 | 2 |  |  | OR immediate dword to EAX |
+| 80/1 ib | OR r/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA OR immediate byte to r / m byte |  |
+| 81/1 iw OR | r/m16,immI6 | 1/3 | 2/7 | 3/7 | 4/17+EA OR immediate | word to r / m word |
+| . 81/lid | OR r/m32,imm32 | 1/3 | 2/7 |  |  | OR immediate dword to rim dword |
+| 83/1 ib | OR r/m16,imm8 | 1/3 | 2/7 |  |  | OR sign-extended immediate byte with rim word |
+| 83/1 ib | OR r/rn32,imm8 | 1/3 | 2/7 |  |  | OR sign-extended immediate byte with rim dword |
+| 08/r | ORr/m8,r8 | 1/3 | 2/6 | 2/7 | 3/16+EA OR byte register to r / m byte |  |
+| 09/r | OR r/m16,rI6 | 1/3 | 2/6 | 2/7 | 3/16+EA OR | word register to r / m word |
+| 09/r | ORr/m32,r32 | 1/3 | 2/6 |  |  | OR dword register to r / m dword |
+| OA/r | ORr8,r/m8 | 1/2 | 2/7 | 2/7 | 3/9+EA | OR byte register to r / m byte |
+
+o 0 OB /r OR r16,r/m16 1/2 2/7 2/7 3/9+EA OR word register to r/m word OB /r OR r32,r/m32 1/2 2/7 ORdword register to r/mword OR computes the inclusive OR of its two operands and places the result in the first operand. Each bit of the result is 0 if both corresponding bits of the operands are 0; otherwise, each bit is l. The optimized form of OR is SETFLAG (see Chapter 3).
 
 #### `OUT`
 
@@ -5000,25 +4654,21 @@ o D T S ZAP C o 0 OB /r OR r16,r/m16 1/2 2/7 2/7 3/9+EA OR word register to r/m 
 
 **Flags:** `D I T S Z A P C 0`
 
-```
-486 386 286 86
-E6ib OUT 16,pm=11 * /31 **, 1O,pm==4* /24** 3 10 Output byte AL to
-imm8,AL vm==29 immediate port
-number
-E7ib OUT 16,pm==11 * /31 **, 10,pm==4* /24** 3 10 Output word AX to
-imm8,AX vm==29 immediate port
-number
-E7ib OUT 16,pm==11 * /31 **, 1O,pm==4* /25** Output dword EAX
-imm8,EAX to immediate port vm=29
-number
-EE OUT DX,AL 16,pm==11 * /31 **, 11,pm==5* /25** 3 8 Output b~e AL to
-vm==29 port num er in OX
-EF OUT DX,AX 16,pm==11 * /31**, 11,pm==5* /25** 3 8 Output word AX to
-vm==29 port number in OX
-EF OUT DX,EAX 16,pm==11 * /31 **, 11,pm==5* /25** Output dword EAX
-to port number in OX vm==29
-*I£ CPL ~ lOPL.
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| E6ib | OUT | 16,pm=11 * | /31 **, 1O,pm==4* | /24** 3 | 10 | Output byte AL to |
+|  | imm8,AL | vm==29 |  |  |  | immediate port number |
+| E7ib | OUT | 16,pm==11 | * /31 **, 10,pm==4* | /24** 3 | 10 | Output word AX to |
+|  | imm8,AX | vm==29 |  |  |  | immediate port number |
+| E7ib | OUT | 16,pm==11 | * /31 **, 1O,pm==4* | /25** |  | Output dword EAX |
+|  | imm8,EAX | vm=29 |  |  |  | to immediate port number |
+| EE | OUT DX,AL | 16,pm==11 | * /31 **, 11,pm==5* | /25** 3 | 8 | Output b~e AL to |
+|  |  | vm==29 |  |  |  | port num er in OX |
+| EF | OUT DX,AX | 16,pm==11 | * /31**, 11,pm==5* | /25** 3 | 8 | Output word AX to |
+|  |  | vm==29 |  |  |  | port number in OX |
+| EF | OUT DX,EAX | 16,pm==11 | * /31 **, 11,pm==5* | /25** |  | Output dword EAX |
+|  |  | vm==29 |  |  |  | to port number in OX |
+| *I£ CPL | ~ lOPL. |  |  |  |  |  |
 
 **I£ CPL > lOPL or if in virtual 8086 mode. OUT transfers a data byte or data word from the register (AL, AX, or EAX) given as the second operand to the output port numbered by the first operand. Output to any port from 0 to 65535 is performed by placing the port number in the DX register and then using an OUT instruction with DX as the first operand. If the instruction contains an eight-bit port ID, that value is zero-extended to 16 bits.
 
@@ -5036,24 +4686,19 @@ to port number in OX vm==29
 
 #### `OUTSO`
 
-```
-486 386 286
-6E OUTS DX,r/m8 17,pm=10* /32**, 14,pm==8* /28** 5 Output byte [(E)5I]
-vm==30 to port in OX
-6F OUTS DX,r/m16 17,pm==10* /32**, 14,pm==8* /28** 5 Output word [(E)51]
-vm==30 to port in OX
-6F OUTS DX,r/m32 17,pm==10* /32**, 14,pm==8* /28** Ou~utdword
-vm==30 [(E) I] to port in DX
-486 386 286
-6E OUTSB 17,pm=1O* /32**, 14,pm=S* /2S** 5 Ouwutbt e
-in OX
-6F OUTSW 17,pm=10* /32**, 14,pm=S* /2S** 5 Ouwutword
-vm=30 OS: (E)SI] to ~ort
-numberinO
-OUTSO 17,pm=10* /32**, 14,pm=S* /2S** 6F Ouwutdword
-OS: (E)SI] to port vm=30
-in OX
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 6E | OUTS DX,r/m8 | 17,pm=10* /32**, | 14,pm==8* | /28** 5 | Output byte [(E)5I] |
+|  |  | vm==30 |  |  | to port in OX |
+| 6F | OUTS DX,r/m16 | 17,pm==10* | /32**, 14,pm==8* | /28** 5 | Output word [(E)51] |
+|  |  | vm==30 |  |  | to port in OX |
+| 6F | OUTS DX,r/m32 | 17,pm==10* | /32**, 14,pm==8* | /28** | Ou~utdword |
+|  |  | vm==30 |  |  | [(E) I] to port in DX |
+| 6E | OUTSB | 17,pm=1O* /32**, | 14,pm=S* | /2S** 5 | Ouwutbt e in OX |
+| 6F | OUTSW | 17,pm=10* /32**, | 14,pm=S* | /2S** 5 | Ouwutword |
+|  |  | vm=30 |  |  | OS: (E)SI] to ~ort numberinO |
+| 6F | OUTSO | 17,pm=10* /32**, | 14,pm=S* | /2S** | Ouwutdword |
+|  |  | vm=30 |  |  | OS: (E)SI] to port in OX |
 
 Op¢Qg~ ;; ,lnstritction' Clocks' ' D(!sctlption os: (E)SI to port vm=30 OUTS transfers data from the memory byte, word, or doubleword at the source-index register to the output port addressed by the DX register. If the address-size attribute for this instruction is 16 bits, SI is used for the source- index register; otherwise, the address-size attribute is 32 bits, and ESI is used for the source-index register. OUTS does not allow specification of the port number as an immediate value. The port must be addressed through the DX register value. Load the correct value into DX before executing the OUTS instruction. The address of the source data is determined by the contents of source-index register. Load the correct index value into SI or ESI before executing the OUTS instruction. After the transfer, source-index register is advanced automatically. If the direction flag is 0 (CLD was executed), the source-index register is incremented; if the direction flag is 1 (STD was executed), it is decremented. The amount of the increment or decrement is 1 if a byte is output, 2 if a word is output, or 4 if a doubleword is output. OUTSB, OUTSW, and OUTSD are synonyms for the byte, word, and doubleword OUTS instructions. OUTS can be preceded by the REP prefix for block output of CX bytes or words. Refer to the REP instruction for details on this operation.
 
@@ -5063,21 +4708,16 @@ Op¢Qg~ ;; ,lnstritction' Clocks' ' D(!sctlption os: (E)SI to port vm=30 OUTS tr
 
 **Flags:** `D I T S Z A P C 0`
 
-```
-386 286 86 486
-SF /0 POPm16 6 5 5 17+EA Pop top of stack into memory
-word
-dwor
-5S+rw POPr16 4 4 5 S Pop top of stack into word
-register
-5S+rd POPr32 4 4 Pop top of stack into dword
-register
-IF POP OS 3 7,pm=21 5,pm=20 S Pop top of stack into OS
-07 POPES 3 7,pm=21 5,pm=20 S Pop top of stack into ES
-17 POPSS 3 7,pm=21 5,pm=20 S Pop top of stack into SS
-OF Al POPFS 3 7,pm=21 Pop top of stack into FS
-OFA9 POPGS 3 7,pm=21 Pop top of stack into GS
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| SF /0 | POPm16 | 6 | 5 | 5 | 17+EA | Pop top of stack into memory word dwor |
+| 5S+rw | POPr16 | 4 | 4 | 5 | S | Pop top of stack into word register |
+| 5S+rd | POPr32 | 4 | 4 |  |  | Pop top of stack into dword register |
+| IF | POP OS | 3 | 7,pm=21 | 5,pm=20 | S | Pop top of stack into OS |
+| 07 | POPES | 3 | 7,pm=21 | 5,pm=20 | S | Pop top of stack into ES |
+| 17 | POPSS | 3 | 7,pm=21 | 5,pm=20 | S | Pop top of stack into SS |
+| OF Al | POPFS | 3 | 7,pm=21 |  |  | Pop top of stack into FS |
+| OFA9 | POPGS | 3 | 7,pm=21 |  |  | Pop top of stack into GS |
 
 POPm32 5 SF /0 6 Pop tJ' of stack into memory POP replaces the previous contents of the memory, the register, or the segment register operand with the word on the top of the stack, addressed by SS:SP (address-size attribute of 16 bits) or SS:ESP (address-size attribute of 32 bits). The stack pointer SP is incremented by 2 for an operand-size of 16 bits or by 4 for an operand-size of 32 bits. It then points to the new top of stack. POP CS is not an instruction. Popping from the stack into the CS register is accomplished with a RET instruction. If the destination operand is a segment register (DS, ES, FS, GS, or SS), the value popped must be a selector. In protected mode, loading the selector initiates automatic loading of the descriptor information associated with that selector into the hidden part of the segment register; loading also initiates validation of both the selector and the descriptor information. A null value (0000-0003) may be popped into the DS, ES, FS, or GS register without causing a protection exception. An attempt to reference a segment whose corresponding segment register is loaded with a null value causes a general protection fault. No memory reference occurs. The saved value of the segment register is null. A POP SS instruction inhibits all interrupts, including NMI, until after execution of the next instruction. This allows sequential execution of POP S5 and POP ESP instructions without danger of having an invalid stack during an interrupt. However, use of the LSS instruction is the preferred method of loading the SS and ESP registers. popping multiple items in sequence. The items popped can include any legal POP value, including registers, immediate values, and memory locations. This feature does not actually affect the code generated.
 
@@ -5091,14 +4731,15 @@ POPm32 5 SF /0 6 Pop tJ' of stack into memory POP replaces the previous contents
 
 *POPA 80186 processors and greater*
 
-```
-486 386 286
-61 POPA 9 19 Pop DI / 51, BP, BX, OX, CX, AX 24
-61 POPAO 9 24 Pop EOI, ESI, EBP, EBX, EOX, ECX, EAX
-61 POPAW 9 19 Pop DI, 51, BP, BX, OX, CX, AX 24
-```
+**Flags:** `o D T S ZAP C`
 
-POPAD 386 processors and greater PO PAW o D T S ZAP C POP A pops the yight 16- or 32-bit general registers depending on the segment size. However, the SP value is discarded instead of loaded into SP. paPA reverses a previous PUSHA, restoring the general registers to their values before PUSHA was executed. The first register popped is DI. POP AD pops the eight 32-bit general registers. The ESP value is discarded instead of loaded into ESP. POP AD reverses the previous PUSHAD, restoring the general registers to their values before PUSHAD was executed. The first register popped is ED!. paPAW pops WORD-sized registers. (Can only be used for VERSION T320 or higher.)
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 61 | POPA | 9 | 24 | 19 | Pop DI / 51, BP, BX, OX, CX, AX |
+| 61 | POPAO | 9 | 24 |  | Pop EOI, ESI, EBP, EBX, EOX, ECX, EAX |
+| 61 | POPAW | 9 | 24 | 19 | Pop DI, 51, BP, BX, OX, CX, AX |
+
+POPAD 386 processors and greater PO PAW POP A pops the yight 16- or 32-bit general registers depending on the segment size. However, the SP value is discarded instead of loaded into SP. paPA reverses a previous PUSHA, restoring the general registers to their values before PUSHA was executed. The first register popped is DI. POP AD pops the eight 32-bit general registers. The ESP value is discarded instead of loaded into ESP. POP AD reverses the previous PUSHAD, restoring the general registers to their values before PUSHAD was executed. The first register popped is ED!. paPAW pops WORD-sized registers. (Can only be used for VERSION T320 or higher.)
 
 #### `POPF`
 
@@ -5110,13 +4751,12 @@ POPAD 386 processors and greater PO PAW o D T S ZAP C POP A pops the yight 16- o
 
 #### `POPFW`
 
-```
-0 I T S Z A P C D
-486 386 286 86
-90 POPF 9,pm=6 5 5 8 Pop top of stack into FLAGS
-POPFD 9,pm=6 5 Pop top of stack into EFLAGS 90
-90 POPFW 9,pm=6 5 5 8 Pop top of stack into FLAGS
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | I T | S Z | A P | C |
+| 90 | POPF | 9,pm=6 | 5 | 5 | 8 | Pop top of stack into FLAGS |
+| 90 | POPFD | 9,pm=6 | 5 |  |  | Pop top of stack into EFLAGS |
+| 90 | POPFW | 9,pm=6 | 5 | 5 | 8 | Pop top of stack into FLAGS |
 
 * POPF /POPFD pOpS the word or doubleword on the top of the stack and stores the value in the flags register. If the operand-size attribute of the instruction is 16 bits, then a word is popped and the value is stored in FLAGS. If the operand- size attribute is 32 bits, then a doubleword is popped and the value is stored in EFLAGS. Note that bits 16 and 17 of EFLAGS, called VM and RF, respectively, are not affected by POPF or POPFD. The I/O privilege level is altered only when executing at privilege level O. The interrupt flag is altered only when executing at a level at least as privileged as the I/O privilege level. (Real-address mode is equivalent to privilege level 0.) If a POPF instruction is executed with insufficient privilege, an exception does not occur, but the privileged bits do not change. POPFW always pops into FLAGS WORD-style. (Can only be used for VERSION T320 or higher.)
 
@@ -5126,20 +4766,19 @@ POPFD 9,pm=6 5 Pop top of stack into EFLAGS 90
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-FF 16 4 5 5 16+EA Push memory word PUSHm16
-4 FF 16 PUSHm32 5 Push memory dword
-6A PUSHimm8 1 2 3 Push immediate byte
-68 PUSHimm16 1 2 3 Push immediate word
-68 PUSHimm32 1 2 Push immediate dword
-DE PUSHCS 3 2 10 PushCS 3
-16 PUSHSS 3 2 3 10 PushSS
-1E PUSH OS 3 2 3 10 PushDS
-06 PUSHES 3 2 10 PushES
-3 PushFS OF AD PUSHFS 2
-OFA8 PUSHGS 3 2 PushGS
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| FF 16 | PUSHm16 | 4 | 5 | 5 | 16+EA | Push memory word |
+| FF 16 | PUSHm32 | 4 | 5 |  |  | Push memory dword |
+| 6A | PUSHimm8 | 1 | 2 | 3 |  | Push immediate byte |
+| 68 | PUSHimm16 | 1 | 2 | 3 |  | Push immediate word |
+| 68 | PUSHimm32 | 1 | 2 |  |  | Push immediate dword |
+| DE | PUSHCS | 3 | 2 | 3 | 10 | PushCS |
+| 16 | PUSHSS | 3 | 2 | 3 | 10 | PushSS |
+| 1E | PUSH OS | 3 | 2 | 3 | 10 | PushDS |
+| 06 | PUSHES | 3 | 2 |  | 10 | PushES |
+| OF AD | PUSHFS | 3 | 2 |  |  | PushFS |
+| OFA8 | PUSHGS | 3 | 2 |  |  | PushGS |
 
 50+ Ir 11 Push register word PUSHr16 1 2 3 50+ Ir PUSHr32 1 2 Push register dword PUSH decrements the stack pointer by 2 if the operand-size attribute of the instruction is 16 bits; otherwise, it decrements the stack pointer by 4. PUSH then places the operand on the new top of stack, which is pointed to by the stack pointer. The 386 PUSH ESP instruction pushes the value of the ESP as it existed before the instruction. The 80286 PUSH SP instruction also pushes the value of SP as it existed before the instruction. This differs from the 8086, where PUSH SP pushes the new value (decremented by 2). pushing multiple items in sequence. The items pushed can include any legal PUSH value, including registers, immediate values, and memory locations. This feature does not actually affect the code generated. In addition, the PUSH instruction allows constant arguments even when generating code for the 8086 processor. Such instructions are replaced in the object code by a lO-byte sequence that simulates the 80186/286/386 PUSH immediate value instruction.
 
@@ -5159,12 +4798,11 @@ OFA8 PUSHGS 3 2 PushGS
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-18 17 PUSHA 11 Push AX,CX,DX,BX,original SP,BP,SI 60
-11 18 60 PUSHAD Push EAX,ECX,EDX,EBX
-18 17 PUSHAW 11 Push AX,CX,DX,BX,original SP,BP,SI 60
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| 60 | PUSHA | 11 | 18 | 17 | Push AX,CX,DX,BX,original SP,BP,SI |
+| 60 | PUSHAD | 11 | 18 |  | Push EAX,ECX,EDX,EBX |
+| 60 | PUSHAW | 11 | 18 | 17 | Push AX,CX,DX,BX,original SP,BP,SI |
 
 PUSHA and PUSHAD save the 16-bit or 32-bit general registers, respectively, on the stack depending on the segment size. PUSHA decrements the stack pointer (SP) by 16 to hold the eight word values. PUSHAD decrements the stack pointer (ESP) by 32 to hold the eight doubleword values. Because the registers are pushed onto the stack in the order in which they were given, they appear in the 16 or 32 new stack bytes in reverse order. The last register pushed is DI or ED!. PUS HAW always pushes WORD-style. (Can only be used for VERSION T320 or higher.)
 
@@ -5178,13 +4816,13 @@ PUSHA and PUSHAD save the 16-bit or 32-bit general registers, respectively, on t
 
 #### `PUSHFW`
 
-```
-0 D T S Z A P C
-486 386 286 86
-4,pm=3. 4 3 9C PUSHF 10 Push FLAGS
-9C PUSHFD 4,pm=3 4 PushEFLAGS
-4,pm=3 4 3 9C PUSHFW 10 Push FLAGS
-```
+**Flags:** `0 D T S Z A P C`
+
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 9C | PUSHF | 4,pm=3. 4 |  | 3 | 10 | Push FLAGS |
+| 9C | PUSHFD | 4,pm=3 4 |  |  |  | PushEFLAGS |
+| 9C | PUSHFW | 4,pm=3 4 |  | 3 | 10 | Push FLAGS |
 
 PUSHF decrements the stack pointer by 2 and copies the FLAGS register to the new top of stack; PUSHFD decrements the stack pointer by 4, and the 386 EFLAGS register is copied to the new top of stack which is pointed to by SS:ESP. PUSHFW always pops WORD-sized registers. (Can only be used for VERSION T320 or higher.)
 
@@ -5194,114 +4832,47 @@ PUSHF decrements the stack pointer by 2 and copies the FLAGS register to the new
 
 #### `RCR`
 
-```
-0 D T S Z A P
-```
-
 c
 
 #### `ROL`
 
 #### `ROR`
 
-```
-486 386 286 86
-(CF,r/m byte)
-left once
-per it)+EA (CF,r/m byte)
-left CL times
-Rotate 9 bits CO /2 ib RCL r/m8,imm8 8-30/9-31 9/10 5/8
-(CF,r/m byte)
-left imm8 times
-(CF,r/m word)
-left once
-per it)+EA r / m word) left CL
-times
-C1 /2 ib RCL r /m16, imm8 8-30/9-31 Rotate 17bits 9/10 5/8
-(CF,r/m word))
-left imm8 times
-(CF,r/m dword)
-left once
-(CF,r/m dword)
-left CL times
-C1 /2 ib RCL r /m32, imm8 8-30/9-31 Rotate 33 bits 9/10
-(CF,r/m dword)
-left, imm8 times
-DO/3 RCRr/m8,1 3/4 9/10 2/7 2/15+EA Rotate 9 bits
-(CF,r/m byte)
-right once
-D2/3 RCRr/m8,CL 8-30/9-31 9/10 5/8 8+4 Eer bit/ (20+4 Rotate 9 bits
-per it)+EA (CF,r/m byte)
-right CL times
-Rotate 9 bits CO /3ib RCR r /m8,imm8 8-30/9-31 9/10 5/8
-(CF,r/m bte)
-right imm times
-D1/3 RCRr/m16,1 3/4 9/10 2/7 2/15+EA Rotate 17 bits
-(CF,r/m word)
-right once
-D3/3 RCRr/m16,CL 8-30/9-31 9/10 5/8 8+4 Eer bit/ (20+4 Rotate 17 bits
-per it)+EA (CF,r/m word)
-right CL times
-C1/3ib RCRr/m16,imm8 8-30/9-31 9/10 Rotate 17 bits 5/8
-(CF,r/m word)
-right imm8 times
-D1/3 RCRr/m32,1 3/4 9/10 Rotate 33 bits
-(CF,r/m dword)
-right once
-D3/3 RCR r /m32,CL 8-30/9-31 9/10 Rotate 33 bits
-(CF,r/mdword)
-right CL times
-486 386 286 86
-RCR r /m32, imm8 8-30/9-31 Rotate 33 bits C1 /3 ib 9/10
-(CF,r/m dWOl:d)
-right imm8 times
-byte left once
-per it)+EA byte left CL times
-CO /Oib ROLr/m8,imm8 2/4 3/7 5/8 Rotate 8 bits r / m
-byte left imm8
-times
-r / m word left
-once
-per it)+EA r / m word left CL
-times
-C1/0ib ROL r/m16, imm8 2/4 3/7 5/8 Rotate 16 bit rim
-word left imm8
-times
-r / m dword left
-once
-r / m dword left
-CLtimes
-C1/0ib ROL r/m32, imm8 2/4 3/7 Rotate 32 bits
-r / m dword left
-imm8times
-DO /1 RORr/m8,1 3/4 3/7 2/7 2/15+EA Rotate 8 bits rim
-byte right once
-02/1 RORr/m8,CL Rotate 8 bits rim 3/4 3/7 5/8 8+4lJer bit/ (20+4
-per it)+EA byte right CL
-times
-CO /1 ib RORr/m8,imm8 2/4 3/7 5/8 Rotate 8 bits rim
-word right imm8
-times
-01/1 RORr/m16,1 3/4 3/7 2/7 2/15+EA Rotate 16 bits
-r /m word right
-once
-03/1 RORr/m16,CL Rotate 16 bits 3/4 3/7 5/8 8+4lJer bit/ (20+4
-per it)+EA r /m word right
-CLtimes
-C1 /1 ib ROR r/m16, imm8 2/4 3/7 5/8 Rotate 16 bit rim
-word right imm8
-times '
-01/1 RORr/m32,1 3/4 3/7 Rotate 32 bits
-r /m dword right
-once
-03/1 ROR r/m32,CL 3/4 Rotate 32 bits 3/7
-rim dword right
-CLtimes
-C1 /1 ib ROR r/m32, imm8 2/4 3/7 Rotate 32 bits
-r/mdwordright
-imm8times
-Add 1 clock to the times shown for each rotate made (80286 only).
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  | per it)+EA | (CF,r/m byte) left CL times |
+| CO /2 ib | RCL r/m8,imm8 | 8-30/9-31 | 9/10 | 5/8 |  | Rotate 9 bits (CF,r/m byte) left imm8 times (CF,r/m word) left once |
+|  |  |  |  |  | per it)+EA | r / m word) left CL times |
+| C1 /2 ib | RCL r /m16, imm8 8-30/9-31 |  | 9/10 | 5/8 |  | Rotate 17bits (CF,r/m word)) left imm8 times (CF,r/m dword) left once (CF,r/m dword) left CL times |
+| C1 /2 ib | RCL r /m32, imm8 8-30/9-31 |  | 9/10 |  |  | Rotate 33 bits (CF,r/m dword) left, imm8 times |
+| DO/3 | RCRr/m8,1 | 3/4 | 9/10 | 2/7 | 2/15+EA | Rotate 9 bits (CF,r/m byte) right once |
+| D2/3 | RCRr/m8,CL | 8-30/9-31 | 9/10 | 5/8 | 8+4 Eer | bit/ (20+4 Rotate 9 bits |
+|  |  |  |  |  | per it)+EA | (CF,r/m byte) right CL times |
+| CO /3ib | RCR r /m8,imm8 | 8-30/9-31 | 9/10 | 5/8 |  | Rotate 9 bits (CF,r/m bte) right imm times |
+| D1/3 | RCRr/m16,1 | 3/4 | 9/10 | 2/7 | 2/15+EA | Rotate 17 bits (CF,r/m word) right once |
+| D3/3 | RCRr/m16,CL | 8-30/9-31 | 9/10 | 5/8 | 8+4 Eer | bit/ (20+4 Rotate 17 bits |
+|  |  |  |  |  | per it)+EA | (CF,r/m word) right CL times |
+| C1/3ib | RCRr/m16,imm8 | 8-30/9-31 | 9/10 | 5/8 |  | Rotate 17 bits (CF,r/m word) right imm8 times |
+| D1/3 | RCRr/m32,1 | 3/4 | 9/10 |  |  | Rotate 33 bits (CF,r/m dword) right once |
+| D3/3 | RCR r /m32,CL | 8-30/9-31 | 9/10 |  |  | Rotate 33 bits (CF,r/mdword) right CL times |
+| C1 /3 ib | RCR r /m32, imm8 8-30/9-31 |  | 9/10 |  |  | Rotate 33 bits (CF,r/m dWOl:d) right imm8 times byte left once |
+|  |  |  |  |  | per it)+EA | byte left CL times |
+| CO /Oib | ROLr/m8,imm8 | 2/4 | 3/7 | 5/8 |  | Rotate 8 bits r / m byte left imm8 times r / m word left once |
+|  |  |  |  |  | per it)+EA | r / m word left CL times |
+| C1/0ib | ROL r/m16, imm8 | 2/4 | 3/7 | 5/8 |  | Rotate 16 bit rim word left imm8 times r / m dword left once r / m dword left CLtimes |
+| C1/0ib | ROL r/m32, imm8 | 2/4 | 3/7 |  |  | Rotate 32 bits r / m dword left imm8times |
+| DO /1 | RORr/m8,1 | 3/4 | 3/7 | 2/7 | 2/15+EA | Rotate 8 bits rim byte right once |
+| 02/1 | RORr/m8,CL | 3/4 | 3/7 | 5/8 | 8+4lJer | Rotate 8 bits rim bit/ (20+4 |
+|  |  |  |  |  | per it)+EA | byte right CL times |
+| CO /1 ib | RORr/m8,imm8 | 2/4 | 3/7 | 5/8 |  | Rotate 8 bits rim word right imm8 times |
+| 01/1 | RORr/m16,1 | 3/4 | 3/7 | 2/7 | 2/15+EA | Rotate 16 bits r /m word right once |
+| 03/1 | RORr/m16,CL | 3/4 | 3/7 | 5/8 | 8+4lJer | Rotate 16 bits bit/ (20+4 |
+|  |  |  |  |  | per it)+EA | r /m word right CLtimes |
+| C1 /1 ib | ROR r/m16, imm8 | 2/4 | 3/7 | 5/8 |  | Rotate 16 bit rim word right imm8 times ' |
+| 01/1 | RORr/m32,1 | 3/4 | 3/7 |  |  | Rotate 32 bits r /m dword right once |
+| 03/1 | ROR r/m32,CL | 3/4 | 3/7 |  |  | Rotate 32 bits rim dword right CLtimes |
+| C1 /1 ib | ROR r/m32, imm8 | 2/4 | 3/7 |  |  | Rotate 32 bits r/mdwordright imm8times |
+| Add 1 clock | to the times shown | for each | rotate | made | (80286 only). |  |
 
 Opcode • "Insttltclion (nlod<s Description 00/2 RCLr/m8,1 2/7 2/15+EA Rotate 9 bits 3/4 9/10 02/2 RCLr/m8,CL 8-30/9-31 9/10 5/8 8+4 Eer bit/ (20+4 Rotate 9 bits 01/2 RCLr/m16,1 3/4 9/10 2/7 2/15+EA Rotate 17 bits 03/2 RCLr/m16,CL 8-30/9-31 9/10 5/8 8+4 Eer bit/ (20+4 Rotate 17bits (CF, 01/2 RCLr/m32,1 3/4 9/10 Rotate 33 bits 03/2 RCL r /m32,CL 8-30/9-31 9/10 Rotate 33 bits 00/0 ROLr/m8,1 3/4 3/7 2/7 2/15+EA Rotate 8 bits r / m 02/0 ROLr/m8,CL 3/4 3/7 5/8 8+4lJer bit/ (20+4 Rotate 8 bits r / m 01/0 ROLr/m16,1 3/4 3/7 2/7 2/15+EA Rotate 16 bits ROL r/m16,CL Rotate 16 bits 03/0 3/4 3/7 5/8 8+4lJer bit/ (20+4 01/0 ROLr/m32,1 3/4 3/7 Rotate 32 bits 03/0 ROL r /m32,CL Rotate 32 bits 3/4 3/7 Each rotate instruction shifts the bits of the register or memory operand given. The left rotate instructions shift all the bits upward, except for the top bit, which is returned to the bottom. The right rotate instructions do the reverse: The bits shift downward until the bottom bit arrives at the top. For the RCL and RCR instructions, the carry flag is part of the rotated quantity. RCL shifts the carry flag into the bottom bit and shifts the top bit into the carry flag; RCR shifts the carry flag into the top bit and shifts the bottom bit into the carry flag. For the ROL and ROR instructions, the original value of the carry flag is not a part of the result, but the carry flag receives a copy of the bit that was shifted from one end to the other. The rotate is repeated the number of times indicated by the second operand, which is either an immediate number or the contents of the CL register. To reduce the maximum instruction execution time, the 80286/386 does not allow rotation counts greater than 31. If a rotation count greater than 31 is attempted, only the bottom five bits of the rotation are "Used. The 8086 does not mask rotation counts. The 386 in virtual 8086 mode does mask rotation counts. The overflow flag is defined only for the single-rotate forms of the instructions (second operand = 1). It is undefined in all other cases. For left shifts/rotates, the CF bit after the shift is XORed with the high order result bit. For right shifts/rotates, the high-order two bits of the result are XORed to get OF.
 
@@ -5310,16 +4881,6 @@ Opcode • "Insttltclion (nlod<s Description 00/2 RCLr/m8,1 2/7 2/15+EA Rotate 9
 *Read from Model Specific Register*
 
 **Flags:** `o D ITS ZAP C`
-
-```
-Pentium
-OF 32 20-24 RDMSR Read Model Specific Register indicated by ECX into
-EDX:EAX
-OOh Machine Check Address Stores address of cycle causing
-the exception.
-Oth Machine Check Type Stores cycle type of cycle
-causing the exception.
-```
 
 The value in ECX specifies one of the 64-bit Model Specific Registers of the Pentium processor. The content of that Model Specific Register is copied into EDX:EAX. EDX is loaded with the high-order 32 bits, and EAX is loaded with the low-order 32 bits. The following values are used to select model specific registers on the Pentium processor: Other values used to preform cache, TLB and BTB testing and performance monitoring, are available under a non-disclosure agreement from Intel. Protected mode exceptions: #GP(O) if either the current privilege level is not 0 or the value in ECX does not specify a Model-Specific Register'that is implemented in the Pentium processor. Real mode exceptions: #GP if the value in ECX does not specify a Model- Specific Register that is implemented in the Pentium processor. Virtual 8086 mode exceptions: #GP(O) if instruction execution is attempted. Notes: This instruction must be executed at privilege level 0 or in real-address mode; otherwise a protection exception will be generated. If less than 64 bits are implemented in a model specific register, the value returned to EDX:EAX, inthe locations corresponding to the unimplemented bits, is unpredictable. RDMSR is used to read the content of Model-Specific Registers that control functions for testability, execution tracing, performance monitoring and machine check errors. Refer to the Pentium Processor Data Book for more information or contact Intel. The values 3h, OFh, and vailles above 13h are reserved. Do not execute RDMSR with reserved values in ECX.
 
@@ -5339,113 +4900,79 @@ The value in ECX specifies one of the 64-bit Model Specific Registers of the Pen
 
 #### `REPNZ`
 
-```
-86 486 386 286
-REP INS I6+S(E)CX, I3+6*(E)CX, 5+4*CX Input (E)CX F36C
-bytes from r/mS,DX ~m=10+S(Eicx*1 / ~m=7 +6*(E)CX/
-7+6*h(E)CX*2 O+S(E)CX* ,VM== EortDXinto
-29+8(E)CX S:[(E)DI]
-F36D REP INS I6+S(E)CX, 13+6*(E)CX, 5+4*CX Input (E)CX
-r/mI6,DX words from ~m=lO+S(EiCx*l / ~m=7+6*(E)CX/
-O+S(E)CX* ,VM= 7+6*h(E)CX*2 EortDXinto
-29+S(E)CX S:[(E)DI]
-F36D REP INS I6+S(E)CX, 13+6*(E)CX, Input (E)CX
-r/m32,DX ~m=lO+S(EiCx*l / dwordsfrom ~m=7+6*(E)CX/
-7 +6*1*(E)CX*2 O+S(E)CX* ,VM= EortDXinto
-29+S(E)CX S:[(E)DI]
-5..3,13 wi ,12+3(E) 5+4*(E)CX 5+4*CX 9+I7*CX Move (E)CX F3A4 REP MOVS
-CX;.s mS,mS b&:esfrom
-[ )SI] to
-ES:[(E)DI]
-5..3,13 wi ,12+3(E) 5+4*(E)CX 5+4*CX 9+I7*CX Move (E)CX F3A5 REP MOVS
-m16,m16 CX*5 words from
-[(E)SI] to
-ES:[(E)DI]
-5..3,13 wi ,12+3(E) F3A5 REP MOVS 5+4*(E)CX Move (E)CX
-CX*5 m32,m32 dwordsfrom
-[(E)SI] to
-ES:[(E)DI]
-DX,r/mS b&tesfrom
-3I+5(E)CX* X/26+5* *(E) [ )SI] to port
-CX*2 DX
-worasfrom DX,r/mI6
-[(E)SI] to port 1+5(E)CX* X/26+5* *(E)
-CX*2 DX
-DX,r/m32 dwordsfrom
-1+5(E)CX* . X/26+5* *(E) [(E)SI] to port
-CX*2 DX
-486 386 286 86
-REP LODS 5..3,7+4(E)CX..6 F2AC Load (E)CX
-m8 b&:tes from
-[ )S1] toAL
-F2AD REP LODS 5..3,7 +4(E)CX*6 Load (E)CX
-m16 words from
-[(E)S1] to AX
-F2AD REP LODS 5..3,7 +4(E)CX*6 Load (E)CX
-m32 dwordsfrom
-[(E)S1] to EAX
-5..3,7 +4(E)CX*6 5+5*(E)CX 4+3*CX 9+ lO*CX Fill (E)CX F3AA REPSTOS
-m8 ~esat
-:[(E)DI]
-withAL
-F3AB REPSTOS 5..3,7 +4(E)CX*6 5+5*(E)CX 4+3*CX 9+ lO*CX Fill (E)CX
-m16 words at
-ES:[(E)DI]
-with AX
-5..3,7 +4(E)CX*6 F3AB REPSTOS 5+5*(E)CX Fill (E)CX
-m32 dwordsat
-ES:[(E)DI]
-withEAX
-5..3,7+7(E)CX*6 F3A6 REPE 5+9*N 5+9*N 9+22*N Find
-CMPS nonmatching
-m8,mB ~tesin
-S:[(E)DI] and
-[(E)S1]
-F3A7 REPE 5..3,7+7(E)CX*6 5+9*N 5+9*N 9+22*N Find
-CMPS nonmatching
-m16,m16 words in
-ES:[(ElDI] and
-[(E)S1
-F3A7 REPE 5..3,7+7(E)CX*6 5+9*N Find
-CMPS nonmatching
-m32,m32 dwordsin
-ES:[(ElDI] and
-[(E)S1
-5..3,7 +5(E)CX..6 F3AE REPE 5+B*N 5+8*N 9+15*N Findnon-AL
-SCASmB ~te starting at
-S:[(E)DI]
-5..3,7+5(E)CX*6 F3AF EPESCAS 5+B*N 5+B*N 9+15*N Find non-AX
-m16 word starting
-at ES:[(E)DI]
-F3AF REPE 5..3,7 +5(E)CX*6 5+B*N Find non-
-5CA5m32 EAXdword
-startin[,at
-E5:[(E) I]
-5..3,7+ 7(E)CX*6 F2A6 REPNE 5+9*N 5+9*N 9+22*N Find
-CMPS matching
-mB,mB ~tesin
-:[(ElDI] and
-[(E)51
-5..3,7+7(E)CX*6 9+22*N Find F2A7 REPNE 5+9*N 5+9*N
-CMPS matching
-m16,m16 words in
-E5:[(E)D1] and
-[(E)51]
-F2A7 REPNE 5..3,7+7(E)CX..6 5+9*N Find
-CMP5 matchin~
-m.32,m32 dwordsm
-E5:[(ElDI] and
-[(E)51
-F2AE REPNE 5..3,7 +5(E)CX*6 5+B*N 5+B*N 9+15*N FindAL
-5CASm8
-486 386 286 86
-F2 AF REPNE 50+3,7+5(E)CX*6 5+8*N 5+8*N 9+15*N Find AX
-SCASrn16
-F2 AF REPNE 50+3,7+5(E)CX~ 5+8*N FindEAX
-SCASrn32
-*3If(E)CX=O
-*6If(E)CXO
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| F36C | REP INS | I6+S(E)CX, | I3+6*(E)CX, | 5+4*CX |  | Input (E)CX |
+|  | r/mS,DX | ~m=10+S(Eicx*1 | / ~m=7 +6*(E)CX/ |  |  | bytes from |
+|  |  | O+S(E)CX* | 7+6*h(E)CX*2 ,VM== |  |  | EortDXinto |
+|  |  | 29+8(E)CX |  |  |  | S:[(E)DI] |
+| F36D | REP INS | I6+S(E)CX, | 13+6*(E)CX, | 5+4*CX |  | Input (E)CX |
+|  | r/mI6,DX | ~m=lO+S(EiCx*l | / ~m=7+6*(E)CX/ |  |  | words from |
+|  |  | O+S(E)CX* | ,VM= 7+6*h(E)CX*2 |  |  | EortDXinto |
+|  |  | 29+S(E)CX |  |  |  | S:[(E)DI] |
+| F36D | REP INS | I6+S(E)CX, | 13+6*(E)CX, |  |  | Input (E)CX |
+|  | r/m32,DX | ~m=lO+S(EiCx*l | / ~m=7+6*(E)CX/ |  |  | dwordsfrom |
+|  |  | O+S(E)CX* | 7 +6*1*(E)CX*2 ,VM= |  |  | EortDXinto |
+|  |  | 29+S(E)CX |  |  |  | S:[(E)DI] |
+| F3A4 | REP MOVS | 5..3,13 wi ,12+3(E) | 5+4*(E)CX | 5+4*CX 9+I7*CX |  | Move (E)CX |
+|  | mS,mS | CX;.s |  |  |  | b&:esfrom [ )SI] to ES:[(E)DI] |
+| F3A5 | REP MOVS | 5..3,13 wi ,12+3(E) | 5+4*(E)CX | 5+4*CX 9+I7*CX |  | Move (E)CX |
+|  | m16,m16 | CX*5 |  |  |  | words from [(E)SI] to ES:[(E)DI] |
+| F3A5 | REP MOVS | 5..3,13 wi ,12+3(E) | 5+4*(E)CX |  |  | Move (E)CX |
+|  | m32,m32 | CX*5 |  |  |  | dwordsfrom [(E)SI] to ES:[(E)DI] |
+|  | DX,r/mS |  |  |  |  | b&tesfrom |
+|  |  | 3I+5(E)CX* | X/26+5* | *(E) |  | [ )SI] to port |
+|  |  |  | CX*2 |  |  | DX |
+|  | DX,r/mI6 |  |  |  |  | worasfrom |
+|  |  | 1+5(E)CX* | X/26+5* | *(E) |  | [(E)SI] to port |
+|  |  |  | CX*2 |  |  | DX |
+|  | DX,r/m32 |  |  |  |  | dwordsfrom |
+|  |  | 1+5(E)CX* | . X/26+5* | *(E) |  | [(E)SI] to port |
+|  |  |  | CX*2 |  |  | DX |
+| F2AC | REP LODS 5..3,7+4(E)CX..6 |  |  |  |  | Load (E)CX |
+|  | m8 |  |  |  |  | b&:tes from [ )S1] toAL |
+| F2AD | REP LODS 5..3,7 | +4(E)CX*6 |  |  |  | Load (E)CX |
+|  | m16 |  |  |  |  | words from [(E)S1] to AX |
+| F2AD | REP LODS 5..3,7 | +4(E)CX*6 |  |  |  | Load (E)CX |
+|  | m32 |  |  |  |  | dwordsfrom [(E)S1] to EAX |
+| F3AA | 5..3,7 REPSTOS | +4(E)CX*6 | 5+5*(E)CX | 4+3*CX | 9+ lO*CX | Fill (E)CX |
+|  | m8 |  |  |  |  | ~esat :[(E)DI] withAL |
+| F3AB | REPSTOS 5..3,7 | +4(E)CX*6 | 5+5*(E)CX | 4+3*CX | 9+ lO*CX | Fill (E)CX |
+|  | m16 |  |  |  |  | words at ES:[(E)DI] with AX |
+| F3AB | 5..3,7 REPSTOS | +4(E)CX*6 | 5+5*(E)CX |  |  | Fill (E)CX |
+|  | m32 |  |  |  |  | dwordsat ES:[(E)DI] withEAX |
+| F3A6 | 5..3,7+7(E)CX*6 REPE |  | 5+9*N | 5+9*N | 9+22*N | Find |
+|  | CMPS |  |  |  |  | nonmatching |
+|  | m8,mB |  |  |  |  | ~tesin S:[(E)DI] and [(E)S1] |
+| F3A7 | REPE 5..3,7+7(E)CX*6 |  | 5+9*N | 5+9*N | 9+22*N | Find |
+|  | CMPS |  |  |  |  | nonmatching |
+|  | m16,m16 |  |  |  |  | words in ES:[(ElDI] and [(E)S1 |
+| F3A7 | REPE 5..3,7+7(E)CX*6 |  | 5+9*N |  |  | Find |
+|  | CMPS |  |  |  |  | nonmatching |
+|  | m32,m32 |  |  |  |  | dwordsin ES:[(ElDI] and [(E)S1 |
+| F3AE | 5..3,7 REPE | +5(E)CX..6 | 5+B*N | 5+8*N | 9+15*N | Findnon-AL |
+|  | SCASmB |  |  |  |  | ~te starting at S:[(E)DI] |
+| F3AF | 5..3,7+5(E)CX*6 EPESCAS |  | 5+B*N | 5+B*N | 9+15*N | Find non-AX |
+|  | m16 |  |  |  |  | word starting at ES:[(E)DI] |
+| F3AF | REPE 5..3,7 | +5(E)CX*6 | 5+B*N |  |  | Find non- |
+|  | 5CA5m32 |  |  |  |  | EAXdword startin[,at E5:[(E) I] |
+| F2A6 | 5..3,7+ REPNE | 7(E)CX*6 | 5+9*N | 5+9*N | 9+22*N | Find |
+|  | CMPS |  |  |  |  | matching |
+|  | mB,mB |  |  |  |  | ~tesin :[(ElDI] and [(E)51 |
+| F2A7 | 5..3,7+7(E)CX*6 REPNE |  | 5+9*N | 5+9*N | 9+22*N | Find |
+|  | CMPS |  |  |  |  | matching |
+|  | m16,m16 |  |  |  |  | words in E5:[(E)D1] and [(E)51] |
+| F2A7 | REPNE 5..3,7+7(E)CX..6 |  | 5+9*N |  |  | Find |
+|  | CMP5 |  |  |  |  | matchin~ |
+|  | m.32,m32 |  |  |  |  | dwordsm E5:[(ElDI] and [(E)51 |
+| F2AE | REPNE 5..3,7 | +5(E)CX*6 | 5+B*N | 5+B*N | 9+15*N | FindAL |
+|  | 5CASm8 |  |  |  |  |  |
+| F2 AF | REPNE | 50+3,7+5(E)CX*6 | 5+8*N | 5+8*N | 9+15*N | Find AX |
+|  | SCASrn16 |  |  |  |  |  |
+| F2 AF | REPNE | 50+3,7+5(E)CX~ | 5+8*N |  |  | FindEAX |
+|  | SCASrn32 |  |  |  |  |  |
+| *3If(E)CX=O |  |  |  |  |  |  |
+| *6If(E)CXO |  |  |  |  |  |  |
 
 F36E REP OUTS pm=l1 I7+5(E)CX, +5(EiCX*1 / 5+ I2*(E)CX, t m=6+5*(£) 5+4*CX Output (E)CX 5+ I2*(E)CX, 5+4*CX Ouqmt (E)CX F36F REP OUTS ~m=l1 I7+5(E)CX, +5(EiCX*1 / t m=6+5*(£) F36F REP OUTS ~m=l1 I7+5(E)CX, +5(EiCX*1 / 5+ I2*(E)CX, t m =6+5*(£) Output(E)CX REP, REPE (repeat while equal), and REPNE (repeat while not equal) are prefixes that are applied to string operations. Each prefix causes the string instruction that follows to be repeated the number of times indicated in the count register or (for REPE and REPNE) until the indicated condition in the zero flag is no longer met. Synonymous forms of REPE and REPNE are REPZ and REPNZ, respectively. The REP prefixes apply only to one string instruction at a time. To repeat a block of instructions, use the LOOP instruction or another looping construct. The precise action for each iteration is as follows: 1 If the address-size attribute is 16 bits, use CX for the count register; if the address-size attribute is 32 bits, use ECX for the count register. 2 Check ex. If it is zero, exit the iteration, and move to the next instruction. 3 Acknowledge any pending interrupts. 4 Perform the string operation once. 5 Decrement CX or ECX by one; no flags are modified. 6 Check the zero flag if the string operation is SCAS or CMPS. If the repeat condition does not hold, exit the iteration and move to the next instruction. Exit the iteration if the prefix is REPE and ZF is 0 (the last comparison was not equal), or if the prefix is REPNE and ZF is one (the last comparison was equal). 7 Return to step 1 for the next iteration. Repeated CMPS and SCAS instructions can be exited if the count is exhausted or if the zero flag fails the repeat condition. These two cases can be distinguished by using either the JCXZ instruction, or by using the conditional jumps that test the zero flag aZ, JNZ~ and JNE).
 
@@ -5458,20 +4985,15 @@ F36E REP OUTS pm=l1 I7+5(E)CX, +5(EiCX*1 / 5+ I2*(E)CX, t m=6+5*(£) 5+4*CX Outp
 
 *Return from procedure*
 
-```
-T C 0 D I S Z A P
-486 386 286 86
-C3 RET 5 lO+rn 11 16 Return (near) to
-caller
-CB RET 13,prn=18 18+rn,prn=32+rn 15,prn=25 26 Return (far) to caller,
-same privilege
-13,prn=33 prn=68 55 Return (far) CB RET
-486 386 286 86
-C2 iw RET imm16 5 10+m 11 20 Return (near)
-CA iw RET imm16 14,pm=17 18+m,pm=32+m 15,pm=25 25 Return (far) pop
-imm16bytes
-CA iw RET imm16 14,pm=33 pm=68 55 Return (far)
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  | 0 D | T I S | Z A P | C |  |
+| C3 | RET | 5 | lO+rn | 11 | 16 | Return (near) to caller |
+| CB | RET | 13,prn=18 18+rn,prn=32+rn |  | 15,prn=25 | 26 | Return (far) to caller, same privilege |
+| CB | RET | 13,prn=33 prn=68 |  | 55 |  | Return (far) |
+| C2 iw | RET imm16 | 5 | 10+m | 11 | 20 | Return (near) |
+| CA iw | RET imm16 | 14,pm=17 18+m,pm=32+m |  | 15,pm=25 | 25 | Return (far) pop imm16bytes |
+| CA iw | RET imm16 | 14,pm=33 pm=68 |  | 55 |  | Return (far) |
 
 RET transfers control to a return address located on the stack. The address is usually placed on the stack by a CALL instruction, and the return is made to the instruction that follows the CALL. The optional numeric parameter to RET gives the number of stack bytes (OperandMode = 16) or words (OperandMode = 32) to be released after the return address is popped. These items are typically used as input parameters to the procedure called. For the intrasegment (near) return, the address on the stack is a segment offset, which is popped into the instruction pointer. The CS register is unchanged. For theintersegment (far) return, the address on the stack is a long pointer. The offset is popped first, followed by the selector. In real mode, CS and IP are loaded directly. In protected mode, an intersegment return causes the processor to check the descriptor addressed by the return selector. The AR byte of the descriptor must indicate a code segment of equal or lesser privilege (or greater or equal numeric value) than the current privilege level. Returns to a lesser privilege level cause the stack to be reloaded from the value saved beyond the parameter block. ' The DS, ES, FS, and GS segment registers can be set to 0 by the RET instruction during an inter-level transfer. If these registers refer to segments that cannot be used by the new privilege level, they are set to 0 to prevent unauthorized access from the new privilege level.
 
@@ -5479,22 +5001,17 @@ RET transfers control to a return address located on the stack. The address is u
 
 *Resume from System Management Mode*
 
-```
-Pentium
-OFAA RSM 83 Resume. operation of interrupted program.
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C * * * Resume operation of a program by a System Management Mode (SMM) interrupt. The processor state is restored from the dump created upon entrance to SMM. Note, however, that the contents of the model-specific registers are not affected. The processor leaves SMM and returns control to the interrupted application or operating system. If the processor detects any invalid state information, it enters the shutdown state. This happens in any of the following situations: • The value stored in the State Dump Base field is not a 32 Kbyte aligned address. • Any reserved bit in CR4 is set to 1. • Any combination of bits in CRO is illegal; namely, (PG=l and PE=O) or (NW=l andCD=O). Protected mode, Real mode, and Virtual 8086 mode exception: #UD if an attempt is made to execute this instruction when the processor is not in SMM. Notes: for more information about SMM and the behavior of the RSM instruction, see the Pentium Processor User's Manual (available from Intel).
+* * * Resume operation of a program by a System Management Mode (SMM) interrupt. The processor state is restored from the dump created upon entrance to SMM. Note, however, that the contents of the model-specific registers are not affected. The processor leaves SMM and returns control to the interrupted application or operating system. If the processor detects any invalid state information, it enters the shutdown state. This happens in any of the following situations: • The value stored in the State Dump Base field is not a 32 Kbyte aligned address. • Any reserved bit in CR4 is set to 1. • Any combination of bits in CRO is illegal; namely, (PG=l and PE=O) or (NW=l andCD=O). Protected mode, Real mode, and Virtual 8086 mode exception: #UD if an attempt is made to execute this instruction when the processor is not in SMM. Notes: for more information about SMM and the behavior of the RSM instruction, see the Pentium Processor User's Manual (available from Intel).
 
 #### `SAHF`
 
 *Store AH into Flags*
 
-```
-486 386 286 86
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C * * 4 9E SAHF 232 Store AH flags SF ZF xx AF xx PF xx CF SAHF loads the flags listed above with values from the AH register, from bits 7, 6,4, 2 and 0, respectively.
+* * 4 9E SAHF 232 Store AH flags SF ZF xx AF xx PF xx CF SAHF loads the flags listed above with values from the AH register, from bits 7, 6,4, 2 and 0, respectively.
 
 #### `SAL`
 
@@ -5508,66 +5025,55 @@ o D T S ZAP C * * 4 9E SAHF 232 Store AH flags SF ZF xx AF xx PF xx CF SAHF load
 
 #### `SHR`
 
-```
-486 386 286 86
-DO/4 SALr/m8,1 3/4 3/7 2/7 2/15+EA Multiply rim byte by 2
-D2/4 SALr/m8,CL 3/4 3/7 5/8 8+4 per bit/(20+4 per Multiplyr/m byte by 2,
-bit)+nA CLtimes
-CO /4ib SALr/m8,imm82/4 3/7 5/8 Multiply rim byte by 2
-Dl/4 SALr/m16,l 3/4 3/7 2/7 2/15+EA Multiply r /m word by 2
-D3/4 SALr/m16,CL 3/4 3/7 5/8 8+4 per bit (20+4 per Multiply r /m word by 2,
-bit)+nA CLtimes
-m16,imm8
-D3/4 SALr/m32,CL 3/4 3/7 Multiply r /m dword by 2
-Cl/4ib SALr/ 2/4 3/7 Multiply r /m dword by 2
-m32,imm8
-DO/7 SARr/m8,l 3/4 3/7 2/7 2/15+EA Signed divide** rim byte
-by2
-D2/7 SARr/m8,CL 3/4 3/7 5/8 8+4per,bit(20+4per Signed divide** rim byte
-bit)+nA by2
-CO /7ib SARr/ 2/4 3/7 5/8 Signed divide** rim byte
-m8,imm8 by2
-by2
-D3/7 SARr/m16,CL 3/4 3/7 5/8 8+4 per bit (20+4 per Signed divide** r /m word
-bit)+nA by2
-Cl/7ib SARr/ 2/4 3/7 5/8 Signed divide** r /m word
-m16,imm8 by2
-dwordby2 ,
-486 386 286 86
-D3/7 SAR r / m32,CL 3/4 3/7 Signed divide** rim
-dword by 2,
-CLtimes
-dwordby2 m32,imm8
-DO/4 SHLr/m8,1 3/4 3/7 2/7 2/15+EA Multiply r / m byte by 2
-D2/4 SHLr/m8,CL 3/4 3/7 5/8 8+4 !1:r bit (20+4 per Multiply rim byte by 2,
-bit)+ A CLtimes
-CO /4 ib SHLr/ 2/4 3/7 5/8 Multiply r / m byte by 2
-m8,imm8
-D3/4 SHLr/m16,CL 3/4 3/7 5/8 8+4 !1:r bit (20+4 per Multiply rim word by 2,
-bit)+ A CLtimes
-Cl /4 ib SHLr/ 2/4 3/7 5/8 Multiply r / m word by 2
-m16,imm8
-D3/4 SHL r /m32,CL 3/4 3/7 Multiply rim dword by 2
-Cl /4 ib SHLr/ Multiply rim dword by 2 2/4 3/7
-m32,imm8
-DO/5 SHRr/m8,1 3/4 3/7 2/7 2/15+EA Unsigned divide r / m byte
-by2
-8+4 !1:r bit (20+4 per Unsigned divide r / m byte D2/5 SHRr/m8,CL 3/4 3/7 5/8
-bit)+ A by2
-CO /5 ib SHRr/ 2/4 3/7 5/8 Unsigned divide r / m byte
-m8,imm8 by2
-wor by2
-SHRr/m16,CL 3/4 3/7 5/8 D3/5 8+4 ~ bit (20+4 per Uns~ed divide r /m
-bit)+ wor by2
-Cl/5ib SHRr/ 2/4 3/7 5/8 Uns~ed divide rim
-m16,imm8 wor by2
-dwordby2
-D3/5 SHR r /m32,CL 3/4 3/7 Unsis:!led divide r /m
-dwordby2
-C1 /5 ib SHRr/ 2/4 3/7 Unsis:!led divide r / m
-m32,imm8 dwordby2
-**Not the same division as IDIV; rounding is toward negative infinity.
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| DO/4 | SALr/m8,1 | 3/4 | 3/7 | 2/7 | 2/15+EA | Multiply rim byte by 2 |
+| D2/4 | SALr/m8,CL | 3/4 | 3/7 | 5/8 | 8+4 | per bit/(20+4 per Multiplyr/m byte by 2, |
+|  |  |  |  |  | bit)+nA | CLtimes |
+| CO /4ib | SALr/m8,imm82/4 |  | 3/7 | 5/8 |  | Multiply rim byte by 2 |
+| Dl/4 | SALr/m16,l | 3/4 | 3/7 | 2/7 | 2/15+EA | Multiply r /m word by 2 |
+| D3/4 | SALr/m16,CL | 3/4 | 3/7 | 5/8 | 8+4 per bit | (20+4 per Multiply r /m word by 2, |
+|  |  |  |  |  | bit)+nA | CLtimes |
+|  | m16,imm8 |  |  |  |  |  |
+| D3/4 | SALr/m32,CL | 3/4 | 3/7 |  |  | Multiply r /m dword by 2 |
+| Cl/4ib | SALr/ | 2/4 | 3/7 |  |  | Multiply r /m dword by 2 |
+|  | m32,imm8 |  |  |  |  |  |
+| DO/7 | SARr/m8,l | 3/4 | 3/7 | 2/7 | 2/15+EA | Signed divide** rim byte by2 |
+| D2/7 | SARr/m8,CL | 3/4 | 3/7 | 5/8 | 8+4per,bit(20+4per | Signed divide** rim byte |
+|  |  |  |  |  | bit)+nA | by2 |
+| CO /7ib | SARr/ | 2/4 | 3/7 | 5/8 |  | Signed divide** rim byte |
+|  | m8,imm8 |  |  |  |  | by2 by2 |
+| D3/7 | SARr/m16,CL | 3/4 | 3/7 | 5/8 | 8+4 per bit (20+4 per | Signed divide** r /m word |
+|  |  |  |  |  | bit)+nA | by2 |
+| Cl/7ib | SARr/ | 2/4 | 3/7 | 5/8 |  | Signed divide** r /m word |
+|  | m16,imm8 |  |  |  |  | by2 dwordby2 , |
+| D3/7 | SAR r / m32,CL | 3/4 3/7 |  |  |  | Signed divide** rim dword by 2, CLtimes |
+|  | m32,imm8 |  |  |  |  | dwordby2 |
+| DO/4 | SHLr/m8,1 | 3/4 | 3/7 | 2/7 | 2/15+EA | Multiply r / m byte by 2 |
+| D2/4 | SHLr/m8,CL | 3/4 | 3/7 | 5/8 | 8+4 !1:r bit | (20+4 per Multiply rim byte by 2, |
+|  |  |  |  |  | bit)+ A | CLtimes |
+| CO /4 ib | SHLr/ | 2/4 | 3/7 | 5/8 |  | Multiply r / m byte by 2 |
+|  | m8,imm8 |  |  |  |  |  |
+| D3/4 | SHLr/m16,CL | 3/4 3/7 |  | 5/8 | 8+4 !1:r bit | (20+4 per Multiply rim word by 2, |
+|  |  |  |  |  | bit)+ A | CLtimes |
+| Cl /4 ib | SHLr/ | 2/4 | 3/7 | 5/8 |  | Multiply r / m word by 2 |
+|  | m16,imm8 |  |  |  |  |  |
+| D3/4 | SHL r /m32,CL | 3/4 3/7 |  |  |  | Multiply rim dword by 2 |
+| Cl /4 ib | SHLr/ | 2/4 | 3/7 |  |  | Multiply rim dword by 2 |
+|  | m32,imm8 |  |  |  |  |  |
+| DO/5 | SHRr/m8,1 | 3/4 3/7 |  | 2/7 | 2/15+EA | Unsigned divide r / m byte by2 |
+| D2/5 | SHRr/m8,CL | 3/4 | 3/7 | 5/8 | 8+4 !1:r bit | (20+4 per Unsigned divide r / m byte |
+|  |  |  |  |  | bit)+ A | by2 |
+| CO /5 ib | SHRr/ | 2/4 | 3/7 | 5/8 |  | Unsigned divide r / m byte |
+|  | m8,imm8 |  |  |  |  | by2 wor by2 |
+| D3/5 | SHRr/m16,CL | 3/4 | 3/7 | 5/8 | 8+4 ~ | bit (20+4 per Uns~ed divide r /m |
+|  |  |  |  |  | bit)+ | wor by2 |
+| Cl/5ib | SHRr/ | 2/4 | 3/7 | 5/8 |  | Uns~ed divide rim |
+|  | m16,imm8 |  |  |  |  | wor by2 dwordby2 |
+| D3/5 | SHR r /m32,CL | 3/4 | 3/7 |  |  | Unsis:!led divide r /m dwordby2 |
+| C1 /5 ib | SHRr/ | 2/4 | 3/7 |  |  | Unsis:!led divide r / m |
+|  | m32,imm8 |  |  |  |  | dwordby2 |
+| **Not the | same division as | IDIV; | rounding |  | is toward | negative infinity. |
 
 Cl /4 ib SALr/ 2/4 3/7 5/8 Multiply r /m word by 2 Dl/4 SALr/m32,l 3/4 3/7 Multiply rim dword by 2 Dl/7 SARr/m16,l 3/4. 3/7 2/7 2/15+EA Signed divide** r / m word Dl/7 SARr/m32,l 3/4 3/7 Signed divide** r / m Signed divide** rim Cl/7 SARr/ 2/4 3/7 Dl/4 SHLr/m16,1 3/4 3/7 2/7 2/15+EA Multiply r / m word by 2 SHLr/m32,1 Multiply rim dword by 2 Dl/4 3/4 3/7 Dl/5 SHRr/m16J 3/4 3/7 2/7 2/15+EA Uns~ed divide r /m Dl/5 SHRr/m32,1 3/4 3/7 Unsis:!led divide rim SAL (or its synonym, SHL) shifts the bits of the operand upward. The high- order bit is shifted into the carry flag, and the low-order bit is set to O. SAR and SHR shift the bits of the operand downward. The low-order bit is shifted into the carry flag. The effect is to divide the operand by 2. SAR performs a signed divide with rounding toward negative infinity (not the same as IDIV); the high-order bit remains the same. SHR performs an unsigned divide; the high-order bit is set to O. The shift is repeated the number of times indicated by the second operand, which is either an immediate number or the contents of the CL register. To reduce the maximum execution time, the 80286/386 does not allow shift counts greater than 31.1£ a shift count greater than 31 is attempted, only the bottom five bits of the shift count are used. (The 8086 uses all eight bits of the shift count.) The overflow flag is set only if the single-shift forms of the instructions are used. For left shifts, OF is set to 0 if the high bit of the answer is the same as the result of the carry flag (that is, the top two bits of the original operand were the same); OF is set to 1 if they are different. For SAR, OF is set to 0 for all single shifts. For SHR, OF is set to the high-order bit of the original operand.
 
@@ -5577,24 +5083,16 @@ Cl /4 ib SALr/ 2/4 3/7 5/8 Multiply r /m word by 2 Dl/4 SALr/m32,l 3/4 3/7 Multi
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-bytefromAL
-10 iw SSB AX,imm16 4 Subtract with borrow immediate 2 3
-word from AX
-10 id SSB EAX,imm32 2 Subtract with borrow immediate
-, dword from EAX
-80/3 ib SEB r/m8,imm8 1/3 2/7 3/7 4/17+EA Subtract with borrow immediate
-byte from r / m byte
-81 /3 iw SEB r/ml6,imml6 1/3 2/7 3/7 4/17+EA Subtract with borrow immediate
-word from r/m word
-81 /3 id SEB r/m32,imm32 1/3 2/7 Subtract with borrow immediate
-dword from r /m dword
-4/17+EA Subtract with borrow sign-extended 83/3 ib SBB r/ml6,imm8 1/3 2/7 3/7
-83/3 ib SBB r/m32,imm8 1/3 2/7 Subtract with borrow sign-extended
-18/r SBB r/m8,r8 1/3 2/6 2/7 3/16+EA Subtract with borrow byte register
-from r / m byte
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 10 iw | SSB AX,imm16 |  | 2 | 3 | 4 | Subtract with borrow immediate word from AX |
+| 10 id | SSB EAX,imm32 |  | 2 |  |  | Subtract with borrow immediate , dword from EAX |
+| 80/3 ib | SEB r/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA Subtract with borrow immediate |  byte from r / m byte |
+| 81 /3 iw | SEB r/ml6,imml6 | 1/3 | 2/7 | 3/7 | 4/17+EA Subtract | with borrow immediate word from r/m word |
+| 81 /3 id | SEB r/m32,imm32 | 1/3 | 2/7 |  |  | Subtract with borrow immediate dword from r /m dword |
+| 83/3 ib | SBB r/ml6,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA Subtract with borrow sign-extended |  |
+| 83/3 ib | SBB r/m32,imm8 | 1/3 | 2/7 |  |  | Subtract with borrow sign-extended |
+| 18/r | SBB r/m8,r8 | 1/3 | 2/6 | 2/7 | 3/16+EA Subtract with borrow byte register |  from r / m byte |
 
 * Ie ib SSB AL,imm8 1 234 Subtract with borrow immediate immediate byte from rim word immediate byte from rim dword 19 /r SBB r/mI6,r16 1/3 2/6 2/7 3/16+EA Subtract with borrow word register from rim word 19 Ir SBB r/m32,r32 1/3 2/6 Subtract with borrow dword register from rim dword lA Ir SBBr8,r/m8 1/2 2/7 3/9+ EA Subtract with borrow byte register 2/7 from rim byte IB /r SBB r16,r/mI6 1/2 2/7 3/9+EA Subtract with borrow word register 2/7 from rim word 18 Ir SBB r32,r/m32 1/2 2/7 Subtract with borrow dword register from rim dword SBB adds the second operand (DEST) to the.carry flag (CF) and subtracts the result from the first operand (SRC). The result of the subtraction is assigned to the first operand (DEST), and the flags are set accordingly. When an immediate byte value is subtracted from a word operand, the immediate value is first sign-extended.
 
@@ -5608,21 +5106,16 @@ from r / m byte
 
 #### `SCASW`
 
-```
-T A 0 D S Z
-```
-
 #### `SCASD`
 
-```
-486 386 286 86
-AE SCASm8 6 7 7 15 Compare bytes AL - ES:[OI]
-AF SCASm16 6 7 7 15 Compare words AX - ES: [01]
-AF SCASm32 6 7 Compare dwords EAX - ES: [01]
-AE SCASB 6 7 7 15 Compare bytes AL - ES:[OI]
-AF SCASW 6 7 7 15 Compare words AX - ES: [01]
-AF SCASD 6 7 Compare dwords EAX - ES: [01]
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| AE | SCASm8 | 6 | 7 | 7 | 15 | Compare bytes AL - ES:[OI] |
+| AF | SCASm16 | 6 | 7 | 7 | 15 | Compare words AX - ES: [01] |
+| AF | SCASm32 | 6 | 7 |  |  | Compare dwords EAX - ES: [01] |
+| AE | SCASB | 6 | 7 | 7 | 15 | Compare bytes AL - ES:[OI] |
+| AF | SCASW | 6 | 7 | 7 | 15 | Compare words AX - ES: [01] |
+| AF | SCASD | 6 | 7 |  |  | Compare dwords EAX - ES: [01] |
 
 SCAS subtracts the memory byte or word at the destination register from the AL, AX or EAX register. The result is discarded; only the flags are set. The operand must be addressable from the ES segment; no segment override is possible. If the address-size attribute for this instruction is 16 bits, DI is used as the destination register; otherwise, the address-size attribute is 32 bits and EDI is used. The address of the memory data being compared is determined solely by the contents of the destination register, not by the operand to SCAS. The operand validates ES segment addressability and determines the data type. Load the correct index value into DI or EDI before executing SCAS. After the comparison is made~ the destination register is automatically updated. If the direction flag is 0 (CLD was executed), the destination register is . incremented; if the direction flag is 1 (SID was executed), it is decremented. The increments or decrements are by 1 if bytes are compared, by 2 if words are compared, or by 4 if doublewords are compared. SCASB, SCASW, and SCASD are synonyms for the byte, word and doubleword SCAS instructions that don't require operands. They are simpler to code, but provide no type or segment checking. SCAS can be preceded by the REPE or REPNE prefix for a block search of CX or ECX bytes or words. Refer to the REP instruction for further details.
 
@@ -5630,41 +5123,39 @@ SCAS subtracts the memory byte or word at the destination register from the AL, 
 
 *Byte set on condition*
 
-```
-0 I T S Z P C D A
-486 386
-OF 97 SETAr/m8 4/3 4/5 Set byte if above (CF=O and ZF=O)
-OF 93 SETAEr/m8 4/3 4/5 Set byte if above or equal (CF=O)
-OF 92 SETBr/m8 4/3 4/5 Set byte if below (CF=l)
-OF 96 SETBEr/ro8 4/3 Set byte if below or equal (CF=l or ZF=l) 4/5
-OF 92 SETCr/m8 4/3 4/5 Set if carry (CF=l)
-OF 94 SETEr/m8 Set byte if equal (ZF=l) 4/3 4/5
-OF9F SETGr/ro8 4/3 4/5 Set byte if greater (ZF=O or SF=OF) .
-486 386
-OF9D SETGEr/mB 4/3 4/5 Set byte if greater or equal (SF=OF)
-OF9C Set byte if less (SF<>OF) SETLr/mB 4/3 4/5
-OF9E SETLEr/mB 4/3 4/5 Set byte if less or equal (ZF=1 and SF<>OF)
-OF 96 Set byte if not above (CF=I) SETNAr/mB 4/3 4/5
-OF 92 SETNAEr/mB 4/3 4/5 Set byte if not above or equal (CF=I)
-OF 93 SETNBr/mB 4/3 4/5 Set byte if not below (CF=O)
-OF 97 SETNBE r/mB 4/3 4/5 Set byte if not below or equal (CF=O and ZF=O)
-OF 93 SETNC r/mB 4/3 4/5 Set byte if not carry (CF=O)
-OF 95 SElNEr/mB 4/3 4/5 Set byte if not equal (ZF=O)
-OF 9E SETNG r/mB 4/3 4/5 Set byte if not greater (ZF=1 or SF<>OF)
-OF 9C SETNGE r/mB Set byte if not greater or equal (SF<>OF) 4/3 4/5
-. Set byte if not less (SF=OF) OF 9D SETNL r/m8 4/3 4/5
-OF 9F SETNLE r/mB Set byte if not less or equal (ZF=1 and SF<>OF) 4/3 4/5
-OF 91 SETNO r/m8 4/3 4/5 Set byte if not overflow (OF=O)
-OF 9B SETNP r/mB Set byte if not parity (PF=O) 4/3 4/5
-OF 99 SETNS r/m8 4/3 4/5 Set byte if not sign (SF=O)
-OF 95 SETNZr/m8 4/3 4/5 Set byte if not zero (ZF=O)
-OF 90 Set byte if overflow (OF=I) SETOr/mB 4/3 4/5
-OF9A SETPr/mB 4/3 4/5 Set byte if parity (PF=I)
-OF 9A SETPE r/mB Set byte if parity even (PF=I) 4/3 4/5
-OF 9B SETPO r/mB 4/3 4/5 Set byte if parity odd (PF=O)
-OF 98 Set byte if sign (SF=I) SETSr/mB 4/3 4/5
-OF 94 SETZ r/m8 4/3 4/5 Set byte if zero (ZF=I)
-```
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+|  | 0 D | I | T S | Z P C A |
+| OF 97 | SETAr/m8 | 4/3 | 4/5 | Set byte if above (CF=O and ZF=O) |
+| OF 93 | SETAEr/m8 | 4/3 | 4/5 | Set byte if above or equal (CF=O) |
+| OF 92 | SETBr/m8 | 4/3 | 4/5 | Set byte if below (CF=l) |
+| OF 96 | SETBEr/ro8 | 4/3 | 4/5 | Set byte if below or equal (CF=l or ZF=l) |
+| OF 92 | SETCr/m8 | 4/3 | 4/5 | Set if carry (CF=l) |
+| OF 94 | SETEr/m8 | 4/3 | 4/5 | Set byte if equal (ZF=l) |
+| OF9F | SETGr/ro8 | 4/3 | 4/5 | Set byte if greater (ZF=O or SF=OF) . |
+| OF9D | SETGEr/mB | 4/3 | 4/5 | Set byte if greater or equal (SF=OF) |
+| OF9C | SETLr/mB | 4/3 | 4/5 | Set byte if less (SF<>OF) |
+| OF9E | SETLEr/mB | 4/3 | 4/5 | Set byte if less or equal (ZF=1 and SF<>OF) |
+| OF 96 | SETNAr/mB | 4/3 | 4/5 | Set byte if not above (CF=I) |
+| OF 92 | SETNAEr/mB | 4/3 | 4/5 | Set byte if not above or equal (CF=I) |
+| OF 93 | SETNBr/mB | 4/3 | 4/5 | Set byte if not below (CF=O) |
+| OF 97 | SETNBE r/mB | 4/3 | 4/5 | Set byte if not below or equal (CF=O and ZF=O) |
+| OF 93 | SETNC r/mB | 4/3 | 4/5 | Set byte if not carry (CF=O) |
+| OF 95 | SElNEr/mB | 4/3 | 4/5 | Set byte if not equal (ZF=O) |
+| OF 9E | SETNG r/mB | 4/3 | 4/5 | Set byte if not greater (ZF=1 or SF<>OF) |
+| OF 9C | SETNGE r/mB | 4/3 | 4/5 | Set byte if not greater or equal (SF<>OF) |
+| OF 9D | SETNL r/m8 | 4/3 | 4/5 | . Set byte if not less (SF=OF) |
+| OF 9F | SETNLE r/mB | 4/3 | 4/5 | Set byte if not less or equal (ZF=1 and SF<>OF) |
+| OF 91 | SETNO r/m8 | 4/3 | 4/5 | Set byte if not overflow (OF=O) |
+| OF 9B | SETNP r/mB | 4/3 | 4/5 | Set byte if not parity (PF=O) |
+| OF 99 | SETNS r/m8 | 4/3 | 4/5 | Set byte if not sign (SF=O) |
+| OF 95 | SETNZr/m8 | 4/3 | 4/5 | Set byte if not zero (ZF=O) |
+| OF 90 | SETOr/mB | 4/3 | 4/5 | Set byte if overflow (OF=I) |
+| OF9A | SETPr/mB | 4/3 | 4/5 | Set byte if parity (PF=I) |
+| OF 9A | SETPE r/mB | 4/3 | 4/5 | Set byte if parity even (PF=I) |
+| OF 9B | SETPO r/mB | 4/3 | 4/5 | Set byte if parity odd (PF=O) |
+| OF 98 | SETSr/mB | 4/3 | 4/5 | Set byte if sign (SF=I) |
+| OF 94 | SETZ r/m8 | 4/3 | 4/5 | Set byte if zero (ZF=I) |
 
 SETcc stores a byte containing 1 at the destination specified by the effective address or register if the condition is met, or a 0 byte if the condition is not met.
 
@@ -5676,11 +5167,10 @@ SETcc stores a byte containing 1 at the destination specified by the effective a
 
 *80286 and greater protected mode only*
 
-```
-T S P C 0 D Z A
-486 386 286
-OF 01 10 SGDTm 10 9 11 Store GUTR to m
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+|  | 0 | D |  | T S | P C Z A |
+| OF 01 10 | SGDTm | 10 | 9 | 11 | Store GUTR to m |
 
 OF 01 II SIDTm 10 9 12 Store IDTR to m SGDT /SIDT copies the contents of the descriptor table register to the six bytes of memory indicated by the operand. The LIMIT field of the register is assigned to the first word at the effective address. If the operand-size attribute is 16 bits, the next three bytes are assigned the BASE field of the register, and the fourth byte is written with zero. The last byte is undefined. Otherwise, if the operand- size attribute is 32 bits, the next four bytes are assigned the 32-bit BASE field of the register . .sGDT and SIDT are used only in operating system software; they are not used in application programs.
 
@@ -5688,20 +5178,16 @@ OF 01 II SIDTm 10 9 12 Store IDTR to m SGDT /SIDT copies the contents of the des
 
 *Double precision shift left*
 
-```
-¥
-486 386
-OFA4 SHLD r /m16,r16,imm8 2/3 3/7 r / m16 gets SHL of r / m16 concatenated
-withrl
-OFA4 SHLD r /m32,r32,imm8 2/3 3/7 r / m32 ~ets SHL of r / m32 concatenated
-withr3
-OFA5 SHLD r / m16,r16,CL 2/3 3/7 r/m16 gets SHL 6f r/m16 concatenated
-withrl
-OFA5 SHLD r /m32,r32,CL 2/3 3/7 r / m32 ~ets SHL of r / m32 co~catenated
-withr3
-```
+**Flags:** `o D ITS Z A C`
 
-o D ITS Z A C SHLD shifts the first operand provided by the rim field to the left as many bits as specified by the count operand. The second operand (r16 or r32) provides the bits to shift in from the right (starting with bit 0). The result is stored back into the rim operand. The register remains unaltered. The count operand is provided by either an immediate byte or the contents of the CL register. These operands are taken MODULO 32 to provide a number between 0 and 31 by which to shift. Because the bits to shift are provided by the specified registers, the operation is useful for multiprecision shifts (64 bits or more). The SF, ZF and PF flags are set according to the value of the result. CF is set to the value of the last bit shifted out. OF and AF are left undefined.
+| Opcode | Instruction | 486 | 386 | Description |
+|---|---|---|---|---|
+| OFA4 | SHLD r /m16,r16,imm8 | 2/3 | 3/7 | r / m16 gets SHL of r / m16 concatenated withrl |
+| OFA4 | SHLD r /m32,r32,imm8 | 2/3 | 3/7 | r / m32 ~ets SHL of r / m32 concatenated withr3 |
+| OFA5 | SHLD r / m16,r16,CL | 2/3 | 3/7 | r/m16 gets SHL 6f r/m16 concatenated withrl |
+| OFA5 | SHLD r /m32,r32,CL | 2/3 | 3/7 | r / m32 ~ets SHL of r / m32 co~catenated withr3 |
+
+SHLD shifts the first operand provided by the rim field to the left as many bits as specified by the count operand. The second operand (r16 or r32) provides the bits to shift in from the right (starting with bit 0). The result is stored back into the rim operand. The register remains unaltered. The count operand is provided by either an immediate byte or the contents of the CL register. These operands are taken MODULO 32 to provide a number between 0 and 31 by which to shift. Because the bits to shift are provided by the specified registers, the operation is useful for multiprecision shifts (64 bits or more). The SF, ZF and PF flags are set according to the value of the result. CF is set to the value of the last bit shifted out. OF and AF are left undefined.
 
 #### `SHRD`
 
@@ -5709,20 +5195,14 @@ o D ITS Z A C SHLD shifts the first operand provided by the rim field to the lef
 
 **Flags:** `o D ITS ZAP C`
 
-```
-S P C 0 D T Z A
-486 386
-OFAC SHRD r /m16,r16,imm8 2/3 3/7 r / m16 gets SHR of r / m16 concatenated
-withrl
-OFAC SHRD r /m32,r32,imm8 2/3 3/7 r / m32 ~ets SHR of r / m32 concatenated
-withr3
-OF AD SHRD r/m16,r16,CL 3/4 3/7 r / m16 gets SHR of r / m16 concatenated
-withrl
-OF AD SHRD r /m32,r32,CL 3/4 3/7 r/m32 ~ets SHRofr/m32 concatenated
-withr3
-486 386 286
-OFOO/O SLDTr/m16 2/3 pm=2/2 2/3 Store LDTR to EA word
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+|  | 0 | D | T | S Z A | P C |
+| OFAC | SHRD r /m16,r16,imm8 |  | 2/3 | 3/7 | r / m16 gets SHR of r / m16 concatenated withrl |
+| OFAC | SHRD r /m32,r32,imm8 |  | 2/3 | 3/7 | r / m32 ~ets SHR of r / m32 concatenated withr3 |
+| OF AD | SHRD r/m16,r16,CL |  | 3/4 | 3/7 | r / m16 gets SHR of r / m16 concatenated withrl |
+| OF AD | SHRD r /m32,r32,CL |  | 3/4 | 3/7 | r/m32 ~ets SHRofr/m32 concatenated withr3 |
+| OFOO/O | SLDTr/m16 | 2/3 | pm=2/2 | 2/3 | Store LDTR to EA word |
 
 * SHRD shifts the first operand provided by the rim field to the right as many bits as specified by the count operand. The second operand (r16 or r32) provides the bits to shift in from the left (starting with bit 31). The result is stored back into the rim operand. The register remains unaltered. The count operand is provided by either an immediate byte or the contents of the CL register. These operands are taken MODULO 32 to provide a number between 0 and 31 by which to shift. Because the bits to shift are provided by the specified register, the operation is useful for multi-precision shifts (64 bits or more). The SF, ZF and PF flags are set according to the value of the result. CF is set to the value of the last bit shifted out. OF and AF are left undefined. SLDT stores the Local Descriptor Table Register (LDTR) in the two-byte register or memory location indicated by the effective address operand. This register is a selector that points into the global descriptor table. SLDT is used only in operating system software. It is not used in application programs.
 
@@ -5730,12 +5210,10 @@ OFOO/O SLDTr/m16 2/3 pm=2/2 2/3 Store LDTR to EA word
 
 *Store machine status word*
 
-```
-0 D T S Z A P C I
-486 386 286
-Store machine status word to EA OF 01 /4 SMSWr/m16 2/3 2/3,pm=2/2 2/3
-word
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+|  | 0 | D | T S I | Z A P | C |
+| OF 01 /4 | SMSWr/m16 | 2/3 | 2/3,pm=2/2 | 2/3 | Store machine status word to EA word |
 
 SMSW stores the machine status word (part of CRO) in the two-byte register or memory location indicated by the effective address operand.
 
@@ -5743,12 +5221,10 @@ SMSW stores the machine status word (part of CRO) in the two-byte register or me
 
 *Set carry flag*
 
-```
-P 0 D I T S Z A C
-1
-486 386 286 86
-F9 STC 2 2 2 2 Set carry flag
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | I T | S | Z A | P C 1 |
+| F9 | STC | 2 | 2 | 2 | 2 | Set carry flag |
 
 STC sets the carry flag to 1.
 
@@ -5756,13 +5232,11 @@ STC sets the carry flag to 1.
 
 *Set direction flag*
 
-```
-0 P D I T S Z A C
-1
-486 386 286 86
-PO SID 2 2 2 2 Set direction flag so (E)SI or (E)OI
-decrement
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | I | T S | Z A | P C |
+|  |  | 1 |  |  |  |  |
+| PO | SID | 2 | 2 | 2 | 2 | Set direction flag so (E)SI or (E)OI decrement |
 
 SID sets the direction flag to I, causing all subsequent string operations to decrement the index registers, (E)Sland/ or (E)DI, on which they operate.
 
@@ -5772,19 +5246,17 @@ SID sets the direction flag to I, causing all subsequent string operations to de
 
 **Flags:** `o D ITS ZAP C`
 
-```
-T P C 0 D I S Z A
-1
-486 386 286 86
-FB STI 5 3 2 2 Set interrupt flag
-486 386 286 86
-AA STOSm8 5 4 3 11 Store AL in byte ES:[(E)DI]
-AB STOSm16 5 4 3 11 Store AX in word ES:[(E)DI]
-5 4 AB STOSm32 Store EAX in dword ES:[(E)DI]
-AA 5 4 11 Store AL in byte ES:[(E)DI] STOSB 3
-AB STOSW 5 4 3 11 Store AX in word ES:[(E)DI]
-5 AB STOSD 4 Store EAX in dword ES:[(E)DI]
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | T I | S | Z A | P C |
+|  |  |  | 1 |  |  |  |
+| FB | STI | 5 | 3 | 2 | 2 | Set interrupt flag |
+| AA | STOSm8 | 5 | 4 | 3 | 11 | Store AL in byte ES:[(E)DI] |
+| AB | STOSm16 | 5 | 4 | 3 | 11 | Store AX in word ES:[(E)DI] |
+| AB | STOSm32 | 5 | 4 |  |  | Store EAX in dword ES:[(E)DI] |
+| AA | STOSB | 5 | 4 | 3 | 11 | Store AL in byte ES:[(E)DI] |
+| AB | STOSW | 5 | 4 | 3 | 11 | Store AX in word ES:[(E)DI] |
+| AB | STOSD | 5 | 4 |  |  | Store EAX in dword ES:[(E)DI] |
 
 STI sets the interrupt flag to 1. The CPU then responds to external interrupts after execlJ.ting the next instruction if the next instruction allows the interrupt flag to remain enabled. If external interrupts are disabled and you code STI, RET (such as at the end of a subroutine), the RET is allowed to execute before external interrupts are recognized. Also, if external interrupts are disabled and you code STI, CLI, then external interrupts are not recognized because the CLI instruction clears the interrupt flag during its execution. STOS transfers the contents of the AL, AX, or EAX register to the memory byte, word, or doubleword given by the destination register relative to the ES segment. The destination register is DI for an address-size attribute of 16 bits or EDI for an address-size attribute of 32 bits. The destination operand must be addressable from the ES register. A segment override is not possible. The address of the destination is determined by the contents of the destination register, not by the explicit operand of STOS. This operand is used only to validate ES segment address ability and to determine the data type. Load the correct index value into the destination register before executing STOS. After the transfer is made, DI is automatically updated. If the direction flag is 0 (CLD was executed), DI is incremented; if the direction flag is.1 (SID was executed), DI is decremented. DI is incremented or decremented by 1 if a byte is stored, by 2 if a word is stored, or by 4 if a doubleword is stored. STOSB, STOSW, and STOSD are synonyms for the byte, word, and double- word STOS instructions, that do not requir~ an operand. They are simpler to use, but provide no type or segment checking. STOS can be preceded by the REP prefix for a block fill of CX or ECX bytes, words, or doublewords. Refer to the REP instruction for further details.
 
@@ -5792,12 +5264,13 @@ STI sets the interrupt flag to 1. The CPU then responds to external interrupts a
 
 *Store task register*
 
-```
-486 386 286
-OF 00 II LoadEA word into task register STRr/m16 2/3 pm=23/272/3
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C The contents of the task register are copied to the two-byte register or memory location indicated by the effective address operand. STR is used only in operating system software. It is not used in application programs.
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OF 00 II | STRr/m16 | 2/3 | pm=23/272/3 |  | LoadEA word into task register |
+
+The contents of the task register are copied to the two-byte register or memory location indicated by the effective address operand. STR is used only in operating system software. It is not used in application programs.
 
 #### `SUB`
 
@@ -5805,39 +5278,22 @@ o D T S ZAP C The contents of the task register are copied to the two-byte regis
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-2Cib SUBAL,imm8 1 2 3 4 Subtract immediate byte
-fromAL
-2Diw SUB AX,imm16 1 2 3 4 Subtract immediate word
-from AX
-2Did SUB EAX,imm32 2 Subtract immediate dword
-fromEAX
-SUB r/m8,imm8 2/7 4/17+EA Subtract immediate byte 80/5ib 1/3 3/7
-from rim byte
-4/17+EA Subtract immediate word 81/5iw SUB r/ml6,imml6 2/7 3/7 1/3
-from rim word
-8115 id SUB r Im32,imm32 1/3 2/7 Subtract immediate dword
-from rim dword
-83/5ib SUB r/m16,imm8 1/3 4/17+EA Subtract si~-extended 2/7 3/7
-immediate yte from r / m
-word
-SUB r Im32,imm8 83/5ib 1/3 2/7 Subtract si~-extended
-immediate yte from rim
-dword
-1/3 3/16+EA Subtract byte register from 28/r SUBr/m8,r8 2/6 2/7
-rim byte
-3/16+EA Subtract word register from 29/r SUB r/m16,r16 1/3 2/6 2/7
-rim word
-SUB r I m32,r32 Subtract dword register from 29/r 1/3 2/6
-r/mdword
-Subtract EA byte from byte 2A/r SUBr8,r/m8 1/2 2/7 2/7 3/9+EA
-register
-SUB r16,r/m32 Subtract EA word from word 2B Ir 1/2 2/7 2/7 3/9+EA
-register
-2B Ir SUB r32,r I m32 Subtract EA dword from 1/2 2/7
-dword register
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 2Cib | SUBAL,imm8 | 1 | 2 | 3 | 4 | Subtract immediate byte fromAL |
+| 2Diw | SUB AX,imm16 | 1 | 2 | 3 | 4 | Subtract immediate word from AX |
+| 2Did | SUB EAX,imm32 |  | 2 |  |  | Subtract immediate dword fromEAX |
+| 80/5ib | SUB r/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Subtract immediate byte from rim byte |
+| 81/5iw | SUB r/ml6,imml6 | 1/3 | 2/7 | 3/7 | 4/17+EA | Subtract immediate word from rim word |
+| 8115 id | SUB r Im32,imm32 | 1/3 | 2/7 |  |  | Subtract immediate dword from rim dword |
+| 83/5ib | SUB r/m16,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Subtract si~-extended immediate yte from r / m word |
+| 83/5ib | SUB r Im32,imm8 | 1/3 | 2/7 |  |  | Subtract si~-extended immediate yte from rim dword |
+| 28/r | SUBr/m8,r8 | 1/3 | 2/6 | 2/7 | 3/16+EA | Subtract byte register from rim byte |
+| 29/r | SUB r/m16,r16 | 1/3 | 2/6 | 2/7 | 3/16+EA | Subtract word register from rim word |
+| 29/r | SUB r I m32,r32 | 1/3 | 2/6 |  |  | Subtract dword register from r/mdword |
+| 2A/r | SUBr8,r/m8 | 1/2 | 2/7 | 2/7 | 3/9+EA | Subtract EA byte from byte register |
+| 2B Ir | SUB r16,r/m32 | 1/2 | 2/7 | 2/7 | 3/9+EA | Subtract EA word from word register |
+| 2B Ir | SUB r32,r I m32 | 1/2 | 2/7 |  |  | Subtract EA dword from dword register |
 
 SUB subtracts the second operand (SRC) from the first operand (DEST). The first operand is assigned the result of the subtraction, and the flags are set accordingly. When an immediate byte value is subtracted from a word operand, the immediate value is first sign-extended to the size of the destination operand.
 
@@ -5847,27 +5303,17 @@ SUB subtracts the second operand (SRC) from the first operand (DEST). The first 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-0
-486 386 286 86
-A8ib TEST AL,imm8 1 2 3 4 And immediate byte with
-AL
-1 2 A9iw TEST AX,imm16 3 4 And immediate word with
-AX
-A9id TEST EAX,imm32 1 2 And immediate dword
-withEAX
-F6 /0 ib TEST r/m8,imm8 1/2 2/5 3/6 5/11+EA And immediate byte with
-r/mbyte
-F7 /0 iw TEST r/m16,imm16 1/2 2/5 3/6 5/11+EA And immediate word with
-r/mword
-F7 /0 id TEST r/m32,imm32 1/2 2/5 Andimmediatedword
-with r / m dword
-byte
-85 /r TEST r/m16,r16 1/2 2/5 2/6 3/9+EA Andwordregisterwith
-r/mword
-85/r TEST r/m32,r32 1/2 2/5 And dword register with
-r/mdword
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  | 0 |  |
+| A8ib | TEST AL,imm8 | 1 | 2 | 3 | 4 | And immediate byte with AL |
+| A9iw | TEST AX,imm16 | 1 | 2 | 3 | 4 | And immediate word with AX |
+| A9id | TEST EAX,imm32 | 1 | 2 |  |  | And immediate dword withEAX |
+| F6 /0 ib | TEST r/m8,imm8 | 1/2 | 2/5 | 3/6 | 5/11+EA | And immediate byte with r/mbyte |
+| F7 /0 iw | TEST r/m16,imm16 | 1/2 | 2/5 | 3/6 | 5/11+EA | And immediate word with r/mword |
+| F7 /0 id | TEST r/m32,imm32 | 1/2 | 2/5 |  |  | Andimmediatedword with r / m dword byte |
+| 85 /r | TEST r/m16,r16 | 1/2 | 2/5 | 2/6 | 3/9+EA | Andwordregisterwith r/mword |
+| 85/r | TEST r/m32,r32 | 1/2 | 2/5 |  |  | And dword register with r/mdword |
 
 * o 84 /r TESTr/m8,r8 1/2 2/5 2/6 3/9+EA Andbyteregisterwithr/m TEST computes the bit-wise logical AND of its two operands. Each bit of the result is 1 if both of the corresponding bits of the operands are 1; otherwise, each bit is O. The result of the operation is discarded and only the flags are modified. The optimized form of TEST is TESTFLAG (see Chapter 3).
 
@@ -5881,11 +5327,10 @@ r/mdword
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286
-OFOO/4 VERRr/m16 11/11 pm=10/11 14/16 SetZF=lifsegmentcanberead
-OFOO/5 VERWr/m16 11/11 pm=15/16 14/16 SetZF=lifsegmentcanbewritten
-```
+| Opcode | Instruction | 486 | 386 | 286 | Description |
+|---|---|---|---|---|---|
+| OFOO/4 | VERRr/m16 | 11/11 pm=10/11 |  | 14/16 | SetZF=lifsegmentcanberead |
+| OFOO/5 | VERWr/m16 | 11/11 pm=15/16 |  | 14/16 | SetZF=lifsegmentcanbewritten |
 
 The two-byte register or memory operand of VERR and VERW contains the value of a selector. VERR and VERW determine whether the segment denoted by the selector is reachable front the current privilege level and whether the segment is readable (VERR) or writable (VERW). If the segment is accessible, the zero flag is set to 1; if the segment is not accessible, the zero flag is set to O. To set ZF, the following conditions must be met: • The selector must denote a descriptor within the bounds of the table (GDT or LDT); the selector must be "defined." • The selector must denote the descriptor of a code or data segment (not that of a task state segment, LDT, or a gate). • For VERR, the segment must be readable. For VERW, the segment must be a writable data segment. • If the code segment is readable and conforming, the descriptor privilege level (DPL) can be any value for VERR. Otherwise, the DPL must be greater than or equal to (have less or the same privilege as) both the current privilege level and the selector's RPL. The validation performed is the same as if the segment were loaded into DS, ES, FS, or GS, and the indicated access (read or write) were performed. The zero flag receives the result of the validation. The selector's value cannot result in a protection exception, enabling the software to anticipate possible segment access problems.
 
@@ -5895,10 +5340,9 @@ The two-byte register or memory operand of VERR and VERW contains the value of a
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486 386 286 86
-WAIT 1-3 6 3 4+5n Wait until BUSY pin is inactive (I-llGH) 9B
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 9B | WAIT | 1-3 | 6 | 3 | 4+5n | Wait until BUSY pin is inactive (I-llGH) |
 
 WAIT suspends execution of CPU instructions until the BUSY# pin is inactive (high). The BUSY# pin is driven by the 80x87 numeric processor extension.
 
@@ -5908,10 +5352,9 @@ WAIT suspends execution of CPU instructions until the BUSY# pin is inactive (hig
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486
-OF 09 Write-back and invalidate entire cache WBINVD 5
-```
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+| OF 09 | WBINVD | 5 | Write-back and invalidate entire cache |
 
 The internal cache is flushed, and a special-function bus cycle is issued which indicates that the external cache should write-back its contents to main memory. Another special-function bus cycle follows, directing the external cache to flush itself. implemented differently on future Intel processors. It is the responsibility of the hardware to respond to the external cache write-back and flush indications.
 
@@ -5923,14 +5366,6 @@ The internal cache is flushed, and a special-function bus cycle is issued which 
 
 **Flags:** `o D ITS ZAP C`
 
-```
-Pentium
-OF 30 WRMSR 30-45 Write the value in EDX:EAX to Model Specific
-Register indicated by ECX.
-OOh Machine Check Address Stores address of cycle causing the exception.
-Olh Machine Check Type Stores cycle type of cycle causing the exception.
-```
-
 The value in ECX specifies one of the 64-bit Model Specific Registers of the Pentium processor. The contents of EDX:EAX is copied into that Model Specific Register. The high-order 32 bits are copied from EDX and the low-order 32 bits are copied from EAX. ' The following values are used to select model specific registers on the Pentium processor: Other values used to preform cache, TLB and BTB testing and performance monitoring, are available under a non-disclosure agreement from Intel. Protected mode exceptions: #GP(O) if either the current privilege level is not 0 or the value in ECX does not specify a Model-Specific Register that is implemented in the Pentium processor. Real mode exceptions: #GP if the value in ECX does not specify a Model- Specific Register that is implemented in the Pentium processor. Virtual 8086 mode exceptions: #GP(O) if instruction execution is attempted. Notes: This instruction must be executed at privilege level 0 or in real-address mode; otherwise a protection exception will be generated. Always set undefined or reserved bits to the value previously read. WRMSR is used to write the content of Model-Specific Registers that control functions for testability, execution tracing, performance monitoring and machine check errors. Refer to the Pentium Processor Data Book for more information or contact Intel. The values 3h, OFh, and values above 13h are reserved. Do not execute WRMSR with reserved values in ECX.
 
 #### `XADD`
@@ -5939,34 +5374,25 @@ The value in ECX specifies one of the 64-bit Model Specific Registers of the Pen
 
 **Flags:** `o D ITS ZAP C`
 
-```
-486
-```
-
 * * * OFCO/r XADDr/m8,r8 3/4 Exchange byte register and rim byte; load sum into rim byte. OFCl/r XADDr/ml6,rl68 3/4 Exchange word register and rim word; load sum into rim word. OFCl/r XADDr/m32,r32 3/4 Exchange dword register and rim dword; load sum into rim dwora. The XADD instruction loads DEST into SRC, and then loads the sum of DEST and the original value of SRC into DEST. DEST is the destination operand; SRC is the source operand. Protected mode exceptions: #GP(O) if the result is in a nonwritable segment; #GP(O) for an illegal memory operand effective address in the CS, DS, ES, FS, or GS segments; #5S(O) for an illegal address in the SS segment; #PF (fault code) for a page fault; #NM if either EM or TS in CRO is set; #AC for an unaligned memory reference if the current privilege level is 3. Real address mode exceptions: interrupt 13 if any part of the operand would lie outside the effective address space from 0 to OFFFFh. Virtual 8086 mode exceptions: same exception as in real-address mode; same #PI! and #AC exceptions as in protected mode.
 
 #### `XCHG`
 
 *Exchange memory/register with register*
 
-```
-D T Z A P C 0 S
-486 . 386 286 86
-86/r XCHG r/m8,r8 3/5 3/5 3/5 4/17+EA Exchange byte register with EA byte
-XCHG r8,r/m8 3/5 4/17+EA Exchange byte with EA byte register 86/r 3/5 3/5
-87/r XCHG r/m16,r16 3/5 3/5 3/5 4/17+EA Exchange word register with EA
-word
-87/r XCHG r16,r/m16 3/5 4/17+EA Exchange word register with EA 3/5 3/5
-word
-XCHG r/m32,r32 3/5 3/5 Exchange dword register with EA 87/r
-dword
-XCHGr32,r/m32 3/5 Exchange dword register with EA 87/r 3/5
-dword
-90+r XCHGAX,r16 3 3 3 3 Exchange word register with AX
-90+r XCHGr16,AX 3 3 3 3 Exchange word register with AX
-90+r XCHG EAX,r32 3 3 Exchange dword register with EAX
-90+r XCHG r32,EAX 3 3 Exchange dword register with EAX
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+|  | 0 | D | T | S | Z A | P C |
+| 86/r | XCHG r/m8,r8 | 3/5 | 3/5 | 3/5 | 4/17+EA | Exchange byte register with EA byte |
+| 86/r | XCHG r8,r/m8 | 3/5 | 3/5 | 3/5 | 4/17+EA | Exchange byte with EA byte register |
+| 87/r | XCHG r/m16,r16 | 3/5 | 3/5 | 3/5 | 4/17+EA Exchange | word register with EA word |
+| 87/r | XCHG r16,r/m16 | 3/5 | 3/5 | 3/5 | 4/17+EA Exchange | word register with EA word |
+| 87/r | XCHG r/m32,r32 | 3/5 | 3/5 |  |  | Exchange dword register with EA dword |
+| 87/r | XCHGr32,r/m32 | 3/5 | 3/5 |  |  | Exchange dword register with EA dword |
+| 90+r | XCHGAX,r16 | 3 | 3 | 3 | 3 | Exchange word register with AX |
+| 90+r | XCHGr16,AX | 3 | 3 | 3 | 3 | Exchange word register with AX |
+| 90+r | XCHG EAX,r32 | 3 | 3 |  |  | Exchange dword register with EAX |
+| 90+r | XCHG r32,EAX | 3 | 3 |  |  | Exchange dword register with EAX |
 
 XCHG exchanges two operands. The operands can be in either order. If a memory operand is involved, BUS LOCK is asserted for the duration of the exchange,regardless of the presence or absence of the LOCK prefix or of the value of the IOPL.
 
@@ -5978,13 +5404,10 @@ XCHG exchanges two operands. The operands can be in either order. If a memory op
 
 **Flags:** `0 D I T S Z A P C`
 
-```
-486 386 286 86
-07 XLATm8 4 5 5 Set AL to memory byte OS:[(E)BX + unsigned 11
-AL]
-4 07 XLATB 5 5 11 Set AL to memory byte OS:[(E)BX + unsigned
-AL]
-```
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 07 | XLATm8 | 4 | 5 | 5 | 11 | Set AL to memory byte OS:[(E)BX + unsigned AL] |
+| 07 | XLATB | 4 | 5 | 5 | 11 | Set AL to memory byte OS:[(E)BX + unsigned AL] |
 
 XLAT changes the AL register from the table index to the table entry. AL should be the unsigned index into a table addressed by DS:BX (for an address- size attribute of 16 bits) or DS:EBX (for an address-size attribute of 32 bits). The operand to XLAT allows for the possibility of a segment override. XLAT uses the contents of BX even if they differ from the offset of the operand. The offset of the operand should have been moved into BXjEBX with a previous instruction. The no-operand form, XLATB, can be used if the BXjEBX table will always reside in the DS segment.
 
@@ -5992,40 +5415,26 @@ XLAT changes the AL register from the table index to the table entry. AL should 
 
 *Logical exclusive OR*
 
-```
-0
-486 386 286 86
-34ib XORAL,imm8 1 2 3 4 Exclusive-OR immediate byte
-toAL
-35iw XOR AX,imm16 1 2 3 4 Exclusive-OR immediate word
-to AX
-35id XOR EAX,imm32 1 2 Exclusive-OR immediate
-dword toEAX
-80/6ib XORr/m8,imm8 1/3 2/7 3/7 4/17+EA Exclusive-OR immediate byte
-to rim byte
-8116 iw XORr/m16,imm16 1/3 2/7 3/7 4/17+EA Exclusive-OR immediate word
-to rim word
-81/6id XORr/m32,imm32 1/3 2/7 Exclusive-OR immediate
-dword tor/mdword
-8316 ib XOR r/m16,imm8 1/3 2/7 XOR sign-extended immediate
-byte to rim word
-XORr/m32,imm8 1/3 2/7 XORsign-extendedimmediate 83/6ib
-byte to rim dword
-30/r XOR r/m,r8 1/3 2/6 2/7 3/16+EA Exclusive-OR byte register to
-rim byte
-XORr/m16,r16 Exclusive-OR word register into 31/r 1/3 2/6 2/7 3/16+EA
-rim word
-31/r XORr/m32,r32 1/3 2/6 Exclusive-ORdword register to
-r/mdword
-XORr8,r/m8 Exclusive-OR rim byte to byte 32/r 1/2 2/7 2/7 3/9+EA
-register
-33/r XOR r16,r/m16 1/2 2/7 2/7 3/9+EA Exclusive-OR rim word to
-word register
-33/r XOR r32,r/m32 1/2 2/7 Exclusive-OR to rim dword to
-dword register
-```
+**Flags:** `o D T S ZAP C`
 
-o D T S ZAP C o XOR computes the exclusive OR of the two operands. Each bit of the result is 1 if the corresponding bits of the operands are different; each bit is 0 if the corresponding bits are the same. The answer replaces the first operand. The optimized form of XOR is FLIPFLAG (see Chapter 3).
+| Opcode | Instruction | 486 | 386 | 286 | 86 | Description |
+|---|---|---|---|---|---|---|
+| 34ib | XORAL,imm8 | 1 | 2 | 3 | 4 | Exclusive-OR immediate byte toAL |
+| 35iw | XOR AX,imm16 | 1 | 2 | 3 | 4 | Exclusive-OR immediate word to AX |
+| 35id | XOR EAX,imm32 | 1 | 2 |  |  | Exclusive-OR immediate dword toEAX |
+| 80/6ib | XORr/m8,imm8 | 1/3 | 2/7 | 3/7 | 4/17+EA | Exclusive-OR immediate byte to rim byte |
+| 8116 iw | XORr/m16,imm16 | 1/3 | 2/7 | 3/7 | 4/17+EA | Exclusive-OR immediate word to rim word |
+| 81/6id | XORr/m32,imm32 | 1/3 | 2/7 |  |  | Exclusive-OR immediate dword tor/mdword |
+| 8316 ib | XOR r/m16,imm8 | 1/3 | 2/7 |  |  | XOR sign-extended immediate byte to rim word |
+| 83/6ib | XORr/m32,imm8 | 1/3 | 2/7 |  |  | XORsign-extendedimmediate byte to rim dword |
+| 30/r | XOR r/m,r8 | 1/3 | 2/6 | 2/7 | 3/16+EA | Exclusive-OR byte register to rim byte |
+| 31/r | XORr/m16,r16 | 1/3 | 2/6 2/7 |  | 3/16+EA | Exclusive-OR word register into rim word |
+| 31/r | XORr/m32,r32 | 1/3 | 2/6 |  |  | Exclusive-ORdword register to r/mdword |
+| 32/r | XORr8,r/m8 | 1/2 | 2/7 2/7 |  | 3/9+EA | Exclusive-OR rim byte to byte register |
+| 33/r | XOR r16,r/m16 | 1/2 | 2/7 | 2/7 | 3/9+EA | Exclusive-OR rim word to word register |
+| 33/r | XOR r32,r/m32 | 1/2 | 2/7 |  |  | Exclusive-OR to rim dword to dword register |
+
+o XOR computes the exclusive OR of the two operands. Each bit of the result is 1 if the corresponding bits of the operands are different; each bit is 0 if the corresponding bits are the same. The answer replaces the first operand. The optimized form of XOR is FLIPFLAG (see Chapter 3).
 
 ## Chapter 5: Coprocessor Instructions
 
@@ -6043,10 +5452,9 @@ This chapter lists the 80x87 instructions in alphabetical order. There is one en
 
 *Compute x*
 
-```
-87 287 387 486 586
-D9FO F2XM1 211-476 211-476 242(140-279) 13-57
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | 586 | Description |
+|---|---|---|---|---|---|---|---|
+| D9FO | F2XM1 |  | 211-476 | 211-476 | 242(140-279) | 13-57 |  |
 
 Exceptions: p, U, 0, I, IS F2XM1 (no operands)
 
@@ -6054,11 +5462,10 @@ Exceptions: p, U, 0, I, IS F2XM1 (no operands)
 
 *Absolute value*
 
-```
-Exceptions: IS
-87 287 387 486
-No operands 10-17 10-17 22 3 FABS 2
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | IS |  |  |
+| No operands |  | 10-17 | 10-17 | 22 | 3 | FABS 2 |
 
 FABS (no operands)
 
@@ -6066,13 +5473,12 @@ FABS (no operands)
 
 *Add real*
 
-```
-87 287 387 486
-ST,ST(i) 70-100 70-100 23-34 10(8-20) 2 FADDST,5T(4)
-ST(i),ST FADDST(2),ST
-short real 90-120+EA 90-120 24-32 10(8-20) 2-4 FADD AIR_TEMP[SI]
-long real 95--125+EA 95-125 29-37 10(8-20) 2-4 FADD [BX].MEAN
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST,ST(i) |  | 70-100 | 70-100 | 23-34 | 10(8-20) | 2 FADDST,5T(4) |
+| ST(i),ST |  |  |  |  |  | FADDST(2),ST |
+| short real |  | 90-120+EA | 90-120 | 24-32 | 10(8-20) | 2-4 FADD AIR_TEMP[SI] |
+| long real |  | 95--125+EA | 95-125 | 29-37 | 10(8-20) | 2-4 FADD [BX].MEAN |
 
 Exceptions: I, 0, 0, U, P, IS FADD destination, source
 
@@ -6080,10 +5486,9 @@ Exceptions: I, 0, 0, U, P, IS FADD destination, source
 
 *Add real and pop*
 
-```
-87 287 387 486
-ST(i),ST 75-105 75-105 23-34 10(8-20) 2 FADDP ST(2),ST
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),ST |  | 75-105 | 75-105 | 23-34 | 10(8-20) | 2 FADDP ST(2),ST |
 
 FADDP destination, source
 
@@ -6091,10 +5496,9 @@ FADDP destination, source
 
 *Packed decimal (BCD) load*
 
-```
-87 287 387 486
-Packed decimal 290-310 290-310 5 75(70-103) 2-4 FBLD YTD _SALES
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| Packed decimal |  | 290-310 | 290-310 | 5 | 75(70-103) | 2-4 FBLD YTD _SALES |
 
 FBLDsource
 
@@ -6102,11 +5506,10 @@ FBLDsource
 
 *Packed decimal (BCD) store and pop*
 
-```
-87 287 387 486
-Packed 520-540+EA 520-540+EA 512-534 175(172-176) 2-4 FBSTP
-decimal [BX].FORECAST
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| Packed |  | 520-540+EA | 520-540+EA | 512-534 175(172-176) |  | 2-4 FBSTP |
+| decimal |  |  |  |  |  | [BX].FORECAST |
 
 FBSTP destination
 
@@ -6114,10 +5517,9 @@ FBSTP destination
 
 *I*
 
-```
-87 287 387 486
-No operands 10-17. 10-17 24-25 6 2 FCHS
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 10-17. | 10-17 | 24-25 | 6 | 2 FCHS |
 
 Change sign FCHS (no operands)
 
@@ -6127,11 +5529,10 @@ Change sign FCHS (no operands)
 
 #### `FNCLEX`
 
-```
-Exceptions: None
-87 287 387 486
-FNCLEX No operands 2--8 2--8 11 7
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| No operands |  | 2--8 | 2--8 | 11 | 7 | FNCLEX |
 
 FCLEX/FNCLEX (no operands)
 
@@ -6139,12 +5540,11 @@ FCLEX/FNCLEX (no operands)
 
 *Compare real*
 
-```
-87 287 387 486
-FCOMST(l) / /ST(i) 40-50 40-50 24 4
-short real 60-70+EA 60-70 26 4 2-4 FCOM [BP].UPPER_LIMIT
-long real 65-75+EA 65-75 31 4 2-4 . FCOM WAVELENGTH
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| / /ST(i) |  | 40-50 | 40-50 | 24 | 4 | FCOMST(l) |
+| short real |  | 60-70+EA | 60-70 | 26 | 4 | 2-4 FCOM [BP].UPPER_LIMIT |
+| long real |  | 65-75+EA | 65-75 | 31 | 4 | 2-4 . FCOM WAVELENGTH |
 
 FCOM / / source
 
@@ -6152,12 +5552,11 @@ FCOM / / source
 
 *Compare real and pop*
 
-```
-87 287 387 486
-/ /St(i) 42-52 45-52 26 4 2 FCOMPST(2)
-short real 63-73+EA 63-73 26 4 2-4 FCOMP [BP+2].N_READINGS
-long real 67-77+EA 67-77 31 4 2-4 FCOMP DENSITY
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| / /St(i) |  | 42-52 | 45-52 | 26 | 4 | 2 FCOMPST(2) |
+| short real |  | 63-73+EA | 63-73 | 26 | 4 | 2-4 FCOMP [BP+2].N_READINGS |
+| long real |  | 67-77+EA | 67-77 | 31 | 4 | 2-4 FCOMP DENSITY |
 
 FCOMP / / source
 
@@ -6165,10 +5564,9 @@ FCOMP / / source
 
 *Compare real and pop twice*
 
-```
-87 287 387 486
-No operands 45-55 45-55 26 5 2 FCOMPP
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 45-55 | 45-55 | 26 | 5 | 2 FCOMPP |
 
 FCOMPP (no operands)
 
@@ -6176,11 +5574,10 @@ FCOMPP (no operands)
 
 *Cosine of 51(0)*
 
-```
-87 287 387 486
-No operands 123-772* 241(193-279) 2 FCOS
-additional clocks may be needed to reduce the operand.
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  |  |  | 123-772* | 241(193-279) | 2 FCOS |
+| additional clocks |  | may | be needed | to reduce the operand. |  |  |
 
 FCOS
 
@@ -6190,11 +5587,10 @@ FCOS
 
 *Decrement stack pointer*
 
-```
-Exceptions: None
-87 287 387 486
-22 3 2 No operands 6-12 6-12 FDECSTP
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| No operands |  | 6-12 | 6-12 | 22 | 3 | 2 FDECSTP |
 
 FDECSTP (no operands)
 
@@ -6204,26 +5600,18 @@ FDECSTP (no operands)
 
 #### `FNDISI`
 
-```
-Exceptions: None
-Typical Range
-No operands 5 2-8 0 2 FDISI
-```
-
 FDISI (no operands)
 
 #### `FDIV`
 
 *Divide real*
 
-```
-87 287 387 486
-I/ST(i),ST 193-203 193-203 88-91 73 2 FDIV
-short real 215-225 215-225 89 73 2-4 FDIV DISTANCE
-87 287 387 486
-220-230 220-230 94 73 2-4 long real FDIV ARqDI]
-73 IIST,ST(i)
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| I/ST(i),ST |  | 193-203 | 193-203 | 88-91 | 73 | 2 FDIV |
+| short real |  | 215-225 | 215-225 | 89 | 73 | 2-4 FDIV DISTANCE |
+| long real |  | 220-230 | 220-230 | 94 | 73 | 2-4 FDIV ARqDI] |
+| IIST,ST(i) |  |  |  |  | 73 |  |
 
 FDIV / /source/destination, source
 
@@ -6231,10 +5619,9 @@ FDIV / /source/destination, source
 
 *Divide real and pop*
 
-```
-87 287 387 486
-IIST(i),ST 197-207 198-209 88-91 73 2 FDIVP ST(4),ST
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| IIST(i),ST |  | 197-207 | 198-209 | 88-91 | 73 | 2 FDIVP ST(4),ST |
 
 Exceptions: I, 0, Z, 0, U, P FDIVP destination, source
 
@@ -6242,12 +5629,11 @@ Exceptions: I, 0, Z, 0, U, P FDIVP destination, source
 
 *Divide real reversed*
 
-```
-87 287 387 486
-ST(i),ST 73
-short real 216-226+EA 215-225 89 73 2-4 FDIVR [BX].PULSE_RATE
-long real 221-231+EA 220-230 94 73 2-4 FDIVR RECORDER FREQUENCY
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),ST |  |  |  |  | 73 |  |
+| short real |  | 216-226+EA 215-225 |  | 89 | 73 | 2-4 FDIVR [BX].PULSE_RATE |
+| long real |  | 221-231+EA 220-230 |  | 94 | 73 | 2-4 FDIVR RECORDER FREQUENCY |
 
 Exceptions: I, 0, Z, 0, U, P FDIVR / / source/ destination, source - II 194-204 198-208 88-91 73 2 FDIVR ST(2),ST ST,ST(i) I
 
@@ -6255,10 +5641,9 @@ Exceptions: I, 0, Z, 0, U, P FDIVR / / source/ destination, source - II 194-204 
 
 *Divide real reversed and pop*
 
-```
-87 287 387 486
-ST(i),ST 198-208 198-208 88-91 73 2 FDIVRP ST(1),ST
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),ST |  | 198-208 198-208 |  | 88-91 | 73 | 2 FDIVRP ST(1),ST |
 
 Exceptions: I, 0, Z, 0, U, P FDIVRP destination, source
 
@@ -6268,11 +5653,10 @@ Exceptions: I, 0, Z, 0, U, P FDIVRP destination, source
 
 #### `FNENI`
 
-```
-Exceptions: None
-87
-(no operands) 5(2-8) 2 FNENI
-```
+| Opcode | Instruction | 87 | Description |
+|---|---|---|---|
+|  |  | Exceptions: | None |
+| (no operands) |  | 5(2-8) | 2 FNENI |
 
 FEN! (no operands)
 
@@ -6280,11 +5664,10 @@ FEN! (no operands)
 
 *Free register*
 
-```
-Exceptions: None
-87 287 387 486
-ST(i) 9-16 9-16 18 3 2 FFREEST(I)
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| ST(i) |  | 9-16 | 9-16 | 18 | 3 | 2 FFREEST(I) |
 
 FFREE destination
 
@@ -6292,13 +5675,12 @@ FFREE destination
 
 *0,0, P*
 
-```
-87 287 387 486
-word 102-137+EA 102-137 71-85 22.5(19-32) 2-4 FIADD
-integer DISTANCE_TRAVELLED
-short 108-143+EA 108-143 57-72 24(20-35) 2-4 FIADD PULSE_COUNT [SI]
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 102-137+EA | 102-137 71-85 |  | 22.5(19-32) | 2-4 FIADD |
+| integer |  |  |  |  |  | DISTANCE_TRAVELLED |
+| short |  | 108-143+EA | 108-143 57-72 |  | 24(20-35) | 2-4 FIADD PULSE_COUNT [SI] |
+| integer |  |  |  |  |  |  |
 
 FlADD source
 
@@ -6306,13 +5688,12 @@ FlADD source
 
 *Integer compare*
 
-```
-87 287 387 486
-word 72-86+EA 72-86 71-75 18(16-20) 2-4 FICOM TOOL.N] ASSES
-integer
-short 78-91+EA 78-91 56-63 16.5(15-17) 2-4 FICOM [BP+4].PARM_COUNT
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 72-86+EA | 72-86 71-75 |  | 18(16-20) | 2-4 FICOM TOOL.N] ASSES |
+| integer |  |  |  |  |  |  |
+| short |  | 78-91+EA | 78-91 56-63 |  | 16.5(15-17) | 2-4 FICOM [BP+4].PARM_COUNT |
+| integer |  |  |  |  |  |  |
 
 FlCOM source
 
@@ -6320,13 +5701,12 @@ FlCOM source
 
 *Integer compare and pop*
 
-```
-87 287 387 486
-word 74-88+EA 74-88 71-75 18(16-20) 2-4 FICOMP [BP].LIMIT [SI]
-integer
-short 80-93+EA 80-93 56-63 16.5(15-17) 2-4 FICOMP N_SAMPLES
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 74-88+EA | 74-88 | 71-75 | 18(16-20) | 2-4 FICOMP [BP].LIMIT [SI] |
+| integer |  |  |  |  |  |  |
+| short |  | 80-93+EA | 80-93 | 56-63 | 16.5(15-17) | 2-4 FICOMP N_SAMPLES |
+| integer |  |  |  |  |  |  |
 
 FICOMP source
 
@@ -6334,13 +5714,12 @@ FICOMP source
 
 *Integer divide*
 
-```
-87 287 387 486
-word 224-238+EA 224-238 136-140 73 2-4 FIDIV SURVEY.OBSERVATIONS
-integer
-short 230-243+EA 230-243 120-127 73 2-4 FIDIV RELATIVE_ANGLE [DI]
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 224-238+EA 224-238 |  | 136-140 | 73 | 2-4 FIDIV SURVEY.OBSERVATIONS |
+| integer |  |  |  |  |  |  |
+| short |  | 230-243+EA 230-243 |  | 120-127 | 73 | 2-4 FIDIV RELATIVE_ANGLE [DI] |
+| integer |  |  |  |  |  |  |
 
 FIDIV source ;:<X<::i>de.* .; .......•.... < .... <Pyte!!J •.. l~xample
 
@@ -6348,11 +5727,10 @@ FIDIV source ;:<X<::i>de.* .; .......•.... < .... <Pyte!!J •.. l~xample
 
 *Integer divide reversed*
 
-```
-87 287 387 486
-word integer 225-239+EA 224-238 135-141 73 2-4 FIDIVR [BP].x_COORD
-short integer 231-245+EA 230-243 121-128 73 2-4 FIDIVR FREQUENCY
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word integer 225-239+EA 224-238 135-141 |  |  |  |  | 73 2-4 | FIDIVR [BP].x_COORD |
+| short integer 231-245+EA 230-243 121-128 |  |  |  |  | 73 2-4 | FIDIVR FREQUENCY |
 
 FIDIVR source
 
@@ -6360,15 +5738,14 @@ FIDIVR source
 
 *Integer load*
 
-```
-87 287 387 486
-word 46-54+EA 46-54 61--65 11.5(9-12) 2-4 FILD [BX].SEQUENCE
-integer
-short 52--60+EA 52--60 45-52 14.5(13-16) 2-4 FILD STANDOFF [DI]
-integer
-long 60--68+EA 60--68 56--67 16.8(10-18) 2-4 FILD RESPONSE.COUNT
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 46-54+EA | 46-54 | 61--65 | 11.5(9-12) | 2-4 FILD [BX].SEQUENCE |
+| integer |  |  |  |  |  |  |
+| short |  | 52--60+EA | 52--60 | 45-52 | 14.5(13-16) | 2-4 FILD STANDOFF [DI] |
+| integer |  |  |  |  |  |  |
+| long |  | 60--68+EA | 60--68 | 56--67 | 16.8(10-18) | 2-4 FILD RESPONSE.COUNT |
+| integer |  |  |  |  |  |  |
 
 FILD source
 
@@ -6376,11 +5753,10 @@ FILD source
 
 *Integer multiply*
 
-```
-87 287 387 486
-word integer 124-138+EA 124-138 76-87 8 2-4 FIMUL BEARING
-short integer 130-144+ EA 130-144 61-82 8 2-4 FIMUL POSmON.Z_AXIS
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word integer |  | 124-138+EA | 124-138 | 76-87 | 8 | 2-4 FIMUL BEARING |
+| short integer |  | 130-144+ EA | 130-144 | 61-82 | 8 | 2-4 FIMUL POSmON.Z_AXIS |
 
 FIMUL source
 
@@ -6388,11 +5764,10 @@ FIMUL source
 
 *Increment stack pOinter*
 
-```
-Exceptions: None
-87 287 387 486
-No operands 6-12 6-12 21 3 2 FINCSTP
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  | Exceptions: |  | None |  |  |
+| No operands |  | 6-12 | 6-12 | 21 | 3 | 2 FINCSTP |
 
 FINCSTP (no operands)
 
@@ -6402,10 +5777,9 @@ FINCSTP (no operands)
 
 #### `FNINIT`
 
-```
-87 287 387 486
-No operands 2-8 2-8 33 17 2 FINIT
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 2-8 | 2-8 | 33 | 17 | 2 FINIT |
 
 FINIT /FNINIT (no operands)
 
@@ -6413,13 +5787,12 @@ FINIT /FNINIT (no operands)
 
 *Integer store*
 
-```
-87 287 387 486
-word 80-90+EA 80-90 82-95 33.4(29-34) 2-4 FIST OBS.COUNT [51]
-integer
-short 82-92+EA 82-92 79-93 32.4(28--34) 2-4 FIST [BP;].FACTORED]ULSES
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 80-90+EA | 80-90 | 82-95 | 33.4(29-34) | 2-4 FIST OBS.COUNT [51] |
+| integer |  |  |  |  |  |  |
+| short |  | 82-92+EA | 82-92 | 79-93 | 32.4(28--34) | 2-4 FIST [BP;].FACTORED]ULSES |
+| integer |  |  |  |  |  |  |
 
 FIST destination
 
@@ -6427,15 +5800,14 @@ FIST destination
 
 *Integer store and pop*
 
-```
-87 287 387 486
-word 82-92+EA 82-92 82-95 33.4(29-34) 2-4 FISTP[BX].
-integer ALPHA_COUNT [51]
-79-93 33.4(29-34) FISTP CORRECTED_TIME short 84-94+EA 84-94 2-4
-integer
-long 94-105+EA 94-105 80-97 33.4(29-34) 2-4 FISTP PANEL. N_READINGS
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 82-92+EA | 82-92 | 82-95 33.4(29-34) |  | 2-4 FISTP[BX]. |
+| integer |  |  |  |  |  | ALPHA_COUNT [51] |
+| short |  | 84-94+EA | 84-94 | 79-93 33.4(29-34) |  | FISTP CORRECTED_TIME 2-4 |
+| integer |  |  |  |  |  |  |
+| long |  | 94-105+EA 94-105 80-97 33.4(29-34) |  |  |  | 2-4 FISTP PANEL. N_READINGS |
+| integer |  |  |  |  |  |  |
 
 FISTP destination
 
@@ -6443,13 +5815,12 @@ FISTP destination
 
 *Integer subtract*
 
-```
-87 287 387 486
-word 102-137+EA 102-137 71--83 22.5(19-32) 2-4 FISUB BASE_FREQUENCY
-integer
-short 108-143+EA 108-143 57--82 24(20-35) 2-4 FISUB TRAIN_SIZE [OI]
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 102-137+EA 102-137 |  | 71--83 | 22.5(19-32) | 2-4 FISUB BASE_FREQUENCY |
+| integer |  |  |  |  |  |  |
+| short |  | 108-143+EA 108-143 |  | 57--82 | 24(20-35) | 2-4 FISUB TRAIN_SIZE [OI] |
+| integer |  |  |  |  |  |  |
 
 Exceptions: \, D, 0, P FISUB source
 
@@ -6457,13 +5828,12 @@ Exceptions: \, D, 0, P FISUB source
 
 *Integer subtract reversed*
 
-```
-87 287 387 486
-word 103-139+EA 102-137 22.5(19-32) 2-4 FISUBR FLOOR [BX][SI] 72--84
-integer
-short 109-144+EA 108-143 58-83 24(20-35) 2-4 FISUBR BALANCE
-integer
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| word |  | 103-139+EA | 102-137 | 72--84 | 22.5(19-32) | 2-4 FISUBR FLOOR [BX][SI] |
+| integer |  |  |  |  |  |  |
+| short |  | 109-144+EA | 108-143 | 58-83 | 24(20-35) | 2-4 FISUBR BALANCE |
+| integer |  |  |  |  |  |  |
 
 Exceptions: I, D, 0, P FISUBR source
 
@@ -6471,13 +5841,12 @@ Exceptions: I, D, 0, P FISUBR source
 
 *Load real*
 
-```
-87 287 387 486
-ST(i) 17-22 17-22 14 4 2 FLDST(O)
-short real 38-56+EA 38-56 20 3 2-4 FLO READING [SI].PRESSURE
-long real 40--60+EA 40--60 25 2-4 FLO [BP].TEMPERATURE 3
-Temp real 53-65+EA 53-65 44 6 2-4 FLO SA VEREADING
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i) |  | 17-22 | 17-22 | 14 | 4 | 2 FLDST(O) |
+| short real |  | 38-56+EA | 38-56 | 20 | 3 | 2-4 FLO READING [SI].PRESSURE |
+| long real |  | 40--60+EA | 40--60 | 25 | 3 | 2-4 FLO [BP].TEMPERATURE |
+| Temp real |  | 53-65+EA | 53-65 | 44 | 6 | 2-4 FLO SA VEREADING |
 
 Exceptions: \, D FLDsource
 
@@ -6485,11 +5854,10 @@ Exceptions: \, D FLDsource
 
 *Load control word*
 
-```
-Exceptions: None
-87 287 387 486
-2 bytes 7-14+EA 7-14 19 4 2-4 FLDCW CONTROL_WORD
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| 2 bytes |  | 7-14+EA | 7-14 | 19 | 4 | 2-4 FLDCW CONTROL_WORD |
 
 FLDCW source
 
@@ -6497,12 +5865,11 @@ FLDCW source
 
 *Load environment*
 
-```
-Exceptions: None
-87 287 387 486
-14 bytes 35-45+EA 35-45 71 44 real or virtual 34 2-4 FLDENV [BP+6]
-protected
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| 14 bytes |  | 35-45+EA | 35-45 | 71 | 44 real or virtual | 34 2-4 FLDENV [BP+6] |
+|  |  |  |  |  | protected |  |
 
 FLDENV source
 
@@ -6510,10 +5877,9 @@ FLDENV source
 
 *Load 109102*
 
-```
-87 287 387 486
-No operands 18--24 18--24 41 8 2 FLDLG2
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 18--24 | 18--24 | 41 | 8 | 2 FLDLG2 |
 
 FLDLG2 (no operands)
 
@@ -6521,10 +5887,9 @@ FLDLG2 (no operands)
 
 *Load 109e2*
 
-```
-87 287 387 486
-No operands 17-23 17-23 41 8 2 FLDLN2
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 17-23 | 17-23 | 41 | 8 | 2 FLDLN2 |
 
 FLDLN2 (no operands)
 
@@ -6532,10 +5897,9 @@ FLDLN2 (no operands)
 
 *I*
 
-```
-87 287 387 486
-No operands 15-21 15-21 8 40 2 FLDL2E
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 15-21 | 15-21 | 40 | 8 | 2 FLDL2E |
 
 Loadl092 e FLDL2E (no operands)
 
@@ -6543,10 +5907,9 @@ Loadl092 e FLDL2E (no operands)
 
 *I*
 
-```
-87 287 387 486
-No operands 16-22 16-22 40 8 2 FLDL2T
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 16-22 | 16-22 | 40 | 8 | 2 FLDL2T |
 
 Load 109210 FLDL2T (no operands)
 
@@ -6554,10 +5917,9 @@ Load 109210 FLDL2T (no operands)
 
 *Load (pi)*
 
-```
-87 287 387 486
-No operands 16-22 16-22 40 8 2 FLDPI
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 16-22 | 16-22 | 40 | 8 | 2 FLDPI |
 
 FLDPI (no operands)
 
@@ -6565,10 +5927,9 @@ FLDPI (no operands)
 
 *Load +0.0*
 
-```
-87 287 387 486
-No operands 11-17 11-17 20 4 2 FLDZ
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 11-17 | 11-17 | 20 | 4 | 2 FLDZ |
 
 FLDZ (no operands)
 
@@ -6576,10 +5937,9 @@ FLDZ (no operands)
 
 *Load +1.0*
 
-```
-87 287 387 486
-15-21 24 4 2 FLD1 No operands 15-21
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 15-21 | 15-21 | 24 | 4 | 2 FLD1 |
 
 FLD1 (no operands)
 
@@ -6587,17 +5947,16 @@ FLD1 (no operands)
 
 *Multiply real*
 
-```
-87 287 387 486
-I IST(i),ST 1ST, 90-105 90-145 . 29-57 16 2 FMUL ST,ST(3)
-90-105,ST(1)*
-130-145 90-145 29-57 16 2 FMUL ST,ST(3) I IST(i),ST 1ST,
-ST,ST(l)
-short real 110-125+EA 110-125 27-35 11 2-4 FMUL SPEED_FACTOR
-long real* 112-126+EA 112-168 32-57 2-4 FMUL [BP].HEIGHT
-long real 154-168+EA 112-168 32-57 14 2-4 FMUL [BP].HEIGHT
-example, it was loaded from a short-real memory operand).
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| I IST(i),ST 1ST, |  | 90-105 | 90-145 . | 29-57 | 16 | 2 FMUL ST,ST(3) |
+| 90-105,ST(1)* |  |  |  |  |  |  |
+| I IST(i),ST | 1ST, | 130-145 | 90-145 | 29-57 | 16 | 2 FMUL ST,ST(3) |
+| ST,ST(l) |  |  |  |  |  |  |
+| short real |  | 110-125+EA | 110-125 | 27-35 | 11 | 2-4 FMUL SPEED_FACTOR |
+| long real* |  | 112-126+EA | 112-168 | 32-57 |  | 2-4 FMUL [BP].HEIGHT |
+| long real |  | 154-168+EA | 112-168 | 32-57 | 14 | 2-4 FMUL [BP].HEIGHT |
+| example, | it was | loaded from | a short-real | memory | operand). |  |
 
 Exceptions: I, 0, 0, U, P FMUL / / source/ destination, source
 
@@ -6607,12 +5966,11 @@ Exceptions: I, 0, 0, U, P FMUL / / source/ destination, source
 
 *Multiply real and pop*
 
-```
-87 287 387 486
-ST(i),ST* 94-108 198-208 29-57 2 FMULP ST(l),ST
-ST(i),ST 134-148 198-208 29-57 16 2 FMULP ST(l),ST
-example, it was loaded from a short-real memory operand).
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),ST* |  | 94-108 | 198-208 | 29-57 |  | 2 FMULP ST(l),ST |
+| ST(i),ST |  | 134-148 198-208 |  | 29-57 | 16 | 2 FMULP ST(l),ST |
+| example, it | was | loaded from a short-real |  |  | memory | operand). |
 
 FMULP destination, source
 
@@ -6622,11 +5980,10 @@ FMULP destination, source
 
 *No operation*
 
-```
-Exceptions: None
-87 287 387 486
-No operands 10-16 10-16 12 3 2 FNOP
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| No operands |  | 10-16 | 10-16 | 12 | 3 | 2 FNOP |
 
 FNOP (no operands)
 
@@ -6634,10 +5991,9 @@ FNOP (no operands)
 
 *Partial arctangent*
 
-```
-87 287 387 486
-No operands 250-800 250-800 314-487 5(2-17) 2 FPATAN
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 250-800 | 250-800 | 314-487 | 5(2-17) | 2 FPATAN |
 
 FPATAN (no operands)
 
@@ -6645,10 +6001,9 @@ FPATAN (no operands)
 
 *Partial remainder*
 
-```
-87 287 387 486
-No operands 15-190 15-190 74-155 2(2-8) 2 FPREM
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 15-190 | 15-190 | 74-155 | 2(2-8) | 2 FPREM |
 
 FPREM (no operands)
 
@@ -6656,10 +6011,9 @@ FPREM (no operands)
 
 *Partial remainder*
 
-```
-87 287 387 486
-No operands 95-185 94.5(72-167) 2 FPREM1
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  |  |  | 95-185 | 94.5(72-167) | 2 FPREM1 |
 
 FPREM (no operands)
 
@@ -6667,10 +6021,9 @@ FPREM (no operands)
 
 *Partial tangent*
 
-```
-87 287 387 486
-No operands 30-540 30-540 191-573 244(200-273) 2 FPTAN
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands 30-540 |  |  | 30-540 | 191-573 | 244(200-273) | 2 FPTAN |
 
 FPTAN (no operands)
 
@@ -6678,10 +6031,9 @@ FPTAN (no operands)
 
 *Round to integer*
 
-```
-87 287 387 486
-No operands 16-50 16-50 66-80 29.1(21-30) 2 FRNDINT
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 16-50 | 16-50 | 66-80 | 29.1(21-30) | 2 FRNDINT |
 
 FRNDINT (no operands)
 
@@ -6689,18 +6041,17 @@ FRNDINT (no operands)
 
 *Restore saved state*
 
-```
-Exceptions: None
-. 87 287 387 486
-FRSTOR 94 bytes 197-207+EA 205-215 308 131 real or virtual 120 2-4
-[BP] protected
-Note: The 80287 execution clock count for this instruction is not meaningful in determining
-overall instruction execution time. For typical frequency ratios of the 80286 and 80287 clocks,
-80287 execution occurs in parallel with the operand transfers. The operand transfers
-determine the overall execution time of the instructions. For 80286:80287 clock frequency
-ratios of 4:8, 1:1, and 8:5, the overall execution clock count for this instruction is estimated at
-490,302, and 227 80287 clocks, respectively.
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| 94 bytes |  | 197-207+EA | 205-215 | 308 | 131 real | FRSTOR or virtual 120 2-4 |
+|  |  |  |  |  | protected | [BP] |
+| Note: The 80287 execution clock |  |  |  | count for | this instruction | is not meaningful in determining |
+| overall instruction execution time. For |  |  |  | typical | frequency ratios | of the 80286 and 80287 clocks, |
+| 80287 execution occurs |  |  | in parallel | with the | operand | transfers. The operand transfers |
+| determine |  | the overall execution time |  | of the | instructions. For 80286:80287 clock frequency |  |
+| ratios of | 4:8, 1:1, | and | 8:5, the overall execution clock count for |  |  | this instruction is estimated at |
+| 490,302, | and | 227 80287 clocks, respectively. |  |  |  |  |
 
 FRSTOR source
 
@@ -6710,16 +6061,15 @@ FRSTOR source
 
 #### `FNSAVE`
 
-```
-87 287 486 387
-94 bytes 197-207+EA 205-215 375-376 2-4 FSAVE [BP]
-Note: The 80287 execution clock count for this instruction is not meaningful in determining
-overall instruction execution time. For typical frequency ratios of the 80286 and 80287 clocks,
-80287 execution occurs in parallel with the operand transfers. The operand transfers
-determine the overall execution time of the instruction. For 80286:80287 clock frequency
-ratios of 4:8, 1:1, and 8:5, the overall execution clock count for this instruction is estimated at
-376,233, and 17480287 clocks, respectively.
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| 94 bytes |  | 197-207+EA | 205-215 | 375-376 |  | 2-4 FSAVE [BP] |
+| Note: The 80287 execution clock |  |  |  | count for this | instruction | is not meaningful in determining |
+| overall instruction execution time. |  |  |  | For typical | frequency ratios | of the 80286 and 80287 clocks, |
+| 80287 execution occurs |  |  | in parallel | with the | operand transfers. The | operand transfers |
+| determine |  | the overall execution time |  | of the | instruction. For 80286:80287 clock frequency |  |
+| ratios of | 4:8, | 1:1, and | 8:5, the overall execution clock |  | count | for this instruction is estimated at |
+| 376,233, | and | 17480287 clocks, respectively. |  |  |  |  |
 
 FSAVE/FNSAVE destination
 
@@ -6727,10 +6077,9 @@ FSAVE/FNSAVE destination
 
 *Scale*
 
-```
-87 287 387 486
-No operands 32-38 32-38 67-86 31(30-32) 2 FSCALE
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 32-38 | 32-38 | 67-86 | 31(30-32) | 2 FSCALE |
 
 FSCALE (no operands)
 
@@ -6738,11 +6087,9 @@ FSCALE (no operands)
 
 *Set protected mode*
 
-```
-Exceptions: None
-287
-No operands 2-8 2 FSETPM
-```
+| Opcode | Instruction | 287 | Description |
+|---|---|---|---|
+| No operands |  | 2-8 | 2 FSETPM |
 
 FSETPM (no operands)
 
@@ -6750,11 +6097,10 @@ FSETPM (no operands)
 
 *Sine of S1(0)*
 
-```
-387 486
-No operands 122-771* 241(193-279) 2 FSIN
-additional clocks may be needed to reduce the operand.
-```
+| Opcode | Instruction | 387 | 486 | Description |
+|---|---|---|---|---|
+| No operands |  | 122-771* | 241(193-279) | 2 FSIN |
+| additional clocks |  | may be | needed to reduce | the operand. |
 
 FSIN
 
@@ -6764,11 +6110,10 @@ FSIN
 
 *Sine and cosine of S1(0)*
 
-```
-387 486
-FSINCOS No operands 194-809* 291(243-329) 2
-additional clocks may be needed to reduce the operand.
-```
+| Opcode | Instruction | 387 | 486 | Description |
+|---|---|---|---|---|
+| No operands |  | 194-809* | 291(243-329) | FSINCOS 2 |
+| additional clocks |  | may | be needed to | reduce the operand. |
 
 FSINCOS
 
@@ -6778,10 +6123,9 @@ FSINCOS
 
 *Square root*
 
-```
-87 287 387 486
-No operands 180-186 180-186 122-129 85.5(83-87) 2 FSQRT
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 180-186 180-186 |  | 122-129 | 85.5(83-87) 2 | FSQRT |
 
 FSQRT (no operands)
 
@@ -6789,12 +6133,11 @@ FSQRT (no operands)
 
 *Store real*
 
-```
-87 287 387 486
-ST(i) 15-22 15-22 11 3 2 FSTST(3)
-short real 84-90+EA 84-90 7 2-4 FST CORRELA nON [OI] 44
-long real 96-104+EA 96-104 45 8 2-4 FST MEAN_READING
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i) |  | 15-22 | 15-22 | 11 | 3 | 2 FSTST(3) |
+| short real |  | 84-90+EA | 84-90 | 44 | 7 | 2-4 FST CORRELA nON [OI] |
+| long real |  | 96-104+EA | 96-104 | 45 | 8 | 2-4 FST MEAN_READING |
 
 FST destination
 
@@ -6804,11 +6147,10 @@ FST destination
 
 #### `FNSTCW`
 
-```
-9~#it4$'"
-87 287 387 486
-2 bytes 12-18+EA 12-18 15 2-4 FSTCW SA VB_CONTROL
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| 9~#it4$'" |  |  |  |  |  |  |
+| 2 bytes |  | 12-18+EA | 12-18 | 15 |  | 2-4 FSTCW SA VB_CONTROL |
 
 FSTCW destination
 
@@ -6818,10 +6160,9 @@ FSTCW destination
 
 #### `FNSTENV`
 
-```
-87 287 387 486
-2-4 FSTENV[BP] 14 bytes 40-50+EA 40-50 103-104
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| 14 bytes |  | 40-50+EA | 40-50 | 103-104 |  | 2-4 FSTENV[BP] |
 
 FSTENV destination
 
@@ -6829,14 +6170,12 @@ FSTENV destination
 
 *Store real and pop*
 
-```
-87 287 387 486
-ST(i) 17-24 17-24 3 2 FSTPST(2) 12
-short real 86-92+EA 86-92 7 2-4 FSTP [BX]. 44
-ADJUSTED_RPM
-long real 98-106+EA 98-106 45 8 2-4 FSTP TOTAL_DOSAGE
-FSTP REG_SA VB [SI] Temp real 52-58+EA 52-58 53 6 2-4
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i) |  | 17-24 | 17-24 | 12 | 3 | 2 FSTPST(2) |
+| short real |  | 86-92+EA | 86-92 | 44 | 7 | 2-4 FSTP [BX]. ADJUSTED_RPM |
+| long real |  | 98-106+EA | 98-106 | 45 | 8 | 2-4 FSTP TOTAL_DOSAGE |
+| Temp real |  | 52-58+EA | 52-58 | 53 | 6 | FSTP REG_SA VB [SI] 2-4 |
 
 FSTP destination
 
@@ -6846,10 +6185,9 @@ FSTP destination
 
 #### `FNSTSW`
 
-```
-87 287 387 486
-2 bytes 12-18+EA 12-18 15 3 2-4 FSTSW SAVE_STATUS
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| 2 bytes |  | 12-18+EA | 12-18 | 15 | 3 | 2-4 FSTSW SAVE_STATUS |
 
 FSTSW /FNSTSW destination
 
@@ -6859,11 +6197,10 @@ FSTSW /FNSTSW destination
 
 #### `FNSTSWAX`
 
-```
-Exceptions: None
-87 287 387 486
-AX 10-16 13 3 2 F5T5W AX
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| AX |  |  | 10-16 | 13 | 3 | 2 F5T5W AX |
 
 FSTSW destination
 
@@ -6871,12 +6208,11 @@ FSTSW destination
 
 *Subtract real*
 
-```
-87 287 387 486
-ST(i),5T
-short real 90-120+EA 90-120 24-32 7(5-17) 2-4 F5UB BA5E_ VALUE
-long real 95-125+EA 95-125 28-36 7(5-17) 2-4 F5UB COORDINATE.X
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),5T |  |  |  |  |  |  |
+| short real |  | 90-120+EA | 90-120 | 24-32 | 7(5-17) | 2-4 F5UB BA5E_ VALUE |
+| long real |  | 95-125+EA | 95-125 | 28-36 | 7(5-17) | 2-4 F5UB COORDINATE.X |
 
 Exceptions: I, 0, 0, U, P FSUB / /source/destination, source I 15T,5TI (i) I 70-100 70-100 26-37 7(5-17) 2 F5UB 5T,5T(2)
 
@@ -6884,10 +6220,9 @@ Exceptions: I, 0, 0, U, P FSUB / /source/destination, source I 15T,5TI (i) I 70-
 
 *Subtract real and pop*
 
-```
-87 287 387 486
-ST(i),5T 75-105 75-105 26-37 7(5-17) 2 F5UBP 5T(2),5T
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),5T |  | 75-105 | 75-105 | 26-37 | 7(5-17) | 2 F5UBP 5T(2),5T |
 
 Exceptions: I, 0, 0, U, P FSUBP destination, source
 
@@ -6895,12 +6230,11 @@ Exceptions: I, 0, 0, U, P FSUBP destination, source
 
 *Subtract real reversed*
 
-```
-87 287 387 486
-ST(i),5T
-short real 90-120+EA 90-120 25-33 7(5-17) 2-4 F5UBR VECTOR [51]
-long real 95-125+EA 95-125 29-37 7(5-17) .2-4 F5UBR [BX].INDEX
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),5T |  |  |  |  |  |  |
+| short real |  | 90-120+EA | 90-120 | 25-33 | 7(5-17) | 2-4 F5UBR VECTOR [51] |
+| long real |  | 95-125+EA | 95-125 | 29-37 | 7(5-17) | .2-4 F5UBR [BX].INDEX |
 
 Exceptions: I, 0, 0, U, P FSUBR / / source/ destination, source I 15T,ST(i) I 70-100 70-100 26-37 7(5-17) 2 F5UBR 5T,ST(1)
 
@@ -6908,10 +6242,9 @@ Exceptions: I, 0, 0, U, P FSUBR / / source/ destination, source I 15T,ST(i) I 70
 
 *Subtract real reversed and pop*
 
-```
-87 287 387 486
-ST(i),5T 75-105 75-105 26-37 7(5-17) 2 F5UBRP ST(1),5T
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| ST(i),5T |  | 75-105 | 75-105 | 26-37 | 7(5-17) | 2 F5UBRP ST(1),5T |
 
 Exceptions: I, 0, 0, U, P FSUBRP destination, source
 
@@ -6919,50 +6252,45 @@ Exceptions: I, 0, 0, U, P FSUBRP destination, source
 
 *Test stack top against +0.0*
 
-```
-FIST (no operands)
-87 287 387 486
-No operands 38-48 38-48 28 4 2 FTST
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | FIST (no | operands) |  |  |
+| No operands |  | 38-48 | 38-48 | 28 | 4 | 2 FTST |
 
 #### `FUCOM`
 
 *Unordered compare*
 
-```
-387 486
-/ /ST(i) 24 4 2 FUCOMST(l)
-```
+| Opcode | Instruction | 387 | 486 | Description |
+|---|---|---|---|---|
+| / /ST(i) |  | 24 | 4 | 2 FUCOMST(l) |
 
 #### `FUCOMP`
 
 *Unordered compare*
 
-```
-387 486
-/ /ST(i) 26 4 2 FUCOMP ST(2)
-```
+| Opcode | Instruction | 387 | 486 | Description |
+|---|---|---|---|---|
+| / /ST(i) |  | 26 | 4 | 2 FUCOMP ST(2) |
 
 #### `FUCOMPP`
 
 *Unordered compare*
 
-```
-387 486
-No operands 26 5 2 FUCOMPP
-```
+| Opcode | Instruction | 387 | 486 | Description |
+|---|---|---|---|---|
+| No operands |  | 26 | 5 | 2 FUCOMPP |
 
 #### `FWAIT`
 
 *Wait*
 
-```
-Exceptions: None (CPU instruction)
-FWAIT (no operands)
-'387 486
-No operands 1-3 FWAIT 3+5n*
-instruction. .
-```
+| Opcode | Instruction | 486 | Description |
+|---|---|---|---|
+|  | Exceptions: |  | None (CPU instruction) |
+|  | FWAIT | (no | operands) |
+| No operands | 3+5n* | 1-3 | FWAIT |
+| instruction. |  |  | . |
 
 > *n = number of time CPU examines BUSY line before 80287 completes execution of previous
 
@@ -6970,11 +6298,10 @@ instruction. .
 
 *Examine stack top*
 
-```
-Exceptions: None
-87 287 387 486
-12-23 12-23 2 FXAM No operands 30-38 8
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+|  |  |  | Exceptions: | None |  |  |
+| No operands |  | 12-23 | 12-23 | 30-38 | 8 | 2 FXAM |
 
 FXAM (no operands)
 
@@ -6982,10 +6309,9 @@ FXAM (no operands)
 
 *Exchange registers*
 
-```
-87 287 387 486
-/ /ST(i) 10-15 10-15 18 4 2 FXCHST(2)
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| / /ST(i) |  | 10-15 | 10-15 | 18 | 4 | 2 FXCHST(2) |
 
 FXCH / / destination
 
@@ -6993,10 +6319,9 @@ FXCH / / destination
 
 *Extract exponent and significant*
 
-```
-87 287 387 486
-No operands 27"'-55 27-55 70-76 19(16-20) 2 FXTRACT
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 27"'-55 | 27-55 | 70-76 | 19(16-20) | 2 FXTRACT |
 
 FXTRACT (no operands)
 
@@ -7004,10 +6329,9 @@ FXTRACT (no operands)
 
 *Y* IOg2X*
 
-```
-87 287 387 486
-No operands 900-1100 900-1100 120-538 311(196-329) 2 FYL2X
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 900-1100 900-1100 120-538 |  |  | 311(196-329) 2 | FYL2X |
 
 FYL2X (no operands)
 
@@ -7015,10 +6339,9 @@ FYL2X (no operands)
 
 *IOg2(X 1)*
 
-```
-87 287 387 486
-No operands 700-1000 700-1000 257-547 313(171-326) 2 FYL2XP1
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 700-1000 | 700-1000 | 257-547 | 313(171-326) 2 | FYL2XP1 |
 
 FYL2XP1 (no operands)
 
@@ -7026,10 +6349,9 @@ FYL2XP1 (no operands)
 
 *P*
 
-```
-87 287 387 486
-No operands 310-630 310-630 211--476 242(140-279) 2 F2XM1
-```
+| Opcode | Instruction | 87 | 287 | 387 | 486 | Description |
+|---|---|---|---|---|---|---|
+| No operands |  | 310-630 310-630 |  | 211--476 | 242(140-279) | 2 F2XM1 |
 
 -------------------------------------------- F2XMl (no operands)
 
